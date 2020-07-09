@@ -37,9 +37,9 @@ class UploadForm extends Model{
         $_imageRules = [['imageFile'],
             'file', 'extensions' => 'jpg,png,gif',
             'mimeTypes' => 'image/jpeg,image/pjpeg,image/png,image/gif',
-            'skipOnEmpty'=>false, //是否为空
+//            'skipOnEmpty'=>false, //是否为空
             'maxSize'=>'2048000', //最大字节数 2M
-            'uploadRequired'=>'请上传{attribute}',
+//            'uploadRequired'=>'请上传{attribute}',
             'tooBig'=>'{attribute}最大不能超过{formattedLimit}',
             'wrongExtension'=>"{attribute}只能是{extensions}类型"
         ];
@@ -109,12 +109,11 @@ class UploadForm extends Model{
     public function upload($dir)
     {
         $today = $this->nameRules();
-
-        $path = $dir.'/'.$today.'.'.$this->imageFile->extension; //图片的完整路径
-
+        $imagePath = $today.'.'.$this->imageFile->extension;
+        $path = $dir.'/'.$imagePath; //图片的完整路径
         if ($this->validate()) {
             $this->imageFile->saveAs($path);
-            return true;
+            return $imagePath;
         }
         return false;
     }

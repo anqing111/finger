@@ -9,7 +9,8 @@ use Yii;
  *
  * @property int $id 自增id
  * @property string $sProblemName 问题
- * @property int $type 类型
+ * @property int $tid 行业类型
+ * @property string $sIndustryName 行业名称
  * @property string $dCreatTime 创建时间
  */
 class BProblem extends \yii\db\ActiveRecord
@@ -28,9 +29,10 @@ class BProblem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type'], 'integer'],
+            [['tid'], 'integer'],
             [['dCreatTime'], 'safe'],
             [['sProblemName'], 'string', 'max' => 100],
+            [['sIndustryName'], 'string', 'max' => 30],
         ];
     }
 
@@ -42,7 +44,8 @@ class BProblem extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', '自增id'),
             'sProblemName' => Yii::t('app', '问题'),
-            'type' => Yii::t('app', '类型'),
+            'tid' => Yii::t('app', '行业类型'),
+            'sIndustryName' => Yii::t('app', '行业名称'),
             'dCreatTime' => Yii::t('app', '创建时间'),
         ];
     }

@@ -17,6 +17,20 @@ use Yii;
  */
 class BUniversity extends \yii\db\ActiveRecord
 {
+    /*
+    * banner-状态
+    * 1-未发布
+    * 2-已发布
+    * 3-已下架
+    * */
+    const UNRELEASED = 1;
+    const PUBLISHED = 2;
+    const OFFTHESHELF = 3;
+    public static $_status = [
+        self::UNRELEASED => '未发布',
+        self::PUBLISHED => '已发布',
+        self::OFFTHESHELF => '已下架',
+    ];
     /**
      * {@inheritdoc}
      */

@@ -7,6 +7,8 @@ use app\models\db\BBanner;
 use app\models\db\BCertificate;
 use app\models\db\BIndustry;
 use app\models\db\BJoin;
+use app\models\db\BMenu;
+use app\models\db\BPerconf;
 use app\models\db\BPosition;
 use app\models\db\BPositiontype;
 use app\models\db\BProblem;
@@ -22,11 +24,12 @@ use app\models\db\ELecturer;
 use app\models\db\EOrgin;
 use app\models\db\EStudentcertificate;
 use app\models\db\EStudentprofile;
+use app\models\RedactorForm;
+use app\models\UploadForm;
 use app\modules\web\model\process\IndustryProcess;
 use app\modules\web\model\process\InstructorProcess;
 use app\modules\web\model\process\PositionProcess;
 use app\modules\web\model\process\PositionTypeProcess;
-use MongoDB\BSON\Binary;
 use yii\helpers\Json;
 use yii\web\Controller;
 /**
@@ -34,6 +37,12 @@ use yii\web\Controller;
  */
 class AdminController extends BaseController
 {
+    public function actionIndex()
+    {
+        //获取菜单
+        $menu = BMenu::getMenuList(['pid'=>2]);
+        return $this->renderPartial('index',['menu'=>$menu]);
+    }
     /**
      * Renders the index view for the module
      * @return string
@@ -44,8 +53,25 @@ class AdminController extends BaseController
         /*
          * 获取所有用户
          * */
-        $userBaseList = BUserbaseinfo::find()->orderBy('iUserID')->all();
-        return $this->render('userindex');
+        $post = [];$andWhere = ['and'];
+
+        if(\Yii::$app->request->isPost)
+        {
+
+            $post = \Yii::$app->request->post();
+            if(!empty($post['sMail']))
+            {
+                $andWhere[] = ['=','sMail',$post['sMail']];
+            }
+            if(!empty($post['sPhone']))
+            {
+                $andWhere[] = ['=','sPhone',$post['sPhone']];
+            }
+        }
+
+        $userBaseList = BUserbaseinfo::find()->andWhere($andWhere)->orderBy('iUserID desc')->all();
+
+        return $this->renderPartial('userindex',['user'=>$userBaseList,'post'=>$post]);
     }
     /**
      * Renders the index view for the module
@@ -101,6 +127,7 @@ class AdminController extends BaseController
         /*
          * 获取所有用户
          * */
+        $userBaseInfo = $orginL = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -111,6 +138,13 @@ class AdminController extends BaseController
             }
 
             $post['gid'] = $post['pid']; //默认所属角色和用户角色一致
+            if(empty($post['sPassWord']))
+            {
+                unset($post['sPassWord']);
+            }else{
+                //密钥加密
+                $post['sPassWord'] = base64_encode(\Yii::$app->getSecurity()->encryptByPassword($post['sPassWord'], \Yii::$app->params['secretKey']));
+            }
 
             if(\Yii::$app->request->post('iUserID'))
             {
@@ -139,9 +173,14 @@ class AdminController extends BaseController
                 {
                     self::getFailInfo('参数错误',$this->method);
                 }
+                //获取该角色下所有机构
+                $orginL = EOrgin::find()->where(['pid'=>$userBaseInfo->pid])->orderBy('id desc')->all();
             }
         }
+        //获取所有机构
+        $orgin = EOrgin::find()->orderBy('id desc')->all();
 
+        return $this->renderPartial('useredit',['user'=>$userBaseInfo,'orgin'=>$orgin,'orginL'=>$orginL]);
     }
     /**
      * Renders the index view for the module
@@ -189,19 +228,20 @@ class AdminController extends BaseController
         /*
          * 获取所有机构
          * */
-        $andWhere = [];
+        $post = $andWhere = [];
         if(\Yii::$app->request->isPost)
         {
-            if(\Yii::$app->request->post('sOrginName'))
+            $post = \Yii::$app->request->post();
+            if(!empty($post['sOrginName']))
             {
-                $andWhere = ['like','sOrginName',\Yii::$app->request->post('sOrginName')];
+                $andWhere = ['like','sOrginName',$post['sOrginName']];
             }
 
         }
 
-        $orgin = EOrgin::getOrgin($andWhere);
+        $orgin = EOrgin::find()->andWhere($andWhere)->orderBy('id desc')->all();
 
-        return $this->render('orginindex');
+        return $this->renderPartial('orginindex',['orgin'=>$orgin,'post'=>$post]);
     }
     /**
      * Renders the index view for the module
@@ -210,6 +250,7 @@ class AdminController extends BaseController
      */
     public function actionOrginedit()
     {
+        $orgin = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -219,7 +260,7 @@ class AdminController extends BaseController
                 self::getFailInfo('机构名称不得为空',$this->method);
             }
 
-            if(\Yii::$app->request->post('iUserID'))
+            if(\Yii::$app->request->post('id'))
             {
                 //编辑
                 if(false == EOrgin::updateOrgin($post))
@@ -249,6 +290,7 @@ class AdminController extends BaseController
             }
         }
 
+        return $this->renderPartial('orginedit',['orgin'=>$orgin]);
     }
     /**
      * Renders the index view for the module
@@ -260,26 +302,24 @@ class AdminController extends BaseController
         /*
          * 获取所有课程
          * */
+        $andWhere = ['and'];
+        $post = [];
         if(\Yii::$app->request->isPost)
         {
-            $andWhere = ['and'];
-
-            if(\Yii::$app->request->post('sCourseName'))
+            $post = \Yii::$app->request->post();
+            if(!empty($post['sCourseName']))
             {
-                $andWhere[] = ['like','sCourseName',\Yii::$app->request->post('sCourseName')];
+                $andWhere[] = ['like','sCourseName',$post['sCourseName']];
             }
-            if(\Yii::$app->request->post('author'))
+            if(!empty($post['author']))
             {
-                $andWhere[] = ['like','author',\Yii::$app->request->post('author')];
+                $andWhere[] = ['like','author',$post['author']];
             }
-
-            $course = BCourse::find()->andWhere($andWhere)->orderBy('id')->asArray()->all();
-
-        }else{
-            $course = BCourse::find()->orderBy('id')->asArray()->all();
         }
 
-//        return $this->render('courseindex');
+        $course = BCourse::find()->andWhere($andWhere)->orderBy('id')->asArray()->all();
+
+        return $this->renderPartial('courseindex',['course'=>$course,'post'=>$post]);
     }
 
     /**
@@ -289,6 +329,7 @@ class AdminController extends BaseController
      */
     public function actionCourseedit()
     {
+        $course = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -327,6 +368,10 @@ class AdminController extends BaseController
                 }
             }
         }
+        $model = new UploadForm();
+        $dBeginTime = date('Y-m-d 23:59:59');
+
+        return $this->renderPartial('courseedit',['course'=>$course,'dBeginTime'=>$dBeginTime,'model'=>$model]);
 
     }
 
@@ -722,22 +767,18 @@ class AdminController extends BaseController
         /*
          * 获取所有证书类别
          * */
+        $post = $where = [];
         if(\Yii::$app->request->isPost)
         {
-            $where = [];
-
-            if(\Yii::$app->request->post('subjectName'))
+            $post = \Yii::$app->request->post();
+            if(!empty($post['subjectName']))
             {
-                $where = ['like','subjectName',\Yii::$app->request->post('subjectName')];
+                $where = ['like','subjectName',$post['subjectName']];
             }
-
-            $cert = BCourse::find()->andWhere($where)->asArray()->orderBy('id')->all();
-
-        }else{
-            $cert = BCertificate::find()->orderBy('id')->asArray()->all();
         }
+        $cert = BCertificate::find()->andWhere($where)->orderBy('id')->all();
 
-        return $this->render('certindex');
+        return $this->renderPartial('certindex',['cert'=>$cert,'post'=>$post]);
     }
 
     /**
@@ -747,6 +788,7 @@ class AdminController extends BaseController
      */
     public function actionCertedit()
     {
+        $cert = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -777,14 +819,15 @@ class AdminController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $course = BCertificate::findOne($id);
-                if(!$course)
+                $cert = BCertificate::findOne($id);
+                if(!$cert)
                 {
                     self::getFailInfo('参数错误',$this->method);
                 }
             }
         }
 
+        return $this->renderPartial('certedit',['cert'=>$cert]);
     }
     /**
      * Renders the index view for the module
@@ -933,7 +976,11 @@ class AdminController extends BaseController
 
         }else{
 
-            $type = \Yii::$app->request->post('type');
+            $type = \Yii::$app->request->get('type');
+            if(empty($type))
+            {
+                $type = BArticle::INFORMATION_TYPE;
+            }
 
             $article = BArticle::find()->where(['type'=>$type])->orderBy('id')->asArray()->all();
         }
@@ -1014,7 +1061,7 @@ class AdminController extends BaseController
          * */
         $banner = BBanner::find()->orderBy('id')->all();
 
-        return $this->render('bannerindex');
+        return $this->renderPartial('bannerindex',['banner'=>$banner]);
     }
 
     /**
@@ -1024,6 +1071,7 @@ class AdminController extends BaseController
      */
     public function actionBanneredit()
     {
+        $banner = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -1060,7 +1108,10 @@ class AdminController extends BaseController
                 }
             }
         }
+        $model = new UploadForm();
+        $dBeginTime = date('Y-m-d 23:59:59');
 
+        return $this->renderPartial('banneredit',['banner'=>$banner,'dBeginTime'=>$dBeginTime,'model'=>$model]);
     }
     /**
      * Renders the index view for the module
@@ -1074,7 +1125,7 @@ class AdminController extends BaseController
          * */
         $university = BUniversity::find()->orderBy('id')->all();
 
-        return $this->render('universityindex');
+        return $this->renderPartial('universityindex',['university'=>$university]);
     }
 
     /**
@@ -1084,6 +1135,7 @@ class AdminController extends BaseController
      */
     public function actionUniversityedit()
     {
+        $university = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -1092,7 +1144,15 @@ class AdminController extends BaseController
                 self::getFailInfo('标题不得为空',$this->method);
             }
 
-            $post['dReleaseTime'] = date('Y-m-d H:i:s');
+            if(!empty($post['RedactorForm']['content']))
+            {
+                $post['content'] = $post['RedactorForm']['content'];
+            }
+
+            if(!empty($post['status']) && $post['status'] == BUniversity::PUBLISHED)
+            {
+                $post['dReleaseTime'] = date('Y-m-d H:i:s');
+            }
 
             if(\Yii::$app->request->post('id'))
             {
@@ -1103,6 +1163,7 @@ class AdminController extends BaseController
                 }
             }else{
                 //添加
+                $post['dReleaseTime'] = date('Y-m-d H:i:s');
                 if(false == BUniversity::insertUniversity($post))
                 {
                     self::getFailInfo('校企合作添加失败',$this->method);
@@ -1116,14 +1177,16 @@ class AdminController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $banner = BUniversity::findOne($id);
-                if(!$banner)
+                $university = BUniversity::findOne($id);
+                if(!$university)
                 {
                     self::getFailInfo('参数错误',$this->method);
                 }
             }
         }
-
+        $model = new UploadForm();
+        $redactor = new RedactorForm();
+        return $this->renderPartial('universityedit',['university'=>$university,'model'=>$model,'redactor'=>$redactor]);
     }
     /**
      * Renders the index view for the module
@@ -1137,7 +1200,7 @@ class AdminController extends BaseController
          * */
         $problem = BProblem::find()->orderBy('id')->all();
 
-        return $this->render('problemindex');
+        return $this->renderPartial('problemindex',['problem'=>$problem]);
     }
 
     /**
@@ -1147,6 +1210,7 @@ class AdminController extends BaseController
      */
     public function actionProblemedit()
     {
+        $problem = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -1184,7 +1248,10 @@ class AdminController extends BaseController
                 }
             }
         }
+        //获取所有行业
+        $industr = BIndustry::find()->where(['>','industryID','0'])->orderBy('id desc ')->all();
 
+        return $this->renderPartial('problemedit',['problem'=>$problem,'industr'=>$industr]);
     }
 
     /**
@@ -1198,10 +1265,7 @@ class AdminController extends BaseController
          * 获取所有行业类别
          * */
         $industr = BIndustry::getIndustry([BIndustry::tableName().'.industryID' => 0]);
-
-        print_r($industr);
-
-//        return $this->render('industryindex');
+        return $this->renderPartial('industryindex',['industr'=>$industr]);
     }
 
     /**
@@ -1211,6 +1275,7 @@ class AdminController extends BaseController
      */
     public function actionIndustryedit()
     {
+        $industr = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -1268,7 +1333,7 @@ class AdminController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $industr = BIndustry::getIndustry(['and',BIndustry::tableName().'.id' => $id,BIndustry::tableName().'.industryID' => 0]);
+                $industr = BIndustry::getIndustry([BIndustry::tableName().'.id' => $id]);
 
                 if(!$industr)
                 {
@@ -1276,7 +1341,7 @@ class AdminController extends BaseController
                 }
             }
         }
-
+        return $this->renderPartial('industryedit',['industr'=>$industr]);
     }
     /**
      * Renders the index view for the module
@@ -1420,7 +1485,7 @@ class AdminController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $position = BPosition::getPosition(['and',BPosition::tableName().'.id' => $id,BPosition::tableName().'.iPositionID' => 0]);
+                $position = BPosition::getPosition([BPosition::tableName().'.id' => $id]);
 
                 if(!$position)
                 {
@@ -1511,7 +1576,7 @@ class AdminController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $position = BPositiontype::getPositionType(['and',BPositiontype::tableName().'.id' => $id,BPositiontype::tableName().'.iPositionID' => 0]);
+                $position = BPositiontype::getPositionType([BPositiontype::tableName().'.id' => $id]);
 
                 if(!$position)
                 {

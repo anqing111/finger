@@ -20,6 +20,16 @@ use Yii;
  */
 class BCourse extends \yii\db\ActiveRecord
 {
+    /*
+     * 课程分类
+     * 1 证书课程 2 继续教育课程
+     * */
+    const CERTIFICATE = 1;
+    const EDUCATION = 2;
+    public static $_type = [
+        self::CERTIFICATE => '证书课程',
+        self::EDUCATION => '继续教育课程',
+    ];
     /**
      * {@inheritdoc}
      */

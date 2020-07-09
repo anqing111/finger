@@ -23,6 +23,8 @@ class BaseController extends Controller{
      */
     public function beforeAction( $action )
     {
+        $this->getView()->title = "八泽职业技术鉴定协会";
+
         $arPara = array('merCode','timestamp','signMsg','client');
         $this->method = $action->id;
         switch ($this->method)

@@ -5,13 +5,16 @@ use yii\grid\GridView;
 use app\assets\AppAsset;
 AppAsset::register($this);
 ?>
+<?php $this->beginPage() ?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>文件上传</title>
+    <?php $this->head() ?>
 </head>
 <body>
+<?php $this->beginBody() ?>
 <?php if(Yii::$app->session->hasFlash('success')):?>
     <div class="alert alert-danger">
         <?=Yii::$app->session->getFlash('success')?>
@@ -34,6 +37,7 @@ AppAsset::register($this);
 <?=Html::submitButton('提交', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>
 <?php ActiveForm::end(); ?>
 
-
+<?php $this->endBody() ?>
 </body>
 </html>
+<?php $this->endPage() ?>

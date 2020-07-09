@@ -32,13 +32,16 @@ class UploadController extends BaseController
         if (\Yii::$app->request->isPost) {
             $model->imageFile = UploadedFile::getInstance($model, "imageFile");
             //文件上传存放的目录
-            $dir = \Yii::$app->basePath."/common/image/".date("Ymd").'/';
+            $path = "/common/image/".date("Ymd").'/';
+            $dir = \Yii::$app->basePath.$path;
             if (!is_dir($dir))
                 mkdir($dir, 0777);
-            if ($model->upload($dir)) {
+            $imagePath = $model->upload($dir);
+            if (false != $imagePath) {
                 //文件上传成功
+                self::getSucInfo(['url'=>$path.$imagePath],$this->method);
             }else{
-                var_dump($model->getErrors());
+                self::getFailInfo($model->getErrors()['imageFile'][0],$this->method);
             }
         }
         return $this->render('upload', ['model' => $model]);
@@ -106,6 +109,6 @@ class UploadController extends BaseController
         if (\Yii::$app->request->isPost) {
             var_dump(\Yii::$app->request->post());
         }
-        return $this->render('text', ['model' => $model]);
+        return $this->renderPartial('text', ['model' => $model]);
     }
 }

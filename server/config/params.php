@@ -12,6 +12,8 @@ return [
     'language' => 'zh-CN',
     'timeZone' => 'Asia/Shanghai',
     'imagePath' => 'http://image.mybaze.com',
+    'baseUrl' => 'http://www.mybaze.com/',
+    'secretKey'=>'finger',
     'components' => [
         'log' => [
             'targets' => [

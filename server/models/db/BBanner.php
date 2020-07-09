@@ -28,6 +28,11 @@ class BBanner extends \yii\db\ActiveRecord
     const UNRELEASED = 1;
     const PUBLISHED = 2;
     const OFFTHESHELF = 3;
+    public static $_status = [
+        self::UNRELEASED => '未发布',
+        self::PUBLISHED => '已发布',
+        self::OFFTHESHELF => '已下架',
+    ];
     /**
      * {@inheritdoc}
      */
@@ -42,7 +47,7 @@ class BBanner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'image', 'url'], 'required'],
+            [['name', 'image'], 'required'],
             [['status', 'iClientsID'], 'integer'],
             [['date_from', 'date_to', 'dCreatTime'], 'safe'],
             [['name'], 'string', 'max' => 30],

@@ -39,11 +39,35 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
     const DISABLE = 2;
     /*
      * 用户角色
-     * 1-学员 3-专家 4-讲师
+     * 1-学员 2-管理员 3-专家 4-讲师 5-机构 6-企业 7-院校
      * */
     const STUDENT = 1;
+    const ADMIN = 2;
     const EXPERT = 3;
     const LECTURER = 4;
+    const ORGIN = 5;
+    const BUSINESS = 6;
+    const COLLEGES = 7;
+    public static $_preconf = [
+        self::STUDENT => '学员',
+        self::ADMIN => '管理员',
+        self::EXPERT => '专家',
+        self::LECTURER => '讲师',
+        self::ORGIN => '机构',
+        self::BUSINESS => '企业',
+        self::COLLEGES => '院校',
+    ];
+    /*
+     * 用户等级
+     * 1-普通用户 2-中间用户
+     * */
+    const COMMON = 1;
+    const MIDDLE = 2;
+    public static $_userLevel = [
+        self::COMMON => '普通用户',
+        self::MIDDLE => '中间用户'
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -63,7 +87,7 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
             [['dVIPBeginTime', 'dVIPEndTime', 'dUpdateTime', 'dCreatTime'], 'safe'],
             [['sPhone'], 'string', 'max' => 11],
             [['sMail'], 'string', 'max' => 40],
-            [['sPassWord'], 'string', 'max' => 20],
+            [['sPassWord'], 'string', 'max' => 255],
             [['idcard'], 'string', 'max' => 18],
             [['sNick'], 'string', 'max' => 30],
             [['unionid', 'xcxopenid'], 'string', 'max' => 64],
