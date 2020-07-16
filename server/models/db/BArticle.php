@@ -15,6 +15,7 @@ use Yii;
  * @property int $type 类型
  * @property string $dReleaseTime 发布时间
  * @property int $click 点击率
+ * @property int $index 排序
  * @property string $picture 图片
  * @property int $isRec 是否推荐到首页
  * @property string $dCreatTime 创建时间
@@ -25,6 +26,10 @@ class BArticle extends \yii\db\ActiveRecord
     const INFORMATION_TYPE = 1;
     //技能薪酬类文章
     const TECHNICAL_TYPE = 2;
+    public static $_type = [
+        self::INFORMATION_TYPE => '网站资讯类文章',
+        self::TECHNICAL_TYPE => '技能薪酬类文章',
+    ];
     /*
      * 文章-状态
      * 1-未发布
@@ -34,6 +39,17 @@ class BArticle extends \yii\db\ActiveRecord
     const UNRELEASED = 1;
     const PUBLISHED = 2;
     const OFFTHESHELF = 3;
+    public static $_status = [
+        self::UNRELEASED => '未发布',
+        self::PUBLISHED => '已发布',
+        self::OFFTHESHELF => '已下架',
+    ];
+    /*
+     * 是否推荐到首页
+     * 1 是 0 否
+     * */
+    const YES = 1;
+    const NO = 0;
     /**
      * {@inheritdoc}
      */
@@ -49,7 +65,7 @@ class BArticle extends \yii\db\ActiveRecord
     {
         return [
             [['content'], 'string'],
-            [['status', 'type', 'click', 'isRec'], 'integer'],
+            [['status', 'type', 'click', 'index', 'isRec'], 'integer'],
             [['dReleaseTime', 'dCreatTime'], 'safe'],
             [['title', 'picture'], 'string', 'max' => 100],
             [['author'], 'string', 'max' => 50],
@@ -70,6 +86,7 @@ class BArticle extends \yii\db\ActiveRecord
             'type' => Yii::t('app', '类型'),
             'dReleaseTime' => Yii::t('app', '发布时间'),
             'click' => Yii::t('app', '点击率'),
+            'index' => Yii::t('app', '排序'),
             'picture' => Yii::t('app', '图片'),
             'isRec' => Yii::t('app', '是否推荐到首页'),
             'dCreatTime' => Yii::t('app', '创建时间'),

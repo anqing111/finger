@@ -24,14 +24,14 @@ $this->beginContent('@views/layouts/public.php');
         <div class="layui-form-item">
             <label for="L_mail" class="layui-form-label">邮  箱：</label>
             <div class="layui-input-inline">
-                <input type="text" id="sNick" value="<?=$user['sMail'] ?? ''?>"  name="sMail" lay-verify="required|mail" autocomplete="off" class="layui-input" maxlength="30">
+                <input type="text" id="sMail" value="<?=$user['sMail'] ?? ''?>"  name="sMail" lay-verify="required|mail" autocomplete="off" class="layui-input" maxlength="30">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label for="L_phone" class="layui-form-label">手 机 号：</label>
             <div class="layui-input-inline">
-                <input type="text" id="sNick" value="<?=$user['sPhone'] ?? ''?>"  name="sPhone" lay-verify="required|phone" autocomplete="off" class="layui-input" maxlength="30">
+                <input type="text" id="sPhone" value="<?=$user['sPhone'] ?? ''?>"  name="sPhone" lay-verify="required|phone" autocomplete="off" class="layui-input" maxlength="30">
             </div>
         </div>
 
@@ -103,7 +103,7 @@ $this->beginContent('@views/layouts/public.php');
             var orgin = <?=\yii\helpers\Json::encode($orgin)?>;
             var str = '<option value = 0>所属机构</option>';
             $(orgin).each(function (ids,items) {
-                if(items.pid == data.value)
+                if(parseInt(items.pid) == parseInt(data.value))
                 {
                     str += '<option value = '+items.id+'>'+items.sOrginName+'</option>';
                 }

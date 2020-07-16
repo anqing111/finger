@@ -2,14 +2,11 @@
 namespace app\modules\web\controllers;
 use yii\log\FileTarget;
 use yii\web\Controller;
+date_default_timezone_set("PRC");
 class BaseController extends Controller{
 
     //终端类型
     public $_clients = ['web'=>1,'wap'=>2,'miniapp'=>3];
-    //渠道编号   fingertip
-    const merCode = 'fingertip';
-    //秘钥 md5("fingertip")
-    const KEY = 'a7976b01a29bf6f1a261a69583c4df5e';
 
     public $userid=0;
 
@@ -17,38 +14,62 @@ class BaseController extends Controller{
 
     public $method;
 
-    public $_filter = ['login','register','banding','registerSucc'];
+    public $_filter = ['login','register','banding','error','success','forgetmail','forgetphone','forgetsuccess']; //过滤的文件
+
+    public $_check = ['login','sendcode','getmesvalidate','register','banding','forgetmail','forgetphone'];//验证的文件
     /**
      *  登录统一验证    (每次动作先执行本方法)
      */
     public function beforeAction( $action )
     {
         $this->getView()->title = "八泽职业技术鉴定协会";
-
         $arPara = array('merCode','timestamp','signMsg','client');
         $this->method = $action->id;
         switch ($this->method)
         {
-
+            case "login": //登录
+                $arPara = array_merge($arPara,['account','sPassWord']);
+                break;
+            case "sendcode": //发送验证码
+                $arPara = array_merge($arPara,['account','source']);
+                break;
+            case "getmesvalidate": //获取短信/邮箱验证码
+                $arPara = array_merge($arPara,['source']);
+                break;
+            case "register": //注册
+                $arPara = array_merge($arPara,['sNick','sMail','sPassWord','code','source']);
+                break;
+            case "banding": //绑定手机号
+                $arPara = array_merge($arPara,['iUserID','sMail','sPhone','code','source']);
+                break;
+            case "forgetmail": //忘记密码邮箱找回
+                $arPara = array_merge($arPara,['sPassWord','sMail','word','code','source']);
+                break;
+            case "forgetphone": //忘记密码手机号找回
+                $arPara = array_merge($arPara,['sPassWord','word','sPhone','code','source']);
+                break;
             default:
                 break;
         }
-//        $this->arrPara = self::verifyParam($arPara,$this->method);
-//        self::verifySign($this->arrPara,$this->method);
+
+        if(\Yii::$app->request->isPost && in_array($this->method,$this->_check))
+        {
+            $this->arrPara = self::verifyParam($arPara,$this->method);
+            self::verifySign($this->arrPara,$this->method);
+        }
         /**
          * 验证登录信息
          */
-//        AuthTrait::beforeAction();
-//        if(! in_array($this->method,$this->_filter))
-//        {
-//            $this->AuthAction();
-//        }else{
-//            $session = \Yii::$app->session;
-//            if ($session->isActive)
-//            {
-//                $this->redirect(array('/site/index'));
-//            }
-//        }
+        if(! in_array($this->method,$this->_filter))
+        {
+            $this->AuthAction();
+        }else{
+            $session = \Yii::$app->session;
+            if ($session['iUserID'] && !in_array($this->method,['banding','success','forgetsuccess','error'])) //注册成功自动登录 可以进行绑定手机号，可以跳转到成功页
+            {
+                $this->redirect(array('/web/site/index'));
+            }
+        }
 
         return true;
     }
@@ -56,11 +77,11 @@ class BaseController extends Controller{
     public function AuthAction()
     {
         $session = \Yii::$app->session;
-        if ($session->isActive)
+        if ($session['iUserID'])
         {
-            $this->userid = $session->get('iUserID');
+            $this->userid = $session['iUserID'];
         }else{
-            $this->redirect(array('/site/login'));
+            $this->redirect(array('/web/site/login'));
         }
     }
 
@@ -75,20 +96,20 @@ class BaseController extends Controller{
 
         foreach($arPara as $field)
         {
-            if(empty($_REQUEST[$field])){
+            if(empty(\Yii::$app->request->post($field))){
                 $msg = sprintf("%s不能为空",$field);
                 self::getFailInfo($msg,$method);
             }
 
-            if($field == 'merCode' && $_REQUEST[$field] != self::merCode){
+            if($field == 'merCode' && \Yii::$app->request->post($field) != \Yii::$app->params['MERCODE']){
                 self::getFailInfo("渠道编号错误",$method);
             }
 
-            if($field == 'mobile' && !preg_match("/^1[3456789]{1}\d{9}$/",$_REQUEST[$field])){
+            if($field == 'mobile' && !preg_match("/^1[3456789]{1}\d{9}$/",\Yii::$app->request->post($field))){
                 self::getFailInfo("手机号格式错误",$method);
             }
 
-            $arrPara[$field] = $_REQUEST[$field];
+            $arrPara[$field] = \Yii::$app->request->post($field);
         }
 //        $arrPara['api'] = $method;
         return $arrPara;
@@ -153,7 +174,7 @@ class BaseController extends Controller{
         foreach($arrPara as $key=>$val){
             $str .= $key.'='.$val.'&';
         }
-        $str .= 'key='.self::KEY;
+        $str .= 'key='.\Yii::$app->params['KEY'];
 //        echo substr($str,0,-1);die;
         $sign = md5($str);
         return $sign;

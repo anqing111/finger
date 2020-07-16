@@ -48,6 +48,7 @@ class StudentprofileProcess
             $child[$k]['iUserID'] = $iUserID;
             $child[$k]['sContent'] = $r;
             $child[$k]['sOpusvideoUrl'] = $params['sOpusvideoUrl'][$k];
+            $child[$k]['sOpusvideoImg'] = $params['sOpusvideoImg'][$k];
 
         }
         if(!empty($child))
@@ -89,12 +90,12 @@ class StudentprofileProcess
                 }
             }else{
                 //要添加的作品秀
-                $child[$k]['iStuID'] = $id;
-                $child[$k]['iResumeID'] = 0;
-                $child[$k]['iUserID'] = $eStudentopus[0]['iUserID'];
+                $child[$i]['iStuID'] = $id;
+                $child[$i]['iResumeID'] = 0;
+                $child[$i]['iUserID'] = $eStudentopus[0]['iUserID'];
                 $child[$i]['sContent'] = $r;
-                $child[$i]['isRec'] = $eStudentopus[0]['isRec'];
-                $child[$i++]['sOpusvideoUrl'] = $params['sOpusvideoUrl'][$k];
+                $child[$i]['sOpusvideoUrl'] = $params['sOpusvideoUrl'][$k];
+                $child[$i++]['sOpusvideoImg'] = $params['sOpusvideoImg'][$k];
             }
 
         }
@@ -243,7 +244,7 @@ class StudentprofileProcess
         $child = [];
         foreach($params['sProblemName'] as $k => $r)
         {
-            $child[$k]['pid'] = $params['bid'][$k];
+            $child[$k]['pid'] = $params['pid'][$k];
             $child[$k]['sid'] = $id;
             $child[$k]['iUserID'] = $iUserID;
             $child[$k]['sProblemName'] = $r;
@@ -346,7 +347,7 @@ class StudentprofileProcess
         $child = [];
         foreach($params['sProblemName'] as $k => $r)
         {
-            $child[$k]['pid'] = $params['bid'][$k];
+            $child[$k]['pid'] = $params['pid'][$k];
             $child[$k]['sid'] = $id;
             $child[$k]['iUserID'] = $iUserID;
             $child[$k]['sProblemName'] = $r;

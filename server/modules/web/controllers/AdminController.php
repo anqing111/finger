@@ -4,6 +4,7 @@ namespace app\modules\web\controllers;
 
 use app\models\db\BArticle;
 use app\models\db\BBanner;
+use app\models\db\BCclive;
 use app\models\db\BCertificate;
 use app\models\db\BIndustry;
 use app\models\db\BJoin;
@@ -40,7 +41,7 @@ class AdminController extends BaseController
     public function actionIndex()
     {
         //获取菜单
-        $menu = BMenu::getMenuList(['pid'=>2]);
+        $menu = BMenu::getMenuList(['pid'=>\Yii::$app->session->get('pid')]);
         return $this->renderPartial('index',['menu'=>$menu]);
     }
     /**
@@ -101,21 +102,49 @@ class AdminController extends BaseController
             case BUserbaseinfo::STUDENT;
             {
                 $userBaseInfo = BUserbaseinfo::getUserbaseinfo([BUserbaseinfo::tableName().'.iUserID' => $iUserID]);
-                return $this->render('studentinfo');
+                return $this->renderPartial('studentinfo');
             }
                 break;
             case BUserbaseinfo::EXPERT;
             case BUserbaseinfo::LECTURER;
             {
-                $userBaseInfo = ELecturer::find()->where(['iUserID =:iUserID'],[':iUseriD'=>$iUserID])->one();
-                return $this->render('lecturerinfo');
+                $userBaseInfo = ELecturer::find()->where(['iUserID' => $iUserID])->one();
+                return $this->renderPartial('lecturerinfo',['lecturer'=>$userBaseInfo]);
             }
                 break;
             default:
-                return $this->render('userinfo');
+                return $this->renderPartial('userinfo');
                 break;
         }
 
+    }
+    /*
+     * 不通过原因
+     * */
+    public function actionAuthregect()
+    {
+        $params = [
+            'lecturer'=>['url'=>'index.php?r=web/lecturer/lectureredit','status'=>ELecturer::OFFTHESHELF],
+            'studentprofile'=>['url'=>'index.php?r=web/admin/studentprofileedit','status'=>EStudentprofile::FILED],
+        ];
+
+        if(empty(\Yii::$app->request->get('id')) || empty(\Yii::$app->request->get('param')) )
+        {
+            echo "参数错误";
+            exit();
+        }
+
+        $get['id'] = \Yii::$app->request->get('id');
+        if(!array_key_exists(\Yii::$app->request->get('param'),$params))
+        {
+            echo "参数错误";
+            exit();
+        }
+
+        $get['param']['url'] = $params[\Yii::$app->request->get('param')]['url'];
+        $get['param']['status'] = $params[\Yii::$app->request->get('param')]['status'];
+
+        return $this->renderPartial('authregect',['get'=>$get]);
     }
     /**
      * Renders the index view for the module
@@ -145,6 +174,8 @@ class AdminController extends BaseController
                 //密钥加密
                 $post['sPassWord'] = base64_encode(\Yii::$app->getSecurity()->encryptByPassword($post['sPassWord'], \Yii::$app->params['secretKey']));
             }
+
+            $post['dUpdateTime'] = date('Y-m-d H:i:s');
 
             if(\Yii::$app->request->post('iUserID'))
             {
@@ -341,6 +372,14 @@ class AdminController extends BaseController
 
             if(\Yii::$app->request->post('id'))
             {
+                if(empty($post['status']))
+                {
+                    $one = BCourse::findOne(\Yii::$app->request->post('id'));
+                    if($one->status == BCourse::PUBLISHED)
+                    {
+                        self::getFailInfo("课程已发布，请先下架在编辑",$this->method);
+                    }
+                }
                 //编辑
                 if(false == BCourse::updateCourse($post))
                 {
@@ -400,15 +439,16 @@ class AdminController extends BaseController
         //获取培训视频
         $video = BTrainingvideo::find()->where(['cid' => $id])->all();
 
-        return $this->render('courseinfo');
+        return $this->renderPartial('courseinfo',['video'=>$video,'course'=>$course]);
     }
     /**
      * Renders the index view for the module
      * @return string
      * 课程管理 - 编辑视频
      */
-    public function actionCourseVideoedit()
+    public function actionCoursevideoedit()
     {
+        $video = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -420,6 +460,14 @@ class AdminController extends BaseController
 
             if(\Yii::$app->request->post('id'))
             {
+                if(empty($post['status']))
+                {
+                    $one = BTrainingvideo::findOne(\Yii::$app->request->post('id'));
+                    if($one->status == BTrainingvideo::PUBLISHED)
+                    {
+                        self::getFailInfo("课程视频已发布，请先下架在编辑",$this->method);
+                    }
+                }
                 //编辑
                 if(false == BTrainingvideo::updateCourseVideo($post))
                 {
@@ -448,6 +496,20 @@ class AdminController extends BaseController
             }
         }
 
+        if (empty(\Yii::$app->request->get('cid')))
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+
+        $cid = \Yii::$app->request->get('cid');
+
+        $course = BCourse::findOne($cid);
+        if(!$course)
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+
+        return $this->renderPartial('coursevideoedit',['video'=>$video,'course'=>$course]);
     }
     /**
      * Renders the index view for the module
@@ -459,31 +521,9 @@ class AdminController extends BaseController
         /*
          * 获取所有学员档案信息
          * */
-        if(\Yii::$app->request->isPost)
-        {
-            $andWhere = ['and'];
+        $profile = EStudentprofile::find()->orderBy('id')->all();
 
-            if(\Yii::$app->request->post('name'))
-            {
-                $andWhere[] = ['like','name',\Yii::$app->request->post('name')];
-            }
-            if(\Yii::$app->request->post('sPhone'))
-            {
-                $andWhere[] = ['sPhone' => \Yii::$app->request->post('sPhone')];
-            }
-            if(\Yii::$app->request->post('status'))
-            {
-                $andWhere[] = ['status' => \Yii::$app->request->post('status')];
-            }
-
-            $profile = EStudentprofile::find()->andWhere($andWhere)->orderBy('id')->all();
-
-        }else{
-            $profile = EStudentprofile::find()->orderBy('id')->all();
-        }
-        print_r($profile);
-
-//        return $this->render('studentprofileindex');
+        return $this->renderPartial('studentprofileindex',['profile'=>$profile]);
     }
     /**
      * Renders the index view for the module
@@ -516,17 +556,19 @@ class AdminController extends BaseController
                 //上传证书
                 if(!empty($post['add']))
                 {
+                    $cate = BCertificate::findOne($post['cid']);
                     $params = [
                         'iUserID' => $profile->iUserID,
                         'cid' => $post['cid'],
+                        'subjectName' => $cate['subjectName'],
                         'idcard' => $profile->idcard,
                         'sName' => $post['sName'],
                         'sContent' => $post['sContent'],
                         'sCertificateNum' => $post['sCertificateNum'],
                         'sCertificateImg' => $post['sCertificateImg'],
                         'dGetDate' => $post['dGetDate'],
-                        'sOrganName' => $profile->sOrganName,
-                        'status' => EStudentcertificate::PASSED
+                        'sOrginName' => $profile->sOrginName,
+                        'status' => EStudentcertificate::UNDERREVIEW
                     ];
 
                     $id = EStudentcertificate::insertStudentcertificate($params);
@@ -563,9 +605,19 @@ class AdminController extends BaseController
             }
 
             self::getSucInfo(['ok'=>true],$this->method);
-
         }
 
+        $id = \Yii::$app->request->get('id');
+        if(!$id)
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+        $profile = EStudentprofile::getStudentprofile([EStudentprofile::tableName().'.id' => $id]);
+
+        //获取证书类别
+        $cate = BCertificate::find()->all();
+        $dBeginTime = date('Y-m-d');
+        return $this->renderPartial('studentprofileedit',['profile'=>$profile,'cate'=>$cate,'dBeginTime'=>$dBeginTime]);
     }
     /*
      * 审核管理-学员档案信息详情
@@ -839,22 +891,18 @@ class AdminController extends BaseController
         /*
          * 获取所有讲师秀
          * */
+        $post = $where = [];
         if(\Yii::$app->request->isPost)
         {
-            $where = [];
-
-            if(\Yii::$app->request->post('sName'))
+            $post = \Yii::$app->request->post();
+            if(!empty($post['sName']))
             {
-                $where = ['like','sName',\Yii::$app->request->post('sName')];
+                $where = ['like','sName',$post['sName']];
             }
-
-            $course = EInstructor::find()->andWhere($where)->orderBy('id')->asArray()->all();
-
-        }else{
-            $instructor = EInstructor::find()->orderBy('id')->asArray()->all();
         }
+        $instructor = EInstructor::find()->andWhere($where)->orderBy('id')->asArray()->all();
 
-        return $this->render('instructorindex');
+        return $this->renderPartial('instructorindex',['instructor'=>$instructor,'post'=>$post]);
     }
 
     /**
@@ -864,6 +912,7 @@ class AdminController extends BaseController
      */
     public function actionInstructoredit()
     {
+        $instructor = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -915,19 +964,19 @@ class AdminController extends BaseController
 
                     if(false == InstructorProcess::addbook($id,$book))
                     {
-                        self::getFailInfo('讲师秀添加失败，请重新上传',$this->method);
+                        self::getFailInfo('讲师秀添加失败，请重新上传1',$this->method);
                     }
 
                     if(false == InstructorProcess::addvideo($id,$video))
                     {
-                        self::getFailInfo('讲师秀添加失败，请重新上传',$this->method);
+                        self::getFailInfo('讲师秀添加失败，请重新上传2',$this->method);
                     }
 
                 }
                 $transaction->commit();
             } catch(\Exception $e) {
                 $transaction->rollBack();
-                self::getFailInfo('讲师秀添加失败，请重新上传',$this->method);
+                self::getFailInfo($e->getMessage(),$this->method);
             }
 
             self::getSucInfo(['ok'=>true],$this->method);
@@ -936,18 +985,15 @@ class AdminController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $course = EInstructor::findOne($id);
-                if(!$course)
+                $instructor = EInstructor::getInstructor([EInstructor::tableName().'.id'=>$id]);
+                if(!$instructor)
                 {
                     self::getFailInfo('参数错误',$this->method);
                 }
-                //获取所有著作
-                $instructorbook = EInstructorbook::find()->where(['tid' => $id])->all();
-                //获取所有视频
-                $instructorvideo = EInstructorvideo::find()->where(['tid' => $id])->all();
             }
         }
-
+        $model = new UploadForm();
+        return $this->renderPartial('instructoredit',['instructor'=>$instructor,'model'=>$model]);
     }
     /**
      * Renders the index view for the module
@@ -959,38 +1005,34 @@ class AdminController extends BaseController
         /*
          * 获取所有文章
          * */
+        $andWhere = ['and'];
+        $post = [];
+        $type = 0;
         if(\Yii::$app->request->isPost)
         {
-            $andWhere = ['and'];
+            $post = \Yii::$app->request->post();
 
-            $type = \Yii::$app->request->post('type');
-
-            if(\Yii::$app->request->post('title'))
+            if(!empty($post['title']))
             {
-                $andWhere[] = ['like','title',\Yii::$app->request->post('title')];
+                $andWhere[] = ['like','title',$post['title']];
             }
 
-            $andWhere[] = ['type'=>$type];
-
-            $article = BArticle::find()->andWhere($andWhere)->asArray()->orderBy('id')->all();
-
-        }else{
-
-            $type = \Yii::$app->request->get('type');
-            if(empty($type))
+            if(!empty($post['status']))
             {
-                $type = BArticle::INFORMATION_TYPE;
+                $andWhere[] = ['=','status',$post['status']];
             }
 
-            $article = BArticle::find()->where(['type'=>$type])->orderBy('id')->asArray()->all();
+            if(!empty($post['type']))
+            {
+                $type = $post['type'];
+                $andWhere[] = ['=','type',$post['type']];
+            }
+
         }
 
-        if($type == BArticle::INFORMATION_TYPE)
-        {
-            return $this->render('articleindex');
-        }
+        $article = BArticle::find()->andWhere($andWhere)->orderBy('id')->all();
 
-        return $this->render('articleindex_skill');
+        return $this->renderPartial('articleindex',['article'=>$article,'post'=>$post,'type'=>$type]);
     }
 
     /**
@@ -1000,6 +1042,7 @@ class AdminController extends BaseController
      */
     public function actionArticleedit()
     {
+        $article = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -1009,7 +1052,10 @@ class AdminController extends BaseController
                 self::getFailInfo('标题不得为空',$this->method);
             }
 
-            $post['dReleaseTime'] = date('Y-m-d H:i:s');
+            if(!empty($post['status']) && $post['status'] == BArticle::PUBLISHED)
+            {
+                $post['dReleaseTime'] = date('Y-m-d H:i:s');
+            }
 
             $msg = '技能薪酬排行榜文章';
 
@@ -1018,14 +1064,28 @@ class AdminController extends BaseController
                 $msg = '网站资讯文章';
             }
 
+            if(!empty($post['RedactorForm']['content']))
+            {
+                $post['content'] = $post['RedactorForm']['content'];
+            }
+
             if(\Yii::$app->request->post('id'))
             {
-                //编辑
+                //编辑，先判断一下状态
+                if(empty($post['status']))
+                {
+                    $one = BArticle::findOne(\Yii::$app->request->post('id'));
+                    if($one->status == BArticle::PUBLISHED)
+                    {
+                        self::getFailInfo("文章已发布，请先下架在编辑",$this->method);
+                    }
+                }
                 if(false == BArticle::updateArticle($post))
                 {
                     self::getFailInfo("{$msg}编辑失败",$this->method);
                 }
             }else{
+                $post['dReleaseTime'] = date('Y-m-d H:i:s');
                 //添加
                 if(false == BArticle::insertArticle($post))
                 {
@@ -1047,7 +1107,9 @@ class AdminController extends BaseController
                 }
             }
         }
-
+        $model = new UploadForm();
+        $redactor = new RedactorForm();
+        return $this->renderPartial('articleedit',['article'=>$article,'model'=>$model,'redactor'=>$redactor]);
     }
     /**
      * Renders the index view for the module
@@ -1080,8 +1142,25 @@ class AdminController extends BaseController
                 self::getFailInfo('标题不得为空',$this->method);
             }
 
+            if(!empty($post['aid']))
+            {
+                $article = BArticle::findOne($post['aid']);
+                if($article)
+                {
+                    $post['url'] = 'index.php?r=web/site/article&id='.$article->id;
+                }
+            }
+
             if(\Yii::$app->request->post('id'))
             {
+                if(empty($post['status']))
+                {
+                    $one = BBanner::findOne(\Yii::$app->request->post('id'));
+                    if($one->status == BUniversity::PUBLISHED)
+                    {
+                        self::getFailInfo("banner已发布，请先下架在编辑",$this->method);
+                    }
+                }
                 //编辑
                 if(false == BBanner::updateBanner($post))
                 {
@@ -1110,8 +1189,9 @@ class AdminController extends BaseController
         }
         $model = new UploadForm();
         $dBeginTime = date('Y-m-d 23:59:59');
-
-        return $this->renderPartial('banneredit',['banner'=>$banner,'dBeginTime'=>$dBeginTime,'model'=>$model]);
+        //获取文章列表
+        $article = BArticle::find()->andWhere(['status'=>BArticle::PUBLISHED])->orderBy('id')->all();
+        return $this->renderPartial('banneredit',['banner'=>$banner,'dBeginTime'=>$dBeginTime,'model'=>$model,'article'=>$article]);
     }
     /**
      * Renders the index view for the module
@@ -1157,6 +1237,14 @@ class AdminController extends BaseController
             if(\Yii::$app->request->post('id'))
             {
                 //编辑
+                if(empty($post['status']))
+                {
+                    $one = BUniversity::findOne(\Yii::$app->request->post('id'));
+                    if($one->status == BUniversity::PUBLISHED)
+                    {
+                        self::getFailInfo("校企合作已发布，请先下架在编辑",$this->method);
+                    }
+                }
                 if(false == BUniversity::updateUniversity($post))
                 {
                     self::getFailInfo('校企合作编辑失败',$this->method);
@@ -1585,5 +1673,39 @@ class AdminController extends BaseController
             }
         }
 
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 直播管理-直播列表显示
+     */
+    public function actionLiveindex()
+    {
+        $cclive = BCclive::find()->orderBy('cid desc')->all();
+        return $this->renderPartial('liveindex',['cclive'=>$cclive]);
+    }
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 直播管理-直播列表编辑
+     */
+    public function actionLiveinfo()
+    {
+        if (empty(\Yii::$app->request->get('cid')))
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+
+        $id = \Yii::$app->request->get('cid');
+
+        $cclive = BCclive::find()->where(['cid'=>$id])->one();
+
+        if(!$cclive)
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+
+        return $this->renderPartial('liveinfo',['cclive'=>$cclive]);
     }
 }

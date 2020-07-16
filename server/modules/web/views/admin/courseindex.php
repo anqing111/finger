@@ -32,6 +32,7 @@ $this->beginContent('@views/layouts/public.php');
             <th>课时</th>
             <th>录制时间</th>
             <th>类别</th>
+            <th>状态</th>
             <th>操作</th>
         </thead>
         <tbody class="for" align="center">
@@ -43,8 +44,16 @@ $this->beginContent('@views/layouts/public.php');
                 <td><?=$r['classhour']?></td>
                 <td><?=$r['dRecordingTime']?></td>
                 <td><?=\app\models\db\BCourse::$_type[$r['type']]?></td>
+                <td><?=\app\models\db\BCourse::$_status[$r['status']]?></td>
                 <td class="td-manage">
-                    <a title="详情" onclick="x_admin_show('详情','index.php?r=web/admin/courseinfo&id=<?=$r['id']?>')" href="javascript:;">【详情】
+                    <?php if($r['status'] == \app\models\db\BCourse::UNRELEASED || $r['status'] == \app\models\db\BCourse::OFFTHESHELF){?>
+                        <a title="发布" onclick="optionStatus(<?=$r['id']?>,<?=\app\models\db\BCourse::PUBLISHED?>)" href="javascript:;">【发布】
+                        </a>
+                    <?php }else{?>
+                        <a title="下架" onclick="optionStatus(<?=$r['id']?>,<?=\app\models\db\BCourse::OFFTHESHELF?>)" href="javascript:;">【下架】
+                        </a>
+                    <?php }?>
+                    <a title="详情" href="index.php?r=web/admin/courseinfo&id=<?=$r['id']?>">【详情】
                     </a>
                     <a title="编辑" onclick="x_admin_show('编辑','index.php?r=web/admin/courseedit&id=<?=$r['id']?>')" href="javascript:;">【编辑】
                     </a>
@@ -55,6 +64,24 @@ $this->beginContent('@views/layouts/public.php');
     </table>
 </div>
 </body>
+<script>
+    function optionStatus(id,status) {
+        $.ajax({
+            url:'index.php?r=web/admin/courseedit',
+            type:'POST',
+            data: {id:id,status:status},
+            dataType:'json',
+            success:function(jsonObj){
+                if(jsonObj.code == 0){
+                    location.reload();
+                }else{
+                    layer.msg(jsonObj.msg);
+
+                }
+            }
+        })
+    }
+</script>
 <?php
 $this->endContent();
 ?>

@@ -13,18 +13,6 @@ use yii\web\UploadedFile;
  */
 class UploadController extends BaseController
 {
-    //actions的作用主要是共用功能相同的方法
-    public function actions()
-    {
-        return [
-            'test' => [
-                'class' => 'app\modules\web\common\TestAction',
-                'param1' => 'hello',
-                'param2' => 'world',
-                'param3' => '!!!',
-            ],
-        ];
-    }
     //上传文件
     public function actionUpload()
     {
@@ -72,14 +60,18 @@ class UploadController extends BaseController
         if (\Yii::$app->request->isPost) {
             $model->videoFile = UploadedFile::getInstance($model, "videoFile");
             //文件上传存放的目录
-            $dir = \Yii::$app->basePath."/common/video/".date("Ymd").'/';
+            $path = "/common/video/".date("Ymd").'/';
+            $dir = \Yii::$app->basePath.$path;
             if (!is_dir($dir))
                 mkdir($dir, 0777);
-            if ($model->uploadVideo($dir)) {
+            $imagePath = $model->uploadVideo($dir);
+            if (false != $imagePath) {
                 //文件上传成功
+                self::getSucInfo(['url'=>$path.$imagePath],$this->method);
             }else{
-                var_dump($model->getErrors());
+                self::getFailInfo($model->getErrors()['videoFile'][0],$this->method);
             }
+
         }
         return $this->render('video', ['model' => $model]);
     }
@@ -110,5 +102,31 @@ class UploadController extends BaseController
             var_dump(\Yii::$app->request->post());
         }
         return $this->renderPartial('text', ['model' => $model]);
+    }
+
+    //上传头像 生成一张大图一张小图
+    public function actionHead()
+    {
+        $model = new UploadForm();
+        if (\Yii::$app->request->isPost) {
+            $model->imagesHead = UploadedFile::getInstance($model, "imagesHead");
+            //文件上传存放的目录
+            $path = "/common/head/".date("Ymd").'/';
+            $dir = \Yii::$app->basePath.$path;
+            if (!is_dir($dir))
+                mkdir($dir, 0777);
+            $imagePath = $model->uploadHead($dir);
+            if (is_array($imagePath)) {
+                foreach($imagePath as &$r)
+                {
+                    $r = $path.$r;
+                }
+                //文件上传成功
+                self::getSucInfo(['url'=>$imagePath],$this->method);
+            }else{
+                self::getFailInfo($model->getErrors()['imagesHead'][0],$this->method);
+            }
+        }
+        return $this->render('upload', ['model' => $model]);
     }
 }

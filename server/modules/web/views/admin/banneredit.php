@@ -38,10 +38,10 @@ $this->beginContent('@views/layouts/public.php');
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">文章URL：</label>
             <div class="layui-input-inline">
-                <select id="type" name="type" lay-filter="type" lay-verify="required">
+                <select id="aid" name="aid" lay-filter="aid" lay-verify="required">
                     <option value = 0 >选择文章</option>
-                    <?php foreach(\app\models\db\BCourse::$_type as $kc => $pre){?>
-                        <option value = <?=$kc?> <?=isset($banner->type) && $banner->type == $kc ? 'selected' : ''?> ><?=$pre?></option>
+                    <?php foreach($article as $kc => $pre){?>
+                        <option value = <?=$pre->id?> <?=isset($banner->aid) && $banner->aid == $pre->id ? 'selected' : ''?> ><?=$pre->title?></option>
                     <?php }?>
                 </select>
             </div>

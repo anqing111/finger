@@ -12,6 +12,7 @@ use Yii;
  * @property int $iResumeID 简历id
  * @property string $sProblemName 标题
  * @property string $sVideoUrl 视频
+ * @property int $isRec 是否推荐到首页
  * @property string $dCreatTime 创建时间
  */
 class BVideo extends \yii\db\ActiveRecord
@@ -31,7 +32,7 @@ class BVideo extends \yii\db\ActiveRecord
     {
         return [
             [['iUserID'], 'required'],
-            [['iUserID', 'iResumeID'], 'integer'],
+            [['iUserID', 'iResumeID', 'isRec'], 'integer'],
             [['dCreatTime'], 'safe'],
             [['sProblemName'], 'string', 'max' => 100],
             [['sVideoUrl'], 'string', 'max' => 255],
@@ -49,6 +50,7 @@ class BVideo extends \yii\db\ActiveRecord
             'iResumeID' => Yii::t('app', '简历id'),
             'sProblemName' => Yii::t('app', '标题'),
             'sVideoUrl' => Yii::t('app', '视频'),
+            'isRec' => Yii::t('app', '是否推荐到首页'),
             'dCreatTime' => Yii::t('app', '创建时间'),
         ];
     }

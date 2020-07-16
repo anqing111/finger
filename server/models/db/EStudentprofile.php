@@ -21,9 +21,12 @@ use yii\db\Query;
  * @property string $sClassNotesImg 课堂笔记
  * @property int $status 状态
  * @property int $cid 所属类别id
+ * @property string $subjectName 所属类别
+ * @property string $sName 证书名称
  * @property string $sCertificateNum 证书编号
  * @property string $sCertificateImg 上传证书
  * @property string $dGetDate 获得时间
+ * @property string $sContent 文字简介
  * @property string $post_by 快递公司名称
  * @property string $post_no 快递单号
  * @property string $cause 审核不通过原因
@@ -68,9 +71,9 @@ class EStudentprofile extends \yii\db\ActiveRecord
             [['idcard'], 'string', 'max' => 18],
             [['sMail'], 'string', 'max' => 40],
             [['sPhone'], 'string', 'max' => 11],
-            [['sOrginName'], 'string', 'max' => 100],
-            [['sInstructorEndorsementImg', 'sStudentEndorsementImg', 'sClassNotesImg', 'sCertificateImg', 'cause'], 'string', 'max' => 255],
-            [['sCertificateNum'], 'string', 'max' => 50],
+            [['sOrginName', 'sName'], 'string', 'max' => 100],
+            [['sInstructorEndorsementImg', 'sStudentEndorsementImg', 'sClassNotesImg', 'sCertificateImg', 'sContent', 'cause'], 'string', 'max' => 255],
+            [['subjectName', 'sCertificateNum'], 'string', 'max' => 50],
             [['iEntID', 'iUserID'], 'unique', 'targetAttribute' => ['iEntID', 'iUserID']],
         ];
     }
@@ -94,9 +97,12 @@ class EStudentprofile extends \yii\db\ActiveRecord
             'sClassNotesImg' => Yii::t('app', '课堂笔记'),
             'status' => Yii::t('app', '状态'),
             'cid' => Yii::t('app', '所属类别id'),
+            'subjectName' => Yii::t('app', '所属类别'),
+            'sName' => Yii::t('app', '证书名称'),
             'sCertificateNum' => Yii::t('app', '证书编号'),
             'sCertificateImg' => Yii::t('app', '上传证书'),
             'dGetDate' => Yii::t('app', '获得时间'),
+            'sContent' => Yii::t('app', '文字简介'),
             'post_by' => Yii::t('app', '快递公司名称'),
             'post_no' => Yii::t('app', '快递单号'),
             'cause' => Yii::t('app', '审核不通过原因'),
@@ -149,7 +155,8 @@ class EStudentprofile extends \yii\db\ActiveRecord
                 'studentopus b'=>function(Query $query){
                     $query->select([
                         'b.sContent',
-                        'b.sOpusvideoUrl'
+                        'b.sOpusvideoUrl',
+                        'b.iStuID'
                     ]);
                 },
                 'trainingvideo c'=>function(Query $query){
@@ -158,6 +165,9 @@ class EStudentprofile extends \yii\db\ActiveRecord
                         'c.sTrainingvideoUrl',
                         'c.author',
                         'c.time',
+                        'c.sid',
+                        'c.cid',
+                        'c.bid'
                     ]);
                 },
                 'defensevideo d'=>function(Query $query){
@@ -166,6 +176,8 @@ class EStudentprofile extends \yii\db\ActiveRecord
                         'd.sDefensevideoUrl',
                         'd.author',
                         'd.time',
+                        'd.sid',
+                        'd.pid'
                     ]);
                 },
                 'practicevideo e'=>function(Query $query){
@@ -174,9 +186,11 @@ class EStudentprofile extends \yii\db\ActiveRecord
                         'e.sPracticevideoUrl',
                         'e.author',
                         'e.time',
+                        'e.sid',
+                        'e.pid'
                     ]);
                 }
-            ])->where($params)->asArray()->all();
+            ])->where($params)->asArray()->one();
 
         return $profile;
     }

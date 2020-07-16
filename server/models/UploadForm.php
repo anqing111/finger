@@ -17,6 +17,7 @@ class UploadForm extends Model{
     public $imagesFile = null;
     public $videoFile = null;
     public $videosFile = null;
+    public $imagesHead = null;
 
     public function __construct(array $config = [])
     {
@@ -24,6 +25,7 @@ class UploadForm extends Model{
         $this->imagesFile = null;
         $this->videoFile = null;
         $this->videosFile = null;
+        $this->imagesHead = null;
         parent::__construct($config);
     }
 
@@ -58,10 +60,23 @@ class UploadForm extends Model{
             ];
         }
 
+        if(!empty($this->imagesHead))
+        {
+            $_imageRules = [['imagesHead'],
+                'file', 'extensions' => 'jpg,png,gif',
+                'mimeTypes' => 'image/jpeg,image/pjpeg,image/png,image/gif',
+//            'skipOnEmpty'=>false, //是否为空
+                'maxSize'=>'2048000', //最大字节数 2M
+//            'uploadRequired'=>'请上传{attribute}',
+                'tooBig'=>'{attribute}最大不能超过{formattedLimit}',
+                'wrongExtension'=>"{attribute}只能是{extensions}类型"
+            ];
+        }
+
         if(!empty($this->videoFile))
         {
             $_imageRules = [['videoFile'],
-                'file', 'extensions' => 'mp4,avi,rmvb,wmv,mkv',
+                'file', 'extensions' => 'mp4,avi,rmvb,wmv,mkv,qsv',
                 'skipOnEmpty'=>false, //是否为空
                 'maxSize'=>'2048000000', //最大字节数 2G
                 'uploadRequired'=>'请上传{attribute}',
@@ -73,7 +88,7 @@ class UploadForm extends Model{
         if(!empty($this->videosFile))
         {
             $_imageRules = [['videosFile'],//批量上传
-                'file', 'extensions' => 'mp4,avi,rmvb,wmv,mkv',
+                'file', 'extensions' => 'mp4,avi,rmvb,wmv,mkv,qsv',
                 'skipOnEmpty'=>false, //是否为空
                 'maxSize'=>'2048000000', //最大字节数 2G
                 'uploadRequired'=>'请上传{attribute}',
@@ -137,13 +152,13 @@ class UploadForm extends Model{
     public function uploadVideo($dir)
     {
         $today = $this->nameRules();
-
-        $path = $dir.'/'.$today.'.'.$this->videoFile->extension; //视频的完整路径
-
+        $imagePath = $today.'.'.$this->videoFile->extension;
+        $path = $dir.'/'.$imagePath; //图片的完整路径
         if ($this->validate()) {
             $this->videoFile->saveAs($path);
-            return true;
+            return $imagePath;
         }
+
         return false;
     }
 
@@ -161,5 +176,30 @@ class UploadForm extends Model{
             return true;
         }
         return false;
+    }
+
+    public function uploadHead($dir)
+    {
+        $imagePath = [];
+        $width = [100,200];
+        $height = [120,240];
+        $size = [100,200];
+        for($i = 0;$i <= 1;$i++)
+        {
+            $today = $this->nameRules();
+            $imagePath[$i] = $today.'.'.$this->imagesHead->extension;
+            $path = $dir.'/'.$imagePath[$i]; //图片的完整路径
+            if (!$this->validate()) {
+                return false;
+            }
+            //生成一张裁剪模式100 x 100 的缩略图
+            \yii\imagine\Image::thumbnail($this->imagesHead->tempName, $width[$i] , $height[$i])
+
+                ->save(Yii::getAlias($path),
+
+                    ['quality' => $size[$i]]);//生成缩略图的质量
+        }
+
+        return $imagePath;
     }
 }

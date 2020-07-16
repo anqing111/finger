@@ -10,6 +10,7 @@ use Yii;
  * @property int $id 自增id
  * @property string $name 名称
  * @property string $image 图片
+ * @property int $aid 文章id
  * @property string $url 路径
  * @property int $status 状态
  * @property int $iClientsID 终端类型
@@ -20,11 +21,11 @@ use Yii;
 class BBanner extends \yii\db\ActiveRecord
 {
     /*
-    * banner-状态
-    * 1-未发布
-    * 2-已发布
-    * 3-已下架
-    * */
+   * banner-状态
+   * 1-未发布
+   * 2-已发布
+   * 3-已下架
+   * */
     const UNRELEASED = 1;
     const PUBLISHED = 2;
     const OFFTHESHELF = 3;
@@ -48,7 +49,7 @@ class BBanner extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'image'], 'required'],
-            [['status', 'iClientsID'], 'integer'],
+            [['aid', 'status', 'iClientsID'], 'integer'],
             [['date_from', 'date_to', 'dCreatTime'], 'safe'],
             [['name'], 'string', 'max' => 30],
             [['image', 'url'], 'string', 'max' => 100],
@@ -64,6 +65,7 @@ class BBanner extends \yii\db\ActiveRecord
             'id' => Yii::t('app', '自增id'),
             'name' => Yii::t('app', '名称'),
             'image' => Yii::t('app', '图片'),
+            'aid' => Yii::t('app', '文章id'),
             'url' => Yii::t('app', '路径'),
             'status' => Yii::t('app', '状态'),
             'iClientsID' => Yii::t('app', '终端类型'),

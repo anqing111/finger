@@ -53,10 +53,6 @@ $this->beginContent('@views/layouts/public.php');
 </div>
 <script>
 
-    $(function () {
-        $('.redactor-editor').find('p').html("<?=$university['content'] ?? ''?>");
-    });
-
     layui.use(['form','layer'], function(){
         $ = layui.jquery;
         var form = layui.form

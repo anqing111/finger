@@ -20,5 +20,7 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+        // 自定义错误页
+        \Yii::$app->errorHandler->errorAction = 'web/site/error';
     }
 }

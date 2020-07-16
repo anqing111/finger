@@ -22,19 +22,27 @@ class ELecturer extends \yii\db\ActiveRecord
 {
     /*
     * 专家/讲师个人介绍审核-状态
-    * 1-未发布
-    * 2-已发布
-    * 3-已下架
+    * 1-待审核
+    * 2-已通过
+    * 3-未通过
     * */
     const UNRELEASED = 1;
     const PUBLISHED = 2;
     const OFFTHESHELF = 3;
-
+    public static $_status = [
+        self::UNRELEASED => '待审核',
+        self::PUBLISHED => '已通过',
+        self::OFFTHESHELF => '未通过',
+    ];
     /*
      * 性别
      * */
     const MAN = 1;
     const WOMAN = 2;
+    public static $_sex = [
+        self::MAN => '男',
+        self::WOMAN => '女',
+    ];
     /**
      * {@inheritdoc}
      */

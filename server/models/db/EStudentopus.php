@@ -13,11 +13,18 @@ use Yii;
  * @property int $iUserID 学员id
  * @property string $sContent 文字简介
  * @property string $sOpusvideoUrl 学生作品视频
+ * @property string $sOpusvideoImg 背景图
  * @property int $isRec 是否推荐到首页
  * @property string $dCreatTime 创建时间
  */
 class EStudentopus extends \yii\db\ActiveRecord
 {
+    /*
+   * 是否推荐到首页
+   * 1 是 0 否
+   * */
+    const YES = 1;
+    const NO = 0;
     /**
      * {@inheritdoc}
      */
@@ -34,7 +41,7 @@ class EStudentopus extends \yii\db\ActiveRecord
         return [
             [['iStuID', 'iResumeID', 'iUserID', 'isRec'], 'integer'],
             [['dCreatTime'], 'safe'],
-            [['sContent', 'sOpusvideoUrl'], 'string', 'max' => 255],
+            [['sContent', 'sOpusvideoUrl', 'sOpusvideoImg'], 'string', 'max' => 255],
         ];
     }
 
@@ -50,6 +57,7 @@ class EStudentopus extends \yii\db\ActiveRecord
             'iUserID' => Yii::t('app', '学员id'),
             'sContent' => Yii::t('app', '文字简介'),
             'sOpusvideoUrl' => Yii::t('app', '学生作品视频'),
+            'sOpusvideoImg' => Yii::t('app', '背景图'),
             'isRec' => Yii::t('app', '是否推荐到首页'),
             'dCreatTime' => Yii::t('app', '创建时间'),
         ];
@@ -70,7 +78,7 @@ class EStudentopus extends \yii\db\ActiveRecord
         //数据批量入库
         $flag = $connection->createCommand()->batchInsert(
             ''.EStudentopus::tableName().'',
-            ['iStuID','iResumeID','iUserID','sContent','sOpusvideoUrl'],//字段
+            ['iStuID','iResumeID','iUserID','sContent','sOpusvideoUrl','sOpusvideoImg'],//字段
             $params
         )->execute();
 
@@ -106,5 +114,4 @@ class EStudentopus extends \yii\db\ActiveRecord
         }
         return $params['id'];
     }
-
 }

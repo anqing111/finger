@@ -3,6 +3,7 @@
 namespace app\models\db;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%e_instructor}}".
@@ -17,6 +18,12 @@ use Yii;
  */
 class EInstructor extends \yii\db\ActiveRecord
 {
+    /*
+    * 是否推荐到首页
+    * 1 是 0 否
+    * */
+    const YES = 1;
+    const NO = 0;
     /**
      * {@inheritdoc}
      */
@@ -63,6 +70,31 @@ class EInstructor extends \yii\db\ActiveRecord
     {
         return new EInstructorQuery(get_called_class());
     }
+
+    //获取所有著作
+    public function getInstructorbook()
+    {
+        return $this->hasMany(EInstructorbook::className(),['tid' => 'id'])->asArray();
+    }
+
+    //获取所有视频
+    public function getInstructorvideo()
+    {
+        return $this->hasMany(EInstructorvideo::className(),['tid' => 'id'])->asArray();
+    }
+
+    public static function getInstructor($params)
+    {
+        //AR创建关联查询，查询的结果是2个sql语句拼接的结果，并不是sql语句的联合查询
+        $profile = self::find()
+            ->joinWith([
+                'instructorbook b',
+                'instructorvideo c'
+            ])->where($params)->asArray()->one();
+
+        return $profile;
+    }
+
     private static function filterInputFields($inputFields,$defFields)
     {
         return array_intersect_key($inputFields,$defFields);

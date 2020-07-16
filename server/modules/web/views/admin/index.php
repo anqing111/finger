@@ -18,7 +18,7 @@ $this->beginContent('@views/layouts/public.php');
                 <a href="#" style="color: red" target="myFrameName"><?=\Yii::$app->session->get('sNick')?></a>
             </li>
             <li class="layui-nav-item">
-                <a href="javascript:if(confirm('确认退出？'))location='index.php?r=web/user/logout'">退出</a>
+                <a href="javascript:if(confirm('确认退出？'))location='index.php?r=web/site/logout'">退出</a>
             </li>
         </ul>
         <!-- 顶部结束 -->

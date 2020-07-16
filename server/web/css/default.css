@@ -1,0 +1,206 @@
+* {
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Microsoft Yahei', '微软雅黑', 'sans-serif';
+    margin: 0;
+    padding: 0;
+}
+a{
+    text-decoration: none;
+    color: #333;
+}
+input{
+    outline: none;
+}
+button{
+    background-color: #EF8911;
+    color: #fff;
+    border: 1px solid #EF8911;
+    outline: none;
+}
+/* 临时占位 */
+img{
+    background-color: #F8F8F8;
+}
+
+/* 自定义通用 */
+.one-line{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.flex-box{
+    display: flex;
+}
+.filler{
+    flex: 1;
+    width: 0;
+    position: relative;
+}
+
+/* 页面布局通用 */
+header{
+    line-height: 90px;
+    background-color: #fff;
+    position: relative;
+    z-index: 9;
+}
+header.shadow{
+    box-shadow: 0 0 50px 4px rgba(229, 135, 24, 0.12);
+}
+header .logo{
+    width: 190px;
+    height: 30px;
+    margin-top: 30px;
+    margin-right: 70px;
+}
+header .menu a{
+    display: inline-block;
+    padding: 0 40px;
+    color: #666;
+    font-weight: 800;
+    font-size: 20px;
+}
+header .menu a.active{
+    color: #EF8911;
+}
+header .searcher{
+    width: 180px;
+    height: 25px;
+    border: 1px solid #7C7B79;
+    margin-top: 32px;
+    border-radius: 100px;
+    overflow: hidden;
+    padding-right: 10px;
+}
+header .searcher .icon{
+    width: 14px;
+    height: 14px;
+    margin:5px 8px;
+}
+header .searcher input{
+    border: none;
+    line-height: 25px;
+}
+header .options{
+    color: #666;
+    font-size: 18px;
+}
+header .options div{
+    width:55px;height:33px;border:2px solid rgba(255,157,42,1);border-radius:20px;display:inline-block;position:relative;vertical-align: middle
+}
+header .options .options1{
+    margin-right: 20px
+}
+header .options .options2{
+    background: rgba(255,157,42,1);
+}
+.options div a{
+    position:absolute;
+    top: -28px;
+    left: 10px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+}
+.errorPrompt span{display: inline-block;font-size:14px;color: #F54C47; line-height: 29px;}
+.errorPrompt2 span{display: inline-block;font-size:14px;color: #F54C47; line-height: 29px;}
+.errorPrompt2{position: absolute; bottom: 50px; left:0%;}
+.container{
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+.section-title{
+    height: 70px;
+    position: relative;
+    color: #676562;
+}
+.section-title .title{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,0);
+    line-height: 37px;
+    border-bottom: 3px solid #EF8911;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 15px;
+}
+.section-title .more{
+    float:right;
+    line-height: 70px;
+    margin-left: 20px;
+}
+footer{
+    background-color: #5C5247;
+    padding-bottom: 50px;
+}
+footer .slogan{
+    line-height: 230px;
+    font-weight: 800;
+    color: #E2E2E3;
+    font-size: 26px;
+    text-align: center;
+}
+footer hr{
+    height: 1px;
+    background-color: #81858B;
+    border: none;
+}
+footer .map{
+    width: 480px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 50px;
+    margin-top: 50px;
+}
+footer .map a{
+    color: #CECFCF;
+}
+footer.white{
+    background-color: #fff;
+    padding: 0;
+}
+footer.white .slogan{
+    display: none;
+}
+footer.white hr{
+    border-top: 1px solid #5C5247;
+    border-bottom: 1px solid #5C5247;
+    background-color: #fff;
+    height: 3px;
+}
+footer.white .map{
+    margin-top: 0;
+}
+footer.white .map a{
+    color: #333;
+}
+
+.pop-dp-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+}
+.pop-dp-bg.active{
+    opacity: 1;
+    visibility: visible;
+}
+.pop-dp-bg .content{
+    width: 1200px;
+    height: 90%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.pop-dp-bg .close{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 20px;
+    top: 20px;
+}

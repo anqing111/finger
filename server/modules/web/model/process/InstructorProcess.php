@@ -37,12 +37,12 @@ class InstructorProcess
     public static function addbook($id,$params)
     {
         //添加著作
-        $book = [];
+        $book = [];$i = 0;
         foreach($params['sBookName'] as $k => $r)
         {
-            $book[$k]['sBookName'] = $r;
-            $book[$k]['sBookImg'] = $params['sBookImg'][$k];
-            $book[$k]['tid'] = $id;
+            $book[$i]['sBookName'] = $r;
+            $book[$i]['sBookImg'] = $params['sBookImg'][$k];
+            $book[$i++]['tid'] = $id;
         }
         if(!empty($book))
         {
@@ -124,12 +124,12 @@ class InstructorProcess
     public static function addvideo($id,$params)
     {
         //添加视频
-        $video = [];
-        foreach($params['sTrainUrl'] as $k => $i)
+        $video = [];$i = 0;
+        foreach($params['sTrainUrl'] as $k => $r)
         {
-            $video[$k]['sTrainUrl'] = $i;
-            $video[$k]['sOpusInfo'] = $params['sOpusInfo'][$k];
-            $video[$k]['tid'] = $id;
+            $video[$i]['sTrainUrl'] = $r;
+            $video[$i]['sOpusInfo'] = $params['sOpusInfo'][$k];
+            $video[$i++]['tid'] = $id;
         }
         if(!empty($video))
         {

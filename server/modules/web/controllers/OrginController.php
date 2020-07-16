@@ -2,9 +2,14 @@
 
 namespace app\modules\web\controllers;
 
+use app\models\db\BCourse;
+use app\models\db\BProblem;
+use app\models\db\BTrainingvideo;
 use app\models\db\BUserbaseinfo;
 use app\models\db\EOrgin;
 use app\models\db\EStudentprofile;
+use app\models\RedactorForm;
+use app\models\UploadForm;
 use app\modules\web\model\process\StudentprofileProcess;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -23,15 +28,9 @@ class OrginController extends BaseController
         /*
          * 获取该机构下所有学员
          * */
-        $iUserID = \Yii::$app->request->get('iUserID');
-        if(!$iUserID)
-        {
-//            self::getFailInfo('参数错误',$this->method);
-        }
+        $user = BUserbaseinfo::getUserbaselist([BUserbaseinfo::tableName().'.iUserID' => $this->userid,'b.pid'=>BUserbaseinfo::STUDENT]);
 
-        $user = BUserbaseinfo::getUserbaselist([BUserbaseinfo::tableName().'.iUserID' => $iUserID,'b.pid'=>BUserbaseinfo::STUDENT]);
-
-//        return $this->render('studentindex');
+        return $this->renderPartial('studentindex',['user'=>$user]);
     }
     /**
      * Renders the index view for the module
@@ -65,6 +64,7 @@ class OrginController extends BaseController
      */
     public function actionUseredit()
     {
+        $user = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -75,6 +75,10 @@ class OrginController extends BaseController
             }
 
             $post['sPassWord'] = rand(100000,999999);
+            //密钥加密
+            $post['sPassWord'] = base64_encode(\Yii::$app->getSecurity()->encryptByPassword($post['sPassWord'], \Yii::$app->params['secretKey']));
+
+            $post['dUpdateTime'] = date('Y-m-d H:i:s');
 
             if(\Yii::$app->request->post('iUserID'))
             {
@@ -98,14 +102,16 @@ class OrginController extends BaseController
             $iUserID = \Yii::$app->request->get('iUserID');
             if ($iUserID)
             {
-                $userBaseInfo = BUserbaseinfo::findOne($iUserID);
-                if(!$userBaseInfo)
+                $user = BUserbaseinfo::findOne($iUserID);
+                if(!$user)
                 {
                     self::getFailInfo('参数错误',$this->method);
                 }
             }
         }
 
+        $baseinfo = BUserbaseinfo::findOne($this->userid);
+        return $this->renderPartial('studentedit',['user'=>$user,'baseinfo'=>$baseinfo]);
     }
 
     /**
@@ -118,15 +124,8 @@ class OrginController extends BaseController
         /*
          * 获取该机构下所有学员档案信息
          * */
-        $iUserID = \Yii::$app->request->get('iUserID');
-        if(!$iUserID)
-        {
-//            self::getFailInfo('参数错误',$this->method);
-        }
-        $profile = EStudentprofile::find()->where('iEntID =:iEntID ',[':iEntID'=>$iUserID])->asArray()->all();
-        print_r($profile);
-
-//        return $this->render('studentprofileindex');
+        $profile = EStudentprofile::find()->where('iEntID =:iEntID ',[':iEntID'=>$this->userid])->orderBy('id')->all();
+        return $this->renderPartial('studentprofileindex',['profile'=>$profile]);
     }
     /**
      * Renders the index view for the module
@@ -146,7 +145,7 @@ class OrginController extends BaseController
 
         $profile = EStudentprofile::getStudentprofile([EStudentprofile::tableName().'.id' => $id]);
 
-        return $this->render('studentprofileinfo');
+        return $this->renderPartial('studentprofileinfo',['profile'=>$profile]);
     }
     /**
      * Renders the index view for the module
@@ -155,6 +154,7 @@ class OrginController extends BaseController
      */
     public function actionStudentprofileedit()
     {
+        $profile = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -177,8 +177,9 @@ class OrginController extends BaseController
             $post['sPhone'] = $userbaseinfo->sPhone;
 
             //获取所属机构名称
-            $orgin = EOrgin::getOrginByUser(['iUserID' => $post['iEntID']]);
-            $post['sOrginName'] = $orgin->sPhone;
+            $orgin = EOrgin::getOrginByUser(['iUserID' => $this->userid]);
+            $post['sOrginName'] = $orgin['sOrginName'];
+            $post['iEntID'] = $this->userid;
 
             $transaction = EStudentprofile::getDb()->beginTransaction();
             try {
@@ -253,14 +254,29 @@ class OrginController extends BaseController
             $id = \Yii::$app->request->get('id');
             if ($id)
             {
-                $profile = EStudentprofile::getStudentprofile(['id'=>$id]);
+                $profile = EStudentprofile::getStudentprofile([EStudentprofile::tableName().'.id'=>$id]);
                 if(!$profile)
                 {
                     self::getFailInfo('参数错误',$this->method);
                 }
             }
         }
-
+        $model = new UploadForm();
+        //获取该机构下学员信息
+        $user = BUserbaseinfo::getUserbaselist([BUserbaseinfo::tableName().'.iUserID' => $this->userid,'b.pid'=>BUserbaseinfo::STUDENT]);
+        //获取所有培训课程及所有章节目录
+        $course = BCourse::find()->where(['type'=>BCourse::CERTIFICATE])->orderBy('id desc')->all();
+        $video = BTrainingvideo::find()->asArray()->all();
+        //获取所有题目
+        $problem = BProblem::find()->all();
+        return $this->renderPartial('studentprofileedit',[
+            'profile'=>$profile,
+            'model'=>$model,
+            'user'=>$user,
+            'course'=>$course,
+            'video'=>$video,
+            'problem'=>$problem
+        ]);
     }
 
 }

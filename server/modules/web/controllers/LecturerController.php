@@ -20,15 +20,9 @@ class LecturerController extends BaseController
         /*
          * 获取专家讲师-个人介绍
          * */
-        $iUserID = \Yii::$app->request->get('iUserID');
-        if(!$iUserID)
-        {
-            self::getFailInfo('参数错误',$this->method);
-        }
-
-        $lecturer = ELecturer::find()->where(['iUserID' => $iUserID])->one();
-
-        return $this->render('lecturerindex');
+        //$this->userid
+        $lecturer = ELecturer::find()->where(['iUserID' => $this->userid])->one();
+        return $this->renderPartial('lecturerindex',['lecturer'=>$lecturer]);
     }
     /**
      * Renders the index view for the module
@@ -37,6 +31,7 @@ class LecturerController extends BaseController
      */
     public function actionLectureredit()
     {
+        $lecturer = [];
         if(\Yii::$app->request->isPost)
         {
             $post = \Yii::$app->request->post();
@@ -49,6 +44,10 @@ class LecturerController extends BaseController
             if(\Yii::$app->request->post('id'))
             {
                 //编辑
+                if(empty($post['status'])){
+                    $post['status'] = ELecturer::UNRELEASED;
+                }
+
                 if(false == ELecturer::updateLecturer($post))
                 {
                     self::getFailInfo('个人介绍编辑失败',$this->method);
@@ -75,6 +74,6 @@ class LecturerController extends BaseController
                 }
             }
         }
-
+        return $this->renderPartial('lectureredit',['lecturer'=>$lecturer]);
     }
 }
