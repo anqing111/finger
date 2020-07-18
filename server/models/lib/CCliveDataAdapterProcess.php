@@ -1,5 +1,7 @@
 <?php
 namespace app\models\lib;
+use app\models\db\BCclive;
+use app\models\InterfaceForm;
 use yii\helpers\Json;
 
 class CCliveDataAdapterProcess
@@ -37,8 +39,16 @@ class CCliveDataAdapterProcess
                     'templateType' => $data['templateType'], //模板类型
                     'liveStartTime' => $data['liveStartTime'], //直播开始时间
                     'playerBackgroundHint' => $data['playerBackgroundHint'], //播放器提示语
+                    'liveStatus' => BCclive::UNBEGIN, //默认直播未开始
                     //......未完待续
                 ];
+
+                //获取该直播间状态
+                $roomPublishing = InterfaceForm::GetSelectedRoomPublishing(\Yii::$app->params['interface']['cclive'],$data['id']);
+                if(!empty($roomPublishing))
+                {
+                    $arRetSeat[$key1]['liveStatus'] = $roomPublishing[0]['liveStatus'];
+                }
 
                 $arStr = array();
 
@@ -47,6 +57,35 @@ class CCliveDataAdapterProcess
                 }
 
                 $arRetSeat[$key1]['md5sign'] = md5(implode('&',$arStr));
+            }
+        }
+
+        return $arRetSeat;
+    }
+    /**
+     * 获取直播间直播列表
+     * @param $jsonData
+     * @return array
+     */
+    public static function FillBookSeatingRoomPublishing($jsonData)
+    {
+        $arRetSeat = array();
+        $jsonData = Json::decode($jsonData);
+//print_r($jsonData);die;
+        if(strtolower($jsonData['result']) == 'ok') {
+
+            $dataArray = $jsonData['rooms'];
+
+            if (!is_array($dataArray) || empty($dataArray)) {
+                return $arRetSeat;
+            }
+
+            foreach($dataArray as $key1=>$data)
+            {
+                $arRetSeat[$key1] = [
+                    'roomId' => $data['roomId'],
+                    'liveStatus' => $data['liveStatus'],
+                ];
             }
         }
 

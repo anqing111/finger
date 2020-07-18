@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "{{%b_join}}".
  *
  * @property int $id 自增id
- * @property int $iJoinNum 加盟编号
+ * @property int $joinNum 加盟编号
  * @property string $sUnitName 单位名称
  * @property string $person 负责人
  * @property string $sPhone 手机号
@@ -50,7 +50,7 @@ class BJoin extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['iJoinNum', 'iCityID', 'status'], 'integer'],
+            [['joinNum', 'iCityID', 'status'], 'integer'],
             [['dCreatTime'], 'safe'],
             [['sUnitName', 'direction'], 'string', 'max' => 100],
             [['person'], 'string', 'max' => 50],
@@ -69,7 +69,7 @@ class BJoin extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', '自增id'),
-            'iJoinNum' => Yii::t('app', '加盟编号'),
+            'joinNum' => Yii::t('app', '加盟编号'),
             'sUnitName' => Yii::t('app', '单位名称'),
             'person' => Yii::t('app', '负责人'),
             'sPhone' => Yii::t('app', '手机号'),

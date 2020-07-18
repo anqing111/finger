@@ -17,6 +17,7 @@ use Yii;
  * @property int $authType 验证类型
  * @property int $templateType 模版类型
  * @property int $barrage 是否开启弹幕
+ * @property int $liveStatus 播放状态
  * @property string $liveStartTime 直播开始时间
  * @property string $playerBackgroundHint 播放器提示语
  * @property string $md5sign md5验证
@@ -76,6 +77,16 @@ class BCclive extends \yii\db\ActiveRecord
         self::VWQACHAT => '视频、问答、文档、聊天',
         self::VQA => '视频、问答',
     ];
+    /*
+     * 直播间直播状态
+     * 0：未开始；1：正在直播
+     * */
+    const UNBEGIN = 0;
+    const LIVE = 1;
+    public static $_liveStatus = [
+        self::UNBEGIN => '直播未开始',
+        self::LIVE => '正在直播'
+    ];
     /**
      * {@inheritdoc}
      */
@@ -90,7 +101,7 @@ class BCclive extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'authType', 'templateType', 'barrage'], 'integer'],
+            [['status', 'authType', 'templateType', 'barrage', 'liveStatus'], 'integer'],
             [['liveStartTime', 'dCreatTime'], 'safe'],
             [['id', 'playPass', 'assistantPass'], 'string', 'max' => 50],
             [['name', 'playerBackgroundHint'], 'string', 'max' => 100],
@@ -115,6 +126,7 @@ class BCclive extends \yii\db\ActiveRecord
             'authType' => Yii::t('app', '验证类型'),
             'templateType' => Yii::t('app', '模版类型'),
             'barrage' => Yii::t('app', '是否开启弹幕'),
+            'liveStatus' => Yii::t('app', '播放状态'),
             'liveStartTime' => Yii::t('app', '直播开始时间'),
             'playerBackgroundHint' => Yii::t('app', '播放器提示语'),
             'md5sign' => Yii::t('app', 'md5验证'),

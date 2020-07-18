@@ -15,6 +15,8 @@ use Yii;
  * @property int $classhour 课时
  * @property int $type 课程分类
  * @property string $dRecordingTime 录制时间
+ * @property int $tid 行业类型
+ * @property string $sIndustryName 行业名称
  * @property int $status 状态
  * @property string $dCreatTime 创建时间
  */
@@ -58,11 +60,12 @@ class BCourse extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['classhour', 'type', 'status'], 'integer'],
+            [['classhour', 'type', 'tid', 'status'], 'integer'],
             [['dRecordingTime', 'dCreatTime'], 'safe'],
             [['sCourseName'], 'string', 'max' => 100],
             [['sCourseImg', 'sCourseInfo'], 'string', 'max' => 255],
             [['author'], 'string', 'max' => 50],
+            [['sIndustryName'], 'string', 'max' => 30],
         ];
     }
 
@@ -80,6 +83,8 @@ class BCourse extends \yii\db\ActiveRecord
             'classhour' => Yii::t('app', '课时'),
             'type' => Yii::t('app', '课程分类'),
             'dRecordingTime' => Yii::t('app', '录制时间'),
+            'tid' => Yii::t('app', '行业类型'),
+            'sIndustryName' => Yii::t('app', '行业名称'),
             'status' => Yii::t('app', '状态'),
             'dCreatTime' => Yii::t('app', '创建时间'),
         ];

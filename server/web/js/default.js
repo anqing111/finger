@@ -93,4 +93,11 @@ $(function(){
         $('.container.login .bg').css('width',windowWidth+'px')
         $('.container.login .bg').css('left',-(windowWidth-1200)/2+'px')
     }
+
+    // 证书查询
+    if($('.container.cert').length){
+        $('.container.cert').css('height',windowHeight-195+'px')
+        $('.container.cert .bg').css('width',windowWidth+'px')
+        $('.container.cert .bg').css('left',-(windowWidth-1200)/2+'px')
+    }
 })

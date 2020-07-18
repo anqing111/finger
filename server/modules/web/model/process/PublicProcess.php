@@ -29,9 +29,12 @@ class PublicProcess
     }
 
     public static function TopWeb($active = 'index'){
-        $index = 'active';
+        $index = '';
         $course = '';
         $teach = '';
+        if($active == 'index'){
+            $index = 'active';
+        }
         if($active == 'course'){
             $course = 'active';
         }
@@ -44,13 +47,13 @@ class PublicProcess
                 <img src="'.\yii\helpers\Url::to('images/logo.png').'" alt="" class="logo" style="background: rgba(0,0,0,0);">
                 <div class="menu flex-box">
                     <a href="index.php?r=web/site/index" class="item '.$index.'">首页</a>
-                    <a href="#" class="item '.$course.'">课程</a>
+                    <a href="index.php?r=web/site/courseindex" class="item '.$course.'">课程</a>
                     <a href="#" class="item '.$teach.'">继续教育</a>
                 </div>
-                <div class="searcher flex-box">
+                <a href="index.php?r=web/site/certificateindex"><div class="searcher flex-box">
                     <img src="'.\yii\helpers\Url::to('images/searcher-icon.png').'" alt="" class="icon">
                     <input type="text" placeholder="证书查询" class="filler">
-                </div>
+                </div></a>
             </div>
             <div class="options">
                 <a href="#">'.\Yii::$app->session->get('sNick').'</a>
@@ -92,8 +95,8 @@ class PublicProcess
         <hr>
         <div class="map">
             <div class="line flex-box">
-                <a href="" class="filler">校企合作</a>
-                <a href="" class="filler">申请加盟</a>
+                <a href="index.php?r=web/site/college" class="filler">校企合作</a>
+                <a href="index.php?r=web/site/join" class="filler">申请加盟</a>
                 <a href="" class="filler">我要加入</a>
             </div>
             <div class="line flex-box">

@@ -5,10 +5,15 @@ namespace app\modules\web\controllers;
 use app\models\db\BArticle;
 use app\models\db\BBanner;
 use app\models\db\BCclive;
+use app\models\db\BCity;
+use app\models\db\BCourse;
+use app\models\db\BIndustry;
 use app\models\db\BJoin;
 use app\models\db\BProfessional;
+use app\models\db\BUniversity;
 use app\models\db\BUserbaseinfo;
 use app\models\db\EInstructor;
+use app\models\db\EStudentcertificate;
 use app\models\db\EStudentopus;
 use yii\db\Exception;
 use yii\web\Controller;
@@ -266,7 +271,7 @@ class SiteController extends BaseController
 
         }else{
             $get = \Yii::$app->request->get();
-            if(empty($get['sMail']) || empty($get['iUserID']) || empty($get['token']) || empty($get['time']) || empty($get['token']))
+            if(empty($get['sMail']) || empty($get['iUserID']) || empty($get['time']) || empty($get['token']))
             {
                 //跳转到错误页面
                 $this->redirect(array('/web/site/error'));
@@ -514,12 +519,95 @@ class SiteController extends BaseController
             self::getSucInfo($res,$this->method);
         }
     }
+    /*
+     * 证书查询
+     * */
+    public function actionCertificateindex()
+    {
+        if(\Yii::$app->request->isPost)
+        {
+            $post = \Yii::$app->request->post();
+
+            if(!empty($post['idcard']) && !empty($post['sCertificateNum']))
+            {
+                $cert = EStudentcertificate::find()->where(['and',['idcard'=>$post['idcard']],['sCertificateNum'=>$post['sCertificateNum']]])->one();
+                if(!$cert)
+                {
+                    self::getFailInfo('请输入正确的身份证号/证书编号',$this->method);
+                }
+            }else{
+                self::getFailInfo('请输入正确的身份证号/证书编号',$this->method);
+            }
+
+            //跳转到证书查询结果页
+            $arPara = [
+                'idcard'=>$post['idcard'],
+                'sCertificateNum'=>$post['sCertificateNum'],
+            ];
+
+            $arStr = array();
+
+            foreach ($arPara as $key => $v) {
+                $arStr[] = $key . "=" . $v;
+            }
+
+            $url = implode('&',$arStr);
+            $time = time();
+            $signMsg = md5($url.'&time='.$time.'&salt='.md5(\Yii::$app->params['secretKey'].$time));
+
+            $url = 'index.php?r=web/site/certificateinfo&idcard='.base64_encode($arPara['idcard'].'@@'.\Yii::$app->params['secretKey']).'&sCertificateNum='.base64_encode($arPara['sCertificateNum'].'@@'.\Yii::$app->params['secretKey']).'&time='.$time.'&token='.$signMsg;
+            self::getSucInfo(['url'=>$url],$this->method);
+
+        }
+        return $this->renderPartial('certificateindex');
+    }
+    /*
+     * 证书查询详情页
+     * */
+    public function actionCertificateinfo()
+    {
+        $get = \Yii::$app->request->get();
+        if(empty($get['idcard']) || empty($get['sCertificateNum']) || empty($get['time']) || empty($get['token']))
+        {
+            //跳转到错误页面
+            $this->redirect(array('/web/site/error'));
+        }else{
+            $arPara = [
+                'idcard'=>explode('@@',base64_decode($get['idcard']))[0],
+                'sCertificateNum'=>explode('@@',base64_decode($get['sCertificateNum']))[0],
+            ];
+            $arStr = array();
+
+            foreach ($arPara as $key => $v) {
+                $arStr[] = $key . "=" . $v;
+            }
+
+            $url = implode('&',$arStr);
+            $time = $get['time'];
+            $signMsg = md5($url.'&time='.$time.'&salt='.md5(\Yii::$app->params['secretKey'].$time));
+
+            if($signMsg != $get['token'])
+            {
+                //跳转到错误页面
+                $this->redirect(array('/web/site/error'));
+            }else{
+                $cert = EStudentcertificate::find()->where(['and',['idcard'=>$arPara['idcard']],['sCertificateNum'=>$arPara['sCertificateNum']]])->one();
+                if(!$cert)
+                {
+                    //跳转到错误页面
+                    $this->redirect(array('/web/site/error'));
+                }else{
+                    return $this->renderPartial('certificateinfo',['cert'=>$cert]);
+                }
+            }
+        }
+    }
     /**
      * Renders the index view for the module
      * @return string
      * 申请加盟
      */
-    public function actionJoinindex()
+    public function actionJoin()
     {
         if(\Yii::$app->request->isPost)
         {
@@ -529,6 +617,13 @@ class SiteController extends BaseController
                 self::getFailInfo('单位名称不得为空',$this->method);
             }
 
+            //获取城市名称
+            $city = BCity::findOne($post['iCityID']);
+            if($city)
+            {
+                $post['sCityName'] = $city->sCityName;
+            }
+
             if(false == BJoin::insertJoin($post))
             {
                 self::getFailInfo('申请加盟添加失败',$this->method);
@@ -536,10 +631,135 @@ class SiteController extends BaseController
 
             self::getSucInfo(['ok'=>true],$this->method);
         }
-
-        return $this->renderPartial('joinindex');
+        //获取城市列表
+        $city = BCity::find()->orderBy('sCityPY')->all();
+        return $this->renderPartial('join',['city'=>$city]);
     }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 学校简介
+     */
+    public function actionCollege()
+    {
+        //获取学校列表
+        $university = BUniversity::findOne(2);
+        return $this->renderPartial('college',['university'=>$university]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 全部文章
+     */
+    public function actionArticlelist()
+    {
+        //获取文章列表
+        $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->all();
+        //获取文章列表
+        $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->all();
 
+        return $this->renderPartial('article',['article'=>$article,'article2'=>$article2]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 文章详情
+     */
+    public function actionArticleinfo()
+    {
+        //获取文章详情
+        if(!\Yii::$app->request->get('id'))
+        {
+            //跳转到错误页面
+            $this->redirect(array('/web/site/error'));
+        }else{
+            $id = \Yii::$app->request->get('id');
+            if(!is_numeric($id))
+            {
+                //跳转到错误页面
+                $this->redirect(array('/web/site/error'));
+            }else{
+                $article = BArticle::findOne($id);
+                if(!$article)
+                {
+                    //跳转到错误页面
+                    $this->redirect(array('/web/site/error'));
+                }else{
+                    return $this->renderPartial('articleinfo',['article'=>$article]);
+                }
+            }
+        }
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 全部专家
+     */
+    public function actionInstructor()
+    {
+        //获取专家/讲师简介（讲师秀）
+        $instructor = EInstructor::find()->andWhere(['isRec'=>EInstructor::YES])->orderBy('id desc')->all();
+        return $this->renderPartial('instructor',['instructor'=>$instructor]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 全部课程
+     */
+    public function actionCourseindex()
+    {
+        if(\Yii::$app->request->isPost)
+        {
+            $post = \Yii::$app->request->post();
+            if(!isset($post['tid']) || !is_numeric($post['tid']))
+            {
+                self::getFailInfo('请选择课程类别',$this->method);
+            }
+
+            if($post['tid'] > 0)
+            {
+                $course = BCourse::find()->andWhere(['and',['status'=>BCourse::PUBLISHED],['tid'=>$post['tid']]])->orderBy('id desc')->asArray()->all();
+            }else{
+                $course = BCourse::find()->andWhere(['status'=>BCourse::PUBLISHED])->orderBy('id desc')->asArray()->all();
+            }
+
+            self::getSucInfo(['course'=>$course],$this->method);
+        }
+        //全部类别
+        $industr = BIndustry::find()->where(['>','industryID','0'])->orderBy('id desc ')->all();
+        //全部课程
+        $course = BCourse::find()->andWhere(['status'=>BCourse::PUBLISHED])->orderBy('id desc')->all();
+        return $this->renderPartial('courseindex',['course'=>$course,'industr'=>$industr]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 课程详情
+     */
+    public function actionCourseinfo()
+    {
+        if(!\Yii::$app->request->get('id'))
+        {
+            //跳转到错误页面
+            $this->redirect(array('/web/site/error'));
+        }else{
+            $id = \Yii::$app->request->get('id');
+            if(!is_numeric($id))
+            {
+                //跳转到错误页面
+                $this->redirect(array('/web/site/error'));
+            }else{
+                $course = BCourse::findOne($id);
+                if(!$course)
+                {
+                    //跳转到错误页面
+                    $this->redirect(array('/web/site/error'));
+                }else{
+                    return $this->renderPartial('courseinfo',['course'=>$course]);
+                }
+            }
+        }
+    }
     //错误页面
     public function actionError()
     {

@@ -96,6 +96,19 @@ class CCliveRetrieverProcess
         $jsonString = self::getJsonFromHttp("room/info",0, $arPara);
         return $jsonString;
     }
+
+    /**
+     * 获取直播间列表
+     * @param $ShowIndex 影讯id
+     * @return string
+     */
+    public static function Get_Base_RoomPublishing($roomids) {
+        $arPara = [
+            'roomids' => $roomids,
+        ];
+        $jsonString = self::getJsonFromHttp("rooms/publishing",0, $arPara);
+        return $jsonString;
+    }
 }
 
 

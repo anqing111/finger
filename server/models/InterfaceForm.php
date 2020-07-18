@@ -41,4 +41,14 @@ class InterfaceForm extends Model
         }
         return $bsObjectProvider->GetBookSeatingRoomInfo();
     }
+    //获取CC直播间直播状态
+    public static function GetSelectedRoomPublishing($iTicketID,$roomids)
+    {
+        $bsObjectProvider = InterfaceForm::TryCreateBSObjectProvider($iTicketID);
+        if ($bsObjectProvider === NULL)
+        {
+            return array();
+        }
+        return $bsObjectProvider->GetBookSeatingRoomPublishing($roomids);
+    }
 }

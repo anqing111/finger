@@ -409,8 +409,9 @@ class AdminController extends BaseController
         }
         $model = new UploadForm();
         $dBeginTime = date('Y-m-d 23:59:59');
-
-        return $this->renderPartial('courseedit',['course'=>$course,'dBeginTime'=>$dBeginTime,'model'=>$model]);
+        //获取所有行业
+        $industr = BIndustry::find()->where(['>','industryID','0'])->orderBy('id desc ')->all();
+        return $this->renderPartial('courseedit',['course'=>$course,'dBeginTime'=>$dBeginTime,'model'=>$model,'industr'=>$industr]);
 
     }
 

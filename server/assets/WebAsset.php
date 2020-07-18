@@ -24,6 +24,7 @@ class WebAsset extends AssetBundle
         'css/swiper.min.css',
         'css/default.css',
         'css/main.css',
+        'assets/509f2668/redactor.css',
     ];
     public $js = [
         'js/jquery.min.js',

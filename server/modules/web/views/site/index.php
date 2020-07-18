@@ -38,24 +38,39 @@ $this->beginContent('@views/layouts/web.php');
         <div class="player" id="MainDPlayer">
             <iframe src="" frameborder="0"  name="myFrameName" scrolling="yes" class="x-iframe" style="height: 100%;width: 100%"></iframe>
         </div>
+        <div class="blur-shadow-live">
+            <img src="<?=Url::to('images/livein.png')?>" alt="" style="margin-top: 25px;background-color: rgba(0, 0, 0, 0);">
+        </div>
         <div class="blur-shadow active">
-            <div class="title">【日韩漫画/二次元绘画】vip学习体验教室</div>
-            <div class="tip">直播已结束</div>
-            <button>查看详情</button>
+            <img src="<?=Url::to('images/live.png')?>" alt="" style="margin-top: 110px;margin-left : 25px;background-color: rgba(0, 0, 0, 0);">
+            <div class="title" style="margin-top: 40px"></div>
+            <div class="tip"></div>
         </div>
         <div class="list filler flex-box">
             <div class="title"><?=date('m月d日')?>   <?=\app\modules\web\model\process\PublicProcess::week()?></div>
             <div class="content">
                 <?php if(!empty($cclive)){?>
-                    <?php foreach ($cclive as $k => $c){?>
+                    <?php foreach ($cclive as $k => $c){
+                        $timeEnd = 0;
+                        if($c['liveStatus'] == \app\models\db\BCclive::LIVE) //正在直播
+                        {
+                            $timeEnd = 1;
+                        }else{
+                            if(strtotime($c['liveStartTime']) < time())
+                            {
+                                $timeEnd = 2;
+                            }
+                        }
+
+                        ?>
                         <?php if($k == 0){?>
-                            <div class="item flex-box active" onclick='liveUrl("<?= $c['id']?>",this)'>
+                            <div class="item flex-box active" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)'>
                                 <img src="<?=Url::to('images/player-list-icon.png')?>" alt="" class="icon" style="background-color:rgba(0,0,0,0);">
                                 <div class="filler one-line"><?=$c['name']?></div>
                                 <span class="time"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
                             </div>
                         <?php }else{?>
-                            <div class="item flex-box" onclick='liveUrl("<?= $c['id']?>",this)'>
+                            <div class="item flex-box" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)'>
                                 <img src="<?=Url::to('images/player-list-icon.png')?>" alt="" class="icon" style="background-color:rgba(0,0,0,0);">
                                 <div class="filler one-line"><?=$c['name']?></div>
                                 <span class="time"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
@@ -225,18 +240,69 @@ $this->beginContent('@views/layouts/web.php');
 <script>
     $(function () {
         if($('.container.index').length) {
+            $('.blur-shadow-live').css('visibility','hidden');
+            $('.blur-shadow-live').css('opacity','0');
             // 主播放器初始化
             $('#MainDPlayer').find('iframe').attr('src', '<?=Url::to("live/video.html#roomid={$cclive[0]['id']}")?>');
+            $('.blur-shadow').find('.title').html("<?=$cclive[0]['name']?>");
+            <?php
+            $timeEnd = 0;
+            if($cclive[0]['liveStatus'] == \app\models\db\BCclive::LIVE) //正在直播
+            {
+                $timeEnd = 1;
+            }else{
+                if(strtotime($cclive[0]['liveStartTime']) < time())
+                {
+                    $timeEnd = 2;
+                }
+            }
+            ?>
+            var timeEnd = <?=$timeEnd?>;
+            if(timeEnd == 2)
+            {
+                $('.blur-shadow').find('.tip').html("直播已结束");
+            }else if(timeEnd == 0)
+            {
+                $('.blur-shadow').find('.tip').html("直播未开始");
+            }else{
+                $('.blur-shadow').find('.tip').css('display','none');
+                $('.blur-shadow').find('.title').css('display','none');
+                $('.blur-shadow.active').css('visibility','hidden');
+                $('.icon:first').attr('src',"<?=Url::to('images/live.gif')?>");
+                $('.blur-shadow-live').css('visibility','visible');
+                $('.blur-shadow-live').css('opacity','1');
+            }
         }
     });
     function jumpUrl(url) {
         location.href = url;
     }
-    function liveUrl(roomid,that) {
+    function liveUrl(roomid,name,timeEnd,that) {
         $(that).parent().find('.item').removeClass('active');
         $(that).addClass('active');
         //直播切换
         $('#MainDPlayer').html('<iframe src="<?=Url::to("live/video.html#roomid=")?>'+roomid+'" frameborder="0"  name="myFrameName" scrolling="yes" class="x-iframe" style="height: 100%;width: 100%"></iframe>');
+
+        $('.blur-shadow').find('.tip').css('display','block');
+        $('.blur-shadow').find('.title').css('display','block');
+        $('.blur-shadow.active').css('visibility','visible');
+        $('.blur-shadow').find('.title').html(name);
+        $('.blur-shadow-live').css('visibility','hidden');
+        $('.blur-shadow-live').css('opacity','0');
+        if(timeEnd == 2)
+        {
+            $('.blur-shadow').find('.tip').html("直播已结束");
+        }else if(timeEnd == 0)
+        {
+            $('.blur-shadow').find('.tip').html("直播未开始");
+        }else{
+            $('.blur-shadow').find('.tip').css('display','none');
+            $('.blur-shadow').find('.title').css('display','none');
+            $('.blur-shadow.active').css('visibility','hidden');
+            $(that).find('img').attr('src',"<?=Url::to('images/live.gif')?>");
+            $('.blur-shadow-live').css('visibility','visible');
+            $('.blur-shadow-live').css('opacity','1');
+        }
     }
     function optionsArticle(index) {
         $('.articles1').css('display','none');

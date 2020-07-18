@@ -3,11 +3,11 @@
 namespace app\models\db;
 
 /**
- * This is the ActiveQuery class for [[BCourse]].
+ * This is the ActiveQuery class for [[BCity]].
  *
- * @see BCourse
+ * @see BCity
  */
-class BCourseQuery extends \yii\db\ActiveQuery
+class BCityQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class BCourseQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return BCourse[]|array
+     * @return BCity[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class BCourseQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return BCourse|array|null
+     * @return BCity|array|null
      */
     public function one($db = null)
     {

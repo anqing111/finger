@@ -93,6 +93,137 @@ header .options .options1{
 header .options .options2{
     background: rgba(255,157,42,1);
 }
+
+.top{
+    line-height: 90px;
+    background-color: #fff;
+    position: relative;
+    z-index: 9;
+}
+
+.top img{
+    width: 100%;
+    margin-top: 30px;
+    margin-right: 70px;
+}
+.top .article-title{
+    width:1200px;
+    height:31px;
+    font-size:30px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(39,38,37,1);
+    line-height:21px;
+    text-align: center;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:18%;
+    top:30%;
+}
+.top .article-author{
+    width:500px;
+    height:17px;
+    font-size:18px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(114,112,109,1);
+    line-height:21px;
+    text-align: left;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:38%;
+    top:55%;
+}
+.top .article-time{
+    width:500px;
+    height:17px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(114,112,109,1);
+    line-height:21px;
+    text-align: left;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:38%;
+    top:70%;
+}
+.top .article-head{
+    width:45px;
+    height:45px;
+    line-height:21px;
+    text-align: left;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:35%;
+    top:42%;
+}
+.course-title{
+    height:19px;
+    font-size:20px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    padding-top: 20px;
+}
+.course-tag{
+    width:1200px;
+    height:50px;
+    background:rgba(252,247,242,1);
+    border-radius:4px;
+    margin-top: 30px;
+}
+.course-tag li{
+    list-style-type:none;
+    text-align:center;
+    float: left;
+    padding-top: 15px;
+    padding-left: 43px;
+    height:30px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    cursor:pointer;
+}
+.course-list{
+    width:226px;
+    height:142px;
+    margin-bottom: 30px;
+    margin-right: 17.2px;
+    position:relative;
+}
+.course-list img{
+    width:100%;
+    height:142px;
+    border-radius:4px;
+}
+.course-list .course-name{
+    width:226px;
+    height:17px;
+    font-size:18px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    display: inline-block;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:105%;
+}
+.course-list .course-author{
+    width:226px;
+    height:13px;
+    font-size:14px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    display: inline-block;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:125%;
+}
 .options div a{
     position:absolute;
     top: -28px;

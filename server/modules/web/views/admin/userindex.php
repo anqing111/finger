@@ -48,7 +48,7 @@ $this->beginContent('@views/layouts/public.php');
                 <td><?=$r['sPhone']?></td>
                 <td><?=\app\models\db\BUserbaseinfo::$_userLevel[$r['userLevel']]?></td>
                 <td><?=\app\models\db\BUserbaseinfo::$_preconf[$r['pid']]?></td>
-                <td><?=$orginL->sOrginName?></td>
+                <td><?=$orginL->sOrginName ?? ''?></td>
                 <td class="td-manage">
                     <a title="详情" onclick="x_admin_show('详情','index.php?r=web/admin/userinfo&iUserID=<?=$r['iUserID']?>')" href="javascript:;">【详情】
                     </a>

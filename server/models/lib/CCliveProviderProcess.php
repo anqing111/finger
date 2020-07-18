@@ -28,4 +28,15 @@ class CCliveProviderProcess
         $rawData = CCliveRetrieverProcess::Get_Base_RoomInfo($pagenum,$pageindex);
         return CCliveDataAdapterProcess::FillBookSeatingRoomInfo($rawData);
     }
+
+    /*
+     * 获取直播间直播状态
+     * @param $roomids 直播间id（以英文逗号,区分)，批量查询直播间数量不能超过100个
+     * @return array
+     * */
+    public function  GetBookSeatingRoomPublishing($roomids)
+    {
+        $rawData = CCliveRetrieverProcess::Get_Base_RoomPublishing($roomids);
+        return CCliveDataAdapterProcess::FillBookSeatingRoomPublishing($rawData);
+    }
 }

@@ -14,9 +14,11 @@ class BaseController extends Controller{
 
     public $method;
 
-    public $_filter = ['login','register','banding','error','success','forgetmail','forgetphone','forgetsuccess']; //过滤的文件
+    public $_filter = ['login','register','banding','error','success','forgetmail','forgetphone','forgetsuccess','join']; //不用登录就显示的文件
 
-    public $_check = ['login','sendcode','getmesvalidate','register','banding','forgetmail','forgetphone'];//验证的文件
+    public $_check = ['login','sendcode','getmesvalidate','register','banding','forgetmail','forgetphone','certificateindex','join','courseindex'];//验证的文件
+
+    public $_indexfilter = ['banding','success','forgetsuccess','error','join']; //登录成功也可以显示的页面
     /**
      *  登录统一验证    (每次动作先执行本方法)
      */
@@ -48,6 +50,15 @@ class BaseController extends Controller{
             case "forgetphone": //忘记密码手机号找回
                 $arPara = array_merge($arPara,['sPassWord','word','sPhone','code','source']);
                 break;
+            case "certificateindex": //证书查询
+                $arPara = array_merge($arPara,['idcard','sCertificateNum']);
+                break;
+            case "join": //申请加盟
+                $arPara = array_merge($arPara,['sUnitName','person','direction','iCityID','sMail','sPhone']);
+                break;
+            case "courseindex": //选择课程
+                $arPara = array_merge($arPara,['tid']);
+                break;
             default:
                 break;
         }
@@ -65,7 +76,7 @@ class BaseController extends Controller{
             $this->AuthAction();
         }else{
             $session = \Yii::$app->session;
-            if ($session['iUserID'] && !in_array($this->method,['banding','success','forgetsuccess','error'])) //注册成功自动登录 可以进行绑定手机号，可以跳转到成功页
+            if ($session['iUserID'] && !in_array($this->method,$this->_indexfilter))
             {
                 $this->redirect(array('/web/site/index'));
             }
