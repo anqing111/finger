@@ -36,14 +36,44 @@ $this->beginContent('@views/layouts/public.php');
         </div>
 
         <div class="layui-form-item">
-            <label for="L_mail" class="layui-form-label">作  者：</label>
+            <label for="L_mail" class="layui-form-label">讲  师：</label>
             <div class="layui-input-inline">
                 <input type="text" id="author" value="<?=$course['author'] ?? ''?>"  name="author" lay-verify="required" autocomplete="off" class="layui-input" maxlength="50">
+            </div>
+            <div class="layui-input-inline">
+                <select id="instructor" lay-filter="instructor">
+                    <option value = 0 >选择讲师</option>
+                    <?php foreach($instructor as $k2 => $r2){?>
+                        <option value = <?=$r2->id?>><?=$r2->sName?></option>
+                    <?php }?>
+                </select>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="L_phone" class="layui-form-label">课  时：</label>
+            <label for="L_phone" class="layui-form-label">讲师简介：</label>
+            <div class="layui-input-inline">
+                <textarea name="info" id="info" cols="30" rows="10"><?=$course['info'] ?? ''?></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_phone" class="layui-form-label">头像：</label>
+            <div class="layui-input-inline" style="width: 80%">
+                <input type="hidden" name="UploadForm[imageFile]" value="">
+                <input type="hidden" name="headportrait" value="<?=$course['headportrait'] ?? ''?>">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this)">
+                <?php if(!empty($course['headportrait'])){?>
+                    <img src="<?=Yii::$app->params['imagePath'].$course['headportrait']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="headportrait">
+                <?php }else{?>
+                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="headportrait">
+                <?php }?>
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_phone" class="layui-form-label">课时(分钟)：</label>
             <div class="layui-input-inline">
                 <input type="text" id="classhour" value="<?=$course['classhour'] ?? ''?>"  name="classhour" lay-verify="required|classhour" autocomplete="off" class="layui-input">
             </div>
@@ -56,6 +86,18 @@ $this->beginContent('@views/layouts/public.php');
                     <option value = 0 >课程分类</option>
                     <?php foreach(\app\models\db\BCourse::$_type as $kc => $pre){?>
                         <option value = <?=$kc?> <?=isset($course->type) && $course->type == $kc ? 'selected' : ''?> ><?=$pre?></option>
+                    <?php }?>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">行业类别：</label>
+            <div class="layui-input-inline">
+                <select id="tid" name="tid" lay-filter="tid" lay-verify="required">
+                    <option value = 0 >行业类别</option>
+                    <?php foreach($industr as $k => $r){?>
+                        <option value = <?=$r->id?> <?=isset($course->tid) && $course->tid == $r->id ? 'selected' : ''?> ><?=$r->sIndustryName?></option>
                     <?php }?>
                 </select>
             </div>
@@ -75,6 +117,7 @@ $this->beginContent('@views/layouts/public.php');
             </div>
         </div>
         <input type="hidden" name="sCourseImg" value="<?=$course['sCourseImg'] ?? ''?>">
+        <input type="hidden" name="sIndustryName" id="sIndustryName" value="<?=$course['sIndustryName'] ?? ''?>">
         <div class="layui-form-item" style="margin-left: 10rem">
             <label class="layui-form-label">
             </label>
@@ -90,7 +133,7 @@ $this->beginContent('@views/layouts/public.php');
             elem: '#dRecordingTime',
             type:"datetime"
             ,trigger: 'click'//呼出事件改成click
-            ,value: '<?=$dBeginTime?>'
+            ,value: '<?=$course['dRecordingTime'] ?? $dBeginTime?>'
         });
     });
 
@@ -98,6 +141,27 @@ $this->beginContent('@views/layouts/public.php');
         $ = layui.jquery;
         var form = layui.form
             ,layer = layui.layer;
+
+        form.on('select(tid)', function(data){
+            $("#sIndustryName").val(data.elem[data.elem.selectedIndex].text);
+            form.render('select');
+        });
+        form.on('select(instructor)', function(data){
+
+            var instructor = <?=\yii\helpers\Json::encode($instructor)?>;
+            $(instructor).each(function (ids,items) {
+                if(parseInt(items.id) == parseInt(data.value))
+                {
+                    $("input[name=author]").val(items.sName);
+                    $("#info").val(items.info);
+                    $("input[name=headportrait]").val(items.headportrait);
+                    $(".headportrait").attr('src',"<?=Yii::$app->params['imagePath']?>"+items.headportrait);
+                    $(".headportrait").css('display','block');
+                }
+            });
+
+            form.render('select');
+        });
 
         $('#uploadform-imagefile').fileupload({
             dataType: 'json',
@@ -122,6 +186,12 @@ $this->beginContent('@views/layouts/public.php');
             if($("#type").val() == 0)
             {
                 layer.msg('请选择课程分类');
+                return false;
+            }
+
+            if($("#tid").val() == 0)
+            {
+                layer.msg('请选择行业类别');
                 return false;
             }
 
@@ -156,7 +226,26 @@ $this->beginContent('@views/layouts/public.php');
 
         });
     });
-
+    function uploadFile(that)
+    {
+        $(that).fileupload({
+            dataType: 'json',
+            url: 'index.php?r=web/upload/upload',
+            success: function (json) {
+                if(json.code == 0){
+                    $("input[name=headportrait]").val(json.data.url);
+                    $(".headportrait").attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
+                    $(".headportrait").css('display','block');
+                }else{
+                    layui.use(['layer'], function() {
+                        $ = layui.jquery;
+                        var layer = layui.layer;
+                        layer.msg(json.msg);
+                    });
+                }
+            }
+        });
+    }
 </script>
 <?php
 $this->endContent();

@@ -78,7 +78,7 @@ $this->beginContent('@views/layouts/web.php');
         }
 
         $('.course-list').each(function (ids, items) {
-            if(ids % 4 == 0 && ids > 0)
+            if((ids+1) % 5 == 0 && ids > 0)
             {
                 $(this).css('margin-right','0');
             }

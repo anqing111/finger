@@ -329,9 +329,403 @@ footer.white .map a{
     transform: translate(-50%,-50%);
 }
 .pop-dp-bg .close{
+    background: rgba(0,0,0,0);
     position: absolute;
-    width: 50px;
-    height: 50px;
-    right: 20px;
+    width: 20px;
+    height: 20px;
+    right: 30px;
+    top: 30px;
+    cursor:pointer;
+}
+.instructor-info,.instructor-video{
+    position: absolute;
+    left:200px;
+    height: auto;
+}
+.instructor-info img{
+    height:348px;
+}
+.instructor-info .tip2{
+    font-size: 16px;
+    margin-top: 8px;
+    line-height: 24px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 0;
+    overflow: hidden;
+    text-align: justify;
+}
+.instructor-book{
+    height: 19px;
+    font-size: 20px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    color: rgba(103,101,98,1);
+    line-height: 21px;
+    padding-top: 20px;
+}
+.instructor-book-list{
+    width:180px;
+    height:252px;
+    margin-bottom: 30px;
+    margin-left:50px;
+    position: relative;
+
+}
+.instructor-book-list img{
+    width:180px;
+    height:252px;
+    border-radius:4px;
+}
+.instructor-book-list .instructor-name{
+    width:180px;
+    height:17px;
+    font-size:18px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    display: inline-block;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:105%;
+    text-align: center;
+}
+.container2{
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    top: 400px;
+}
+.container3{
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    top: 600px;
+}
+.instructor-video img{
+    width:280px;
+    height:210px;
+    border-radius:4px;
+}
+.instructor-video .tip2{
+    font-size: 16px;
+    margin-top: 8px;
+    line-height: 24px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 0;
+    overflow: hidden;
+    text-align: justify;
+}
+.instructor-video{
+    left: 100px;
+}
+.certificate-title{
+    height:19px;
+    font-size:20px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    padding-top: 20px;
+}
+.certificate-info{
+    position: absolute;
+    left:200px;
+    height: auto;
+}
+.certificate-info img{
+    height:348px;
+}
+.certificate-info .tip2{
+    font-size: 16px;
+    margin-top: 30px;
+    line-height: 24px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 0;
+    overflow: hidden;
+    text-align: justify;
+}
+.certificate-video{
+    height: 19px;
+    font-size: 20px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    color: rgba(103,101,98,1);
+    line-height: 21px;
+    padding-top: 20px;
+}
+.certificate-video-list{
+    width:280px;
+    height:210px;
+    margin-bottom: 45px;
+    margin-right:26px;
+    position: relative;
+    background:rgba(0,0,0,1);
+    border-radius:4px;
+    overflow: hidden;
+}
+.certificate-video-list img{
+    width:100%;
+    height:100%;
+    border-radius:4px;
+}
+.certificate-video-list .certificate-name{
+    width:280px;
+    height:17px;
+    font-size:18px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:21px;
+    display: inline-block;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:105%;
+    text-align: center;
+}
+/*鼠标滑过放大缩小效果*/
+.certificate-video-list img{
+    transition: all 0.6s;
+}
+.certificate-video-list img:hover{
+    transform: scale(1.2);
+}
+.couserinfo-info{
+    position: relative;
+    zoom: 1;
+    width: 1200px;
+    margin: 0 auto;
+    top: 21px;
+}
+.couserinfo-info img{
+    width: 811px;
+    height: 510px;
+}
+.couserinfo-info .detail{
+    width:389px;
+    height:510px;
+    background:rgba(0,0,0,1);
+    position: absolute;
+    zoom: 1;
+    left: 811px;
+    top: 0;
+}
+.couserinfo-info .couserinfo-title{
+    height:21px;
+    font-size:20px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(255,255,255,255);
+    line-height:50px;
+    position: absolute;
+    zoom: 1;
+    left: 44px;
+    top: 49px;
+}
+.couserinfo-info .couserinfo-time{
+    position: absolute;
+    zoom: 1;
+    left: 44px;
+    top: 100px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(179,179,179,1);
+    line-height:50px;
+    width: 100px;
+    text-align: center;
+}
+.couserinfo-info .couserinfo-time1{
+    height:15px;
+    font-size:18px;
+    margin-bottom: 10px;
+    width: 42px;
+}
+
+.couserinfo-info .couserinfo-time2{
+    height:13px;
+    font-size:12px;
+    text-align: left;
+}
+.couserinfo-info .couserinfo-jianjie{
+    position: absolute;
+    zoom: 1;
+    left: 44px;
+    top: 177px;
+    width:100px;
+    height:17px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(255,255,255,255);
+    line-height:50px;
+}
+.couserinfo-info .couserinfo-content{
+    position: absolute;
+    zoom: 1;
+    left: 44px;
+    top: 230px;
+    width:304px;
+    height:120px;
+    font-size:14px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(179,179,179,1);
+    line-height:24px;
+    text-indent:27px
+}
+.couserinfo-info .couserinfo-sign{
+    position: absolute;
+    zoom: 1;
+    left: 75px;
+    top: 402px;
+    width:242px;
+    height:50px;
+    background:rgba(255,158,43,1);
+    border-radius:4px;
+}
+.couserinfo-info .couserinfo-sign a{
+    width:82px;
+    height:21px;
+    font-size:20px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(255,255,255,255);
+    line-height:50px;
+    position: absolute;
+    zoom: 1;
+    left: 78px;
+}
+.couserinfo{
+    height: 1000px;
+}
+.couserinfo .couserinfo-video-title{
+    width:200px;
+    height:17px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(103,101,98,1);
+    line-height:50px;
+    padding-top: 10px;
+    margin-left: 20px;
+
+}
+.couserinfo .specialist {
+    height: 100%;
+}
+.couserinfo .specialist-bg{
+    height: 100%;
+}
+.couserinfo .specialist-bg .couserinfo-video{
+    width:850px;
+    background:rgba(255,255,255,1);
+    margin: 0 auto;
+    position: relative;
+    left: -172px;
+    top: 50px;
+}
+.couserinfo .specialist-bg .couserinfo-video .content-box{
+    width:810px;
+    height:42px;
+    background:rgba(253,242,230,1);
+    border:1px solid rgba(251,230,209,1);
+    border-radius:1px;
+    margin: 0 auto;
+    position: relative;
     top: 20px;
+}
+.couserinfo .specialist-bg .couserinfo-video .content-box p{
+    width:810px;
+    height:42px;
+    text-align: center;
+    margin-top: 10px;
+}
+.couserinfo .specialist-bg .couserinfo-video .couserinfo-video-info{
+    width:810px;
+    background:rgba(252,247,242,1);
+    border-radius:1px;
+    margin: 0 auto;
+    position: relative;
+    top: 43px;
+}
+.couserinfo .specialist-bg .couserinfo-video .couserinfo-video-info p{
+    width:790px;
+    height:52px;
+    background:rgba(252,247,242,1);
+    border-radius:1px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:50px;
+    padding-left: 21px;
+    cursor:pointer;
+}
+.couserinfo .specialist-bg .couserinfo-video .couserinfo-video-info p span{
+    width:0;
+    height:14px;
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:50px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    bottom: 50px;
+    left: 300px;
+}
+.couserinfo .specialist-bg .couserinfo-video-author{
+    width:322px;
+    height:370px;
+    background:rgba(255,255,255,1);
+    margin: 0 auto;
+    position: relative;
+    left: 439px;
+    top: -350px;
+}
+.couserinfo .specialist-bg .couserinfo-video-author .couserinfo-video-author-title{
+    font-size:18px;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(103,101,98,1);
+    line-height:50px;
+    position: relative;
+    left: 21px;
+    top:21px;
+}
+.couserinfo .specialist-bg .couserinfo-video-author .couserinfo-video-author-head{
+    margin: 0 auto;
+    position: relative;
+    top:19px;
+}
+.couserinfo .specialist-bg .couserinfo-video-author .couserinfo-video-author-head img{
+    width:61px;
+    height:60px;
+    box-shadow:0px 5px 9px 0px rgba(4,0,0,0.16);
+    border-radius:50%;
+    margin-left: 128px;
+}
+.couserinfo .specialist-bg .couserinfo-video-author .couserinfo-video-author-head p{
+    font-size:16px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:25px;
+    text-align: center;
+}
+.couserinfo .specialist-bg .couserinfo-video-author .couserinfo-video-author-content{
+    width:280px;
+    height:78px;
+    font-size:14px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:30px;
+    position: relative;
+    zoom: 1;
+    left: 21px;
+    top: 22px;
+    text-indent:27px
 }

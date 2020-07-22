@@ -10,6 +10,7 @@ use app\models\db\BCourse;
 use app\models\db\BIndustry;
 use app\models\db\BJoin;
 use app\models\db\BProfessional;
+use app\models\db\BTrainingvideo;
 use app\models\db\BUniversity;
 use app\models\db\BUserbaseinfo;
 use app\models\db\EInstructor;
@@ -26,6 +27,11 @@ class SiteController extends BaseController
     //首页
     public function actionIndex()
     {
+//        $user = BUserbaseinfo::find()->where(['sMail'=>'133@163.com'])->one();
+//        //添加session
+//        \Yii::$app->session->set('sNick',$user->sNick);
+//        \Yii::$app->session->set('iUserID',$user->iUserID);
+//        \Yii::$app->session->set('pid',$user->pid);
         //获取banner轮播图
         $today = date('Y-m-d H:i:s');
         $banner = BBanner::find()->andWhere(['and',['status'=>BBanner::PUBLISHED],['<','date_from',$today],['>','date_to',$today]])->orderBy('id desc')->all();
@@ -698,8 +704,38 @@ class SiteController extends BaseController
     public function actionInstructor()
     {
         //获取专家/讲师简介（讲师秀）
-        $instructor = EInstructor::find()->andWhere(['isRec'=>EInstructor::YES])->orderBy('id desc')->all();
+        $instructor = EInstructor::find()->orderBy('id desc')->all();
         return $this->renderPartial('instructor',['instructor'=>$instructor]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 讲师秀详情
+     */
+    public function actionInstructorinfo()
+    {
+        //获取讲师秀详情
+        if(!\Yii::$app->request->get('id'))
+        {
+            //跳转到错误页面
+            $this->redirect(array('/web/site/error'));
+        }else{
+            $id = \Yii::$app->request->get('id');
+            if(!is_numeric($id))
+            {
+                //跳转到错误页面
+                $this->redirect(array('/web/site/error'));
+            }else{
+                $instructor = EInstructor::getInstructor([EInstructor::tableName().'.id'=>$id]);
+                if(!$instructor)
+                {
+                    //跳转到错误页面
+                    $this->redirect(array('/web/site/error'));
+                }else{
+                    return $this->renderPartial('instructorinfo',['instructor'=>$instructor]);
+                }
+            }
+        }
     }
     /**
      * Renders the index view for the module
@@ -749,12 +785,20 @@ class SiteController extends BaseController
                 //跳转到错误页面
                 $this->redirect(array('/web/site/error'));
             }else{
-                $course = BCourse::findOne($id);
+                $course = BCourse::find()->where(['and',['id'=>$id],['status'=>BCourse::PUBLISHED]])->asArray()->one();
                 if(!$course)
                 {
                     //跳转到错误页面
                     $this->redirect(array('/web/site/error'));
                 }else{
+                    //获取章节
+                    $course['trainingvideo'] = [];
+                    $video = BTrainingvideo::find()->where(['and',['cid'=>$id],['status'=>BTrainingvideo::PUBLISHED]])->orderBy('id asc')->all();
+                    if(!empty($video))
+                    {
+                        $course['trainingvideo'] = $video;
+                    }
+
                     return $this->renderPartial('courseinfo',['course'=>$course]);
                 }
             }

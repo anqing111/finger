@@ -3,6 +3,7 @@
 namespace app\models\db;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%b_course}}".
@@ -12,6 +13,8 @@ use Yii;
  * @property string $sCourseImg 课程图片
  * @property string $sCourseInfo 课程简介
  * @property string $author 作者
+ * @property string $headportrait 头像
+ * @property string $info 讲师简介
  * @property int $classhour 课时
  * @property int $type 课程分类
  * @property string $dRecordingTime 录制时间
@@ -62,8 +65,8 @@ class BCourse extends \yii\db\ActiveRecord
         return [
             [['classhour', 'type', 'tid', 'status'], 'integer'],
             [['dRecordingTime', 'dCreatTime'], 'safe'],
-            [['sCourseName'], 'string', 'max' => 100],
-            [['sCourseImg', 'sCourseInfo'], 'string', 'max' => 255],
+            [['sCourseName', 'headportrait'], 'string', 'max' => 100],
+            [['sCourseImg', 'sCourseInfo', 'info'], 'string', 'max' => 255],
             [['author'], 'string', 'max' => 50],
             [['sIndustryName'], 'string', 'max' => 30],
         ];
@@ -80,6 +83,8 @@ class BCourse extends \yii\db\ActiveRecord
             'sCourseImg' => Yii::t('app', '课程图片'),
             'sCourseInfo' => Yii::t('app', '课程简介'),
             'author' => Yii::t('app', '作者'),
+            'headportrait' => Yii::t('app', '头像'),
+            'info' => Yii::t('app', '讲师简介'),
             'classhour' => Yii::t('app', '课时'),
             'type' => Yii::t('app', '课程分类'),
             'dRecordingTime' => Yii::t('app', '录制时间'),
@@ -90,6 +95,30 @@ class BCourse extends \yii\db\ActiveRecord
         ];
     }
 
+    //获取课程章节
+    public function getTrainingvideo()
+    {
+        $video = $this->hasMany(BTrainingvideo::className(),['cid' => 'id'])->asArray();
+        return $video;
+    }
+
+    public static function getCourseinfo($params)
+    {
+        //AR创建关联查询，查询的结果是2个sql语句拼接的结果，并不是sql语句的联合查询
+        $profile = self::find()
+            ->joinWith([
+                'trainingvideo b'=>function(Query $query){
+                    $query->select([
+                        'b.cid',
+                        'b.sChapterName',
+                        'b.sTrainingvideoUrl',
+                        'b.time',
+                    ])->where(['b.status'=>BTrainingvideo::PUBLISHED]);
+                }
+            ])->where($params)->asArray()->all();
+
+        return $profile;
+    }
     /**
      * {@inheritdoc}
      * @return BCourseQuery the active query used by this AR class.

@@ -3,13 +3,13 @@
 namespace app\models\db;
 
 use Yii;
-use yii\db\Query;
 
 /**
  * This is the model class for table "{{%e_instructor}}".
  *
  * @property int $id 自增id
  * @property string $sName 姓名
+ * @property int $year 工作经验
  * @property string $info 个人简介
  * @property string $headportrait 头像
  * @property string $bigheadportrait 大头像
@@ -24,6 +24,10 @@ class EInstructor extends \yii\db\ActiveRecord
     * */
     const YES = 1;
     const NO = 0;
+    public static $_isRec = [
+        self::YES => '是',
+        self::NO => '否',
+    ];
     /**
      * {@inheritdoc}
      */
@@ -38,7 +42,7 @@ class EInstructor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['isRec'], 'integer'],
+            [['year', 'isRec'], 'integer'],
             [['dCreatTime'], 'safe'],
             [['sName'], 'string', 'max' => 20],
             [['info'], 'string', 'max' => 255],
@@ -54,6 +58,7 @@ class EInstructor extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', '自增id'),
             'sName' => Yii::t('app', '姓名'),
+            'year' => Yii::t('app', '工作经验'),
             'info' => Yii::t('app', '个人简介'),
             'headportrait' => Yii::t('app', '头像'),
             'bigheadportrait' => Yii::t('app', '大头像'),
@@ -70,6 +75,7 @@ class EInstructor extends \yii\db\ActiveRecord
     {
         return new EInstructorQuery(get_called_class());
     }
+
 
     //获取所有著作
     public function getInstructorbook()

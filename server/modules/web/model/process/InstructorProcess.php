@@ -129,6 +129,7 @@ class InstructorProcess
         {
             $video[$i]['sTrainUrl'] = $r;
             $video[$i]['sOpusInfo'] = $params['sOpusInfo'][$k];
+            $video[$i]['sTrainImg'] = $params['sTrainImg'][$k];
             $video[$i++]['tid'] = $id;
         }
         if(!empty($video))
@@ -172,6 +173,7 @@ class InstructorProcess
                 //要添加的视频
                 $video[$k]['sTrainUrl'] = $r;
                 $video[$k]['sOpusInfo'] = $params['sOpusInfo'][$k];
+                $video[$k]['sTrainImg'] = $params['sTrainImg'][$k];
                 $video[$k]['tid'] = $id;
             }
         }

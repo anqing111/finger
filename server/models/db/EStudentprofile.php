@@ -156,6 +156,7 @@ class EStudentprofile extends \yii\db\ActiveRecord
                     $query->select([
                         'b.sContent',
                         'b.sOpusvideoUrl',
+                        'b.sOpusvideoImg',
                         'b.iStuID'
                     ]);
                 },

@@ -56,6 +56,16 @@ $this->beginContent('@views/layouts/public.php');
                                 <?php }?>
                             </div>
                         </div>
+
+                        <div class="layui-form-item">
+                            <label for="L_phone" class="layui-form-label">视频背景图：</label>
+                            <div class="layui-input-inline" style="width: 80%">
+                                <input type="hidden" name="UploadForm[imageFile]" value="">
+                                <input type="hidden" name="studentopus[sOpusvideoImg][<?=$k1?>]" value="<?=$r1['sOpusvideoImg']?>" class="sOpusvideoImg<?=$k1?>">
+                                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sOpusvideoImg',<?=$k1?>)">
+                                <img src="<?=\Yii::$app->params['imagePath'].$r1['sOpusvideoImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sOpusvideoImgs<?=$k1?>">
+                            </div>
+                        </div>
                     <?php }?>
                 <?php }else{?>
                     <div class="layui-form-item">
@@ -72,6 +82,15 @@ $this->beginContent('@views/layouts/public.php');
                             <input type="hidden" name="studentopus[sOpusvideoUrl][0]" value="" class="sOpusvideoUrl0">
                             <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'studentopus',0)">
                             <span class="studentopuss0" style="display:none"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_phone" class="layui-form-label">视频背景图：</label>
+                        <div class="layui-input-inline" style="width: 80%">
+                            <input type="hidden" name="UploadForm[imageFile]" value="">
+                            <input type="hidden" name="studentopus[sOpusvideoImg][0]" class="sOpusvideoImg0">
+                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sOpusvideoImg',0)">
+                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sOpusvideoImgs0">
                         </div>
                     </div>
                 <?php }?>
@@ -492,9 +511,9 @@ $this->beginContent('@views/layouts/public.php');
 
     var bookindex = 0;
     function insertClass() {
-        if(bookindex == 0 && $('#studentopus').find('.layui-form-item').length > 2)
+        if(bookindex == 0 && $('#studentopus').find('.layui-form-item').length > 3)
         {
-            var len = $('#studentopus').find('.layui-form-item').length / 2;
+            var len = $('#studentopus').find('.layui-form-item').length / 3;
             bookindex = len - 1;
         }
         bookindex++;
@@ -509,10 +528,19 @@ $this->beginContent('@views/layouts/public.php');
             '                        <label for="L_phone" class="layui-form-label">视  频：</label>\n' +
             '                        <div class="layui-input-inline" style="width: 80%">\n' +
             '                            <input type="hidden" name="UploadForm[videoFile]" value="">\n' +
-            '                            <input type="hidden" name="studentopus[sOpusvideoUrl]['+bookindex+']" value="" class="sOpusvideoUrl0">\n' +
+            '                            <input type="hidden" name="studentopus[sOpusvideoUrl]['+bookindex+']" value="" class="sOpusvideoUrl'+bookindex+'">\n' +
             '                            <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,\'studentopus\','+bookindex+')">\n' +
             '                            <span class="studentopuss'+bookindex+'" style="display:none"></span>\n' +
             '                            <button type="button" class="layui-btn" data-title="删除" onclick="deleteClass(this)" style="margin-left: 1rem"><i class="layui-icon"></i>删除</button>'+
+            '                        </div>\n' +
+            '                    </div>' +
+            '                    <div class="layui-form-item">\n' +
+            '                        <label for="L_phone" class="layui-form-label">视频背景图：</label>\n' +
+            '                        <div class="layui-input-inline" style="width: 80%">\n' +
+            '                            <input type="hidden" name="UploadForm[imageFile]" value="">\n' +
+            '                            <input type="hidden" name="studentopus[sOpusvideoImg]['+bookindex+']" class="sOpusvideoImg'+bookindex+'">\n' +
+            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,\'sOpusvideoImg\','+bookindex+')">\n' +
+            '                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sOpusvideoImgs'+bookindex+'">\n' +
             '                        </div>\n' +
             '                    </div>';
         $("#studentopus").append(str);
@@ -520,6 +548,7 @@ $this->beginContent('@views/layouts/public.php');
 
     function deleteClass(that) {
         $(that).parent().parent().prev('.layui-form-item').remove();
+        $(that).parent().parent().next('.layui-form-item').remove();
         $(that).parent().parent().remove();
     }
 
@@ -707,6 +736,7 @@ $this->beginContent('@views/layouts/public.php');
             case 'sInstructorEndorsementImg':
             case 'sStudentEndorsementImg':
             case 'sClassNotesImg':
+            case 'sOpusvideoImg':
                 url = 'index.php?r=web/upload/upload';
                 image = true;
                 break;
@@ -728,12 +758,21 @@ $this->beginContent('@views/layouts/public.php');
             dataType: 'json',
             url: url,
             success: function (json) {
+                console.log(json)
                 if(json.code == 0){
                     if(true == image)
                     {
-                        $("input[name="+file+"]").val(json.data.url);
-                        $("."+file).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
-                        $("."+file).css('display','block');
+                        if(file == 'sOpusvideoImg')
+                        {
+                            $("."+file+index).val(json.data.url);
+                            $("."+file+'s'+index).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
+                            $("."+file+'s'+index).css('display','block');
+                        }else{
+                            $("input[name="+file+"]").val(json.data.url);
+                            $("."+file).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
+                            $("."+file).css('display','block');
+                        }
+
                     }else{
                         $("."+video+index).val(json.data.url);
                         $("."+file+'s'+index).text(json.data.url);

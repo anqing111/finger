@@ -36,7 +36,7 @@ $this->beginContent('@views/layouts/web.php');
                     <hr>
                     <div class="content-box">
                         <?php foreach($instructor as $r2){?>
-                            <div class="item flex-box">
+                            <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer">
                                 <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
                                 <div class="detail filler">
                                     <div class="name"><?=$r2->sName?></div>
@@ -57,6 +57,10 @@ $this->beginContent('@views/layouts/web.php');
         var windowHeight=$('.container.index .container').height()<700?700:$('.container.index .container').height();
         if($('.container.index .container').length){
             $('.container.index').css('height',windowHeight+200+'px')
+        }
+
+        function optionInstructor(id) {
+            location.href = 'index.php?r=web/site/instructorinfo&id='+id;
         }
     </script>
 <?php

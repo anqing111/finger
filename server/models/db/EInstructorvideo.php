@@ -10,6 +10,7 @@ use Yii;
  * @property int $id 自增id
  * @property int $tid 讲师秀id
  * @property string $sTrainUrl 讲课视频
+ * @property string $sTrainImg 背景图片
  * @property string $sOpusInfo 作品介绍
  * @property string $dCreatTime 创建时间
  */
@@ -32,6 +33,7 @@ class EInstructorvideo extends \yii\db\ActiveRecord
             [['tid'], 'integer'],
             [['dCreatTime'], 'safe'],
             [['sTrainUrl', 'sOpusInfo'], 'string', 'max' => 255],
+            [['sTrainImg'], 'string', 'max' => 100],
         ];
     }
 
@@ -44,6 +46,7 @@ class EInstructorvideo extends \yii\db\ActiveRecord
             'id' => Yii::t('app', '自增id'),
             'tid' => Yii::t('app', '讲师秀id'),
             'sTrainUrl' => Yii::t('app', '讲课视频'),
+            'sTrainImg' => Yii::t('app', '背景图片'),
             'sOpusInfo' => Yii::t('app', '作品介绍'),
             'dCreatTime' => Yii::t('app', '创建时间'),
         ];
@@ -94,7 +97,7 @@ class EInstructorvideo extends \yii\db\ActiveRecord
         //数据批量入库
         $flag = $connection->createCommand()->batchInsert(
             ''.EInstructorvideo::tableName().'',
-            ['sTrainUrl','sOpusInfo','tid'],//字段
+            ['sTrainUrl','sOpusInfo','sTrainImg','tid'],//字段
             $params
         )->execute();
 

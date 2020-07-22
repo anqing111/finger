@@ -86,10 +86,10 @@ $this->beginContent('@views/layouts/web.php');
             <div class="title">个人秀</div>
         </div>
         <div class="content-box flex-box">
-            <img src="https://f.cdn.xsteach.cn/uploaded/0a/43/6f/0a436f829eb2c3831721754afb40522a001.jpg" alt="" class="img-title">
+            <img src="<?=Url::to('images/join.png')?>" alt="" class="img-title">
             <div class="group filler">
                 <?php foreach($studentopus as $ks => $s){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$s->sOpusvideoImg?>" class="item"/>
+                    <img src="<?=Yii::$app->params['imagePath'].$s->sOpusvideoImg?>" class="item" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$s->sOpusvideoUrl?>')"/>
                 <?php }?>
             </div>
             <div class="list flex-box">
@@ -101,7 +101,7 @@ $this->beginContent('@views/layouts/web.php');
                     <?php foreach($professional as $kp => $p){?>
                         <div class="item" style="font-size: 16px">
                             <span class="index"><?=($kp+1)?></span>
-                            <span class="text one-line"><?=mb_substr($p->sProfessionalName,0,10)?>...</span>
+                            <span class="text one-line"><?=mb_substr($p->sProfessionalName,0,20)?>...</span>
                         </div>
                     <?php }?>
                 </div>
@@ -117,11 +117,11 @@ $this->beginContent('@views/layouts/web.php');
                 </div>
                 <div class="content-box">
                     <?php foreach($instructor as $r2){?>
-                        <div class="item flex-box">
+                        <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer">
                             <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
                             <div class="detail filler">
                                 <div class="name"><?=$r2->sName?></div>
-                                <div class="time">3年从业经验</div>
+                                <div class="time"><?=$r2->year?>年从业经验</div>
                                 <div class="tip"><?=mb_substr($r2->info,0,50)?>...</div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="list filler">
                     <div class="title flex-box">
                         <span class="dot"></span>
-                        <span class="text">技能展示</span>
+                        <span class="text">热门文章</span>
                     </div>
                     <div class="content">
                         <?php foreach($article3 as $k6 => $r6){?>
@@ -232,7 +232,7 @@ $this->beginContent('@views/layouts/web.php');
 </footer>
 
 <section class="pop-dp-bg">
-    <img src="" alt="" class="close">
+    <img src="<?=Url::to('images/close.png')?>" alt="" class="close">
     <div class="content" id="PopDPlayer">
 
     </div>
@@ -313,6 +313,10 @@ $this->beginContent('@views/layouts/web.php');
         }else{
             $('.articles2').css('display','flex');
         }
+    }
+
+    function optionInstructor(id) {
+        location.href = 'index.php?r=web/site/instructorinfo&id='+id;
     }
 </script>
 <?php

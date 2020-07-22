@@ -46,7 +46,7 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="list filler">
                     <div class="title flex-box">
                         <span class="dot"></span>
-                        <span class="text">技能展示</span>
+                        <span class="text">热门文章</span>
                     </div>
                     <div class="content">
                         <div class="item">

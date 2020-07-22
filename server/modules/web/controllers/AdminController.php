@@ -13,6 +13,7 @@ use app\models\db\BPerconf;
 use app\models\db\BPosition;
 use app\models\db\BPositiontype;
 use app\models\db\BProblem;
+use app\models\db\BProfessional;
 use app\models\db\BSkill;
 use app\models\db\BTrainingvideo;
 use app\models\db\BUniversity;
@@ -23,7 +24,9 @@ use app\models\db\BUserbaseinfo;
 use app\models\db\BCourse;
 use app\models\db\ELecturer;
 use app\models\db\EOrgin;
+use app\models\db\EPracticevideo;
 use app\models\db\EStudentcertificate;
+use app\models\db\EStudentopus;
 use app\models\db\EStudentprofile;
 use app\models\RedactorForm;
 use app\models\UploadForm;
@@ -411,7 +414,9 @@ class AdminController extends BaseController
         $dBeginTime = date('Y-m-d 23:59:59');
         //获取所有行业
         $industr = BIndustry::find()->where(['>','industryID','0'])->orderBy('id desc ')->all();
-        return $this->renderPartial('courseedit',['course'=>$course,'dBeginTime'=>$dBeginTime,'model'=>$model,'industr'=>$industr]);
+        //获取所有讲师
+        $instructor = EInstructor::find()->orderBy('id desc')->all();
+        return $this->renderPartial('courseedit',['course'=>$course,'dBeginTime'=>$dBeginTime,'model'=>$model,'industr'=>$industr,'instructor'=>$instructor]);
 
     }
 
@@ -995,6 +1000,144 @@ class AdminController extends BaseController
         }
         $model = new UploadForm();
         return $this->renderPartial('instructoredit',['instructor'=>$instructor,'model'=>$model]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 作品秀
+     */
+    public function actionStudentopusindex()
+    {
+        /*
+         * 获取所有作品秀
+         * */
+        $studentopus = EStudentopus::getStudentopuslist();
+
+        return $this->renderPartial('studentopusindex',['studentopus'=>$studentopus]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 作品秀详情
+     */
+    public function actionStudentopusinfo()
+    {
+        /*
+         * 获取所有作品秀
+         * */
+        $id = \Yii::$app->request->get('id');
+        if (empty($id))
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+        $studentopus = EStudentopus::findOne($id);
+        if(!$studentopus)
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+
+        return $this->renderPartial('studentproinfo',['studentopus'=>$studentopus]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 学员专业技能展示
+     */
+    public function actionProfessionalindex()
+    {
+        /*
+         * 获取所有学员专业技能
+         * */
+        $professional = BProfessional::getProfessionallist();
+
+        return $this->renderPartial('professionalindex',['professional'=>$professional]);
+    }
+    /**
+     * 状态变更（是否发布到首页）
+     */
+    public function actionReleaseindex()
+    {
+        $ids = \Yii::$app->request->post('ids');
+        $isRec = \Yii::$app->request->post('isRec');
+        $type = \Yii::$app->request->post('type');
+
+        if(empty($type))
+        {
+            self::getFailInfo('参数错误',$this->method);
+        }
+
+        $typeName = '';
+        switch ($type)
+        {
+            case 'instructor': //讲师秀发布到首页
+                $typeName = '讲师秀';
+                break;
+            case 'studentopus': //作品秀发布到首页
+                $typeName = '作品秀';
+                break;
+            case 'professional': //学员专业技能发布到首页
+                $typeName = '专业技能';
+                break;
+        }
+
+        if(empty($ids)){
+            $msg = $isRec==1 ? "请勾选要发布到首页的{$typeName}" : "请勾选要取消发布到首页的{$typeName}";
+            self::getFailInfo($msg,$this->method);
+        }
+
+        $idsArr = explode(',', $ids);
+
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+            switch ($type)
+            {
+                case 'instructor':
+                {
+                    foreach($idsArr as $r)
+                    {
+                        $post = ['id'=>$r,'isRec'=>$isRec];
+                        $id = EInstructor::updateInstructor($post);
+                        if(!$id)
+                        {
+                            self::getFailInfo('编辑失败',$this->method);
+                        }
+                    }
+                }
+                break;
+                case 'studentopus':
+                    {
+                        foreach($idsArr as $r)
+                        {
+                            $post = ['id'=>$r,'isRec'=>$isRec];
+                            $id = EStudentopus::updateStudentpus($post);
+                            if(!$id)
+                            {
+                                self::getFailInfo('编辑失败',$this->method);
+                            }
+                        }
+                    }
+                    break;
+                case 'professional':
+                    {
+                        foreach($idsArr as $r)
+                        {
+                            $post = ['id'=>$r,'isRec'=>$isRec];
+                            $id = BProfessional::updateProfessional($post);
+                            if(!$id)
+                            {
+                                self::getFailInfo('编辑失败',$this->method);
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            $transaction->commit();
+        } catch(\Exception $e) {
+            $transaction->rollBack();
+            self::getFailInfo($e->getMessage(),$this->method);
+        }
+        self::getSucInfo(['ok'=>true],$this->method);
     }
     /**
      * Renders the index view for the module

@@ -25,6 +25,10 @@ class EStudentopus extends \yii\db\ActiveRecord
    * */
     const YES = 1;
     const NO = 0;
+    public static $_isRec = [
+        self::YES => '是',
+        self::NO => '否',
+    ];
     /**
      * {@inheritdoc}
      */
@@ -70,6 +74,19 @@ class EStudentopus extends \yii\db\ActiveRecord
     public static function find()
     {
         return new EStudentopusQuery(get_called_class());
+    }
+
+    public static function getStudentopuslist()
+    {
+        //查询生成器查询
+        $query = (new \yii\db\Query());
+        $industr = $query->from(self::tableName())
+            ->select(['id','sContent','isRec','sNick'])
+            ->leftJoin(['b' => BUserbaseinfo::tableName()], self::tableName().'.iUserID = b.iUserID')
+            ->orderBy('id desc')
+            ->all();
+
+        return $industr;
     }
 
     public static function batchInsertStudentopus($params)

@@ -11,18 +11,11 @@ $this->beginContent('@views/layouts/public.php');
 <body>
 <div class="x-nav">
       <span class="layui-breadcrumb">
-        <a href="">讲师秀</a>
+        <a href="">学员专业技能展示</a>
       </span>
 </div>
 <div class="x-body">
-    <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" action="" method="post" id="form">
-            <input type="text" class="layui-input" placeholder="姓名" name="sName" id="sName" value="<?=$post['sName'] ?? ''?>">
-            <input type="submit" class="layui-btn" value="查询" id="search">
-        </form>
-    </div>
     <xblock>
-        <button class="layui-btn" data-title="添加" onclick="x_admin_show('添加','index.php?r=web/admin/instructoredit')"><i class="layui-icon"></i>添加</button>
         <button class="layui-btn" id="start">发布到首页</button>
         <button class="layui-btn" id="stop">取消发布到首页</button>
     </xblock>
@@ -32,25 +25,18 @@ $this->beginContent('@views/layouts/public.php');
             <th><input type="checkbox" id="checkboxall" class="layui-unselect header layui-form-checkbox" lay-skin="primary">全选</th>
             <th>序号</th>
             <th>姓名</th>
-            <th>工作经验</th>
-            <th>简介</th>
+            <th>专业技能</th>
             <th>发布到首页</th>
-            <th>操作</th>
         </tr>
         </thead>
         <tbody class="for" align="center">
-        <?php foreach($instructor as $k => $r){?>
+        <?php foreach($professional as $k => $r){?>
             <tr>
                 <td><input type="checkbox" name="isRec" lay-skin="primary" value="<?=$r['id']?>" lay-filter="isRec"></td>
                 <td><?=($k+1)?></td>
-                <td><?=$r['sName']?></td>
-                <td><?=$r['year']?>年</td>
-                <td><?=mb_substr($r['info'],0,30)?>......</td>
-                <td><?=\app\models\db\EInstructor::$_isRec[$r['isRec']]?></td>
-                <td class="td-manage">
-                    <a title="编辑" onclick="x_admin_show('编辑','index.php?r=web/admin/instructoredit&id=<?=$r['id']?>')" href="javascript:;">【编辑】
-                    </a>
-                </td>
+                <td><?=$r['sNick']?></td>
+                <td title="<?=$r['sProfessionalName']?>"><?=mb_substr($r['sProfessionalName'],0,30)?>......</td>
+                <td><?=\app\models\db\BProfessional::$_isRec[$r['isRec']]?></td>
             </tr>
         <?php }?>
         </tbody>
@@ -77,7 +63,7 @@ $this->beginContent('@views/layouts/public.php');
             arr[i] = $(this).val();
         });
         var ids = arr.join(",");
-        $.post('index.php?r=web/admin/releaseindex',{ids:ids,isRec:<?=\app\models\db\EInstructor::YES?>,type:'instructor'},function(data){
+        $.post('index.php?r=web/admin/releaseindex',{ids:ids,isRec:<?=\app\models\db\EInstructor::YES?>,type:'professional'},function(data){
             var dataObj = JSON.parse(data);
             if(dataObj.code == 0){
                 layer.alert('发布到首页成功', function(index){
@@ -96,7 +82,7 @@ $this->beginContent('@views/layouts/public.php');
             arr[i] = $(this).val();
         });
         var ids = arr.join(",");
-        $.post('index.php?r=web/admin/releaseindex',{ids:ids,isRec:<?=\app\models\db\EInstructor::NO?>,type:'instructor'},function(data){
+        $.post('index.php?r=web/admin/releaseindex',{ids:ids,isRec:<?=\app\models\db\EInstructor::NO?>,type:'professional'},function(data){
             var dataObj = JSON.parse(data);
             if(dataObj.code == 0){
                 layer.alert('取消发布到首页成功', function(index){

@@ -175,6 +175,7 @@ class OrginController extends BaseController
             $post['idcard'] = $userbaseinfo->idcard;
             $post['sMail'] = $userbaseinfo->sMail;
             $post['sPhone'] = $userbaseinfo->sPhone;
+            $post['status'] = EStudentprofile::UNDERREVIEW;
 
             //获取所属机构名称
             $orgin = EOrgin::getOrginByUser(['iUserID' => $this->userid]);

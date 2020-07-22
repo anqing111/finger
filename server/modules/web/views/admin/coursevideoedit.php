@@ -30,9 +30,9 @@ $this->beginContent('@views/layouts/public.php');
         </div>
 
         <div class="layui-form-item">
-            <label for="L_phone" class="layui-form-label">课  时：</label>
+            <label for="L_phone" class="layui-form-label">时  长：</label>
             <div class="layui-input-inline">
-                <input type="text" id="time" value="<?=$video['time'] ?? ''?>"  name="time" autocomplete="off" class="layui-input">
+                <input type="text" id="time" value="<?=$video['time'] ?? ''?>"  name="time" autocomplete="off" class="layui-input" readonly>
             </div>
         </div>
 
@@ -54,7 +54,16 @@ $this->beginContent('@views/layouts/public.php');
     </form>
 </div>
 <script>
-
+    // 日期插件
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#time',
+            type:"time"
+            ,trigger: 'click'//呼出事件改成click
+            ,value: '<?=$banner['time'] ?? ''?>'
+        });
+    });
     layui.use(['form','layer'], function(){
         $ = layui.jquery;
         var form = layui.form
@@ -62,19 +71,19 @@ $this->beginContent('@views/layouts/public.php');
 
         //自定义验证规则
         form.verify({
-            time: [/^[1-9]*[1-9][0-9]*$/, '课时必需为正整数']
+            // time: [/^[1-9]*[1-9][0-9]*$/, '课时必需为正整数']
         });
 
         form.on('submit(save)', function(data){
 
-            if($("#time").val().length > 0)
-            {
-                var re = /^[1-9]*[1-9][0-9]*$/;
-                if (!re.test($("#time").val())) {
-                    layer.msg("课时必需为正整数");
-                    return false;
-                }
-            }
+            // if($("#time").val().length > 0)
+            // {
+            //     var re = /^[1-9]*[1-9][0-9]*$/;
+            //     if (!re.test($("#time").val())) {
+            //         layer.msg("课时必需为正整数");
+            //         return false;
+            //     }
+            // }
 
             $.ajax({
                 url:location.href,

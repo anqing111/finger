@@ -37,6 +37,13 @@ $this->beginContent('@views/layouts/public.php');
         </div>
 
         <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">工作经验：</label>
+            <div class="layui-input-inline">
+                <input type="text" value="<?=$instructor['year'] ?? ''?>"  name="year" lay-verify="required" autocomplete="off" class="layui-input" maxlength="2">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">个人简介：</label>
             <div class="layui-input-inline">
                 <textarea name="info" id="info" cols="80" rows="10"><?=$instructor['info'] ?? ''?></textarea>
@@ -135,6 +142,15 @@ $this->beginContent('@views/layouts/public.php');
                                     <span class="videos<?=$k1?>"><?=$r1['sTrainUrl']?></span>
                                 </div>
                             </div>
+                            <div class="layui-form-item">
+                                <label for="L_phone" class="layui-form-label">背景图片：</label>
+                                <div class="layui-input-inline" style="width: 80%">
+                                    <input type="hidden" name="UploadForm[imageFile]" value="">
+                                    <input type="hidden" name="video[sTrainImg][<?=$k1?>]" value="<?=$r1['sTrainImg']?>" class="sTrainImg<?=$k1?>">
+                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sTrainImg',<?=$k1?>)">
+                                    <img src="<?=Yii::$app->params['imagePath'].$r1['sTrainImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sTrainImgs<?=$k1?>">
+                                </div>
+                            </div>
                         <?php }else{?>
                             <div class="layui-form-item">
                                 <label for="L_phone" class="layui-form-label">作品介绍：</label>
@@ -151,6 +167,15 @@ $this->beginContent('@views/layouts/public.php');
                                     <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'video',<?=$k1?>)">
                                     <span class="videos<?=$k1?>"><?=$r1['sTrainUrl']?></span>
                                     <button type="button" class="layui-btn" data-title="删除" onclick="deleteClassVideo(this)" style="margin-left: 1rem"><i class="layui-icon"></i>删除</button>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_phone" class="layui-form-label">背景图片：</label>
+                                <div class="layui-input-inline" style="width: 80%">
+                                    <input type="hidden" name="UploadForm[imageFile]" value="">
+                                    <input type="hidden" name="video[sTrainImg][<?=$k1?>]" value="<?=$r1['sTrainImg']?>" class="sTrainImg<?=$k1?>">
+                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sTrainImg',<?=$k1?>)">
+                                    <img src="<?=Yii::$app->params['imagePath'].$r1['sTrainImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sTrainImgs<?=$k1?>">
                                 </div>
                             </div>
                         <?php }?>
@@ -171,6 +196,15 @@ $this->beginContent('@views/layouts/public.php');
                             <input type="hidden" name="video[sTrainUrl][0]" value="" class="sTrainUrl0">
                             <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'video',0)">
                             <span class="videos0" style="display:none"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_phone" class="layui-form-label">背景图片：</label>
+                        <div class="layui-input-inline" style="width: 80%">
+                            <input type="hidden" name="UploadForm[imageFile]" value="">
+                            <input type="hidden" name="video[sTrainImg][0]" value="" class="sTrainImg0">
+                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sTrainImg',0)">
+                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sTrainImgs0">
                         </div>
                     </div>
                 <?php }?>
@@ -269,9 +303,9 @@ $this->beginContent('@views/layouts/public.php');
 
     var videoindex = 0;
     function insertClassVideo() {
-        if(videoindex == 0 && $('#video').find('.layui-form-item').length > 0)
+        if(videoindex == 0 && $('#video').find('.layui-form-item').length > 3)
         {
-            var len = $('#video').find('.layui-form-item').length / 2;
+            var len = $('#video').find('.layui-form-item').length / 3;
             videoindex = len - 1;
         }
         videoindex++;
@@ -291,12 +325,22 @@ $this->beginContent('@views/layouts/public.php');
             '                            <span class="videos'+videoindex+'" style="display:none"></span>\n' +
             '                            <button type="button" class="layui-btn" data-title="删除" onclick="deleteClassVideo(this)" style="margin-left: 1rem;margin-bottom: 3rem"><i class="layui-icon"></i>删除</button>\n' +
             '                        </div>\n' +
-            '                    </div>';
+            '                    </div>' +
+            '                            <div class="layui-form-item">\n' +
+            '                                <label for="L_phone" class="layui-form-label">背景图片：</label>\n' +
+            '                                <div class="layui-input-inline" style="width: 80%">\n' +
+            '                                    <input type="hidden" name="UploadForm[imageFile]" value="">\n' +
+            '                                    <input type="hidden" name="video[sTrainImg]['+videoindex+']" value="" class="sTrainImg'+videoindex+'">\n' +
+            '                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,\'sTrainImg\','+videoindex+')">\n' +
+            '                                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sTrainImgs'+videoindex+'">\n' +
+            '                                </div>\n' +
+            '                            </div>';
         $("#video").append(str);
     }
 
     function deleteClassVideo(that) {
         $(that).parent().parent().prev('.layui-form-item').remove();
+        $(that).parent().parent().next('.layui-form-item').remove();
         $(that).parent().parent().remove();
     }
 
@@ -319,9 +363,16 @@ $this->beginContent('@views/layouts/public.php');
                         $(".videos"+index).text(json.data.url);
                         $(".videos"+index).css('display','block');
                     }else{
-                        $(".sBookImg"+index).val(json.data.url);
-                        $(".images"+index).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
-                        $(".images"+index).css('display','block');
+                        if(file == "sTrainImg")
+                        {
+                            $(".sTrainImg"+index).val(json.data.url);
+                            $(".sTrainImgs"+index).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
+                            $(".sTrainImgs"+index).css('display','block');
+                        }else{
+                            $(".sBookImg"+index).val(json.data.url);
+                            $(".images"+index).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
+                            $(".images"+index).css('display','block');
+                        }
                     }
                 }else{
                     layui.use(['layer'], function() {

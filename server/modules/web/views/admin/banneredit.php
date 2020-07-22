@@ -76,13 +76,13 @@ $this->beginContent('@views/layouts/public.php');
             elem: '#date_from',
             type:"datetime"
             ,trigger: 'click'//呼出事件改成click
-            ,value: '<?=$dBeginTime?>'
+            ,value: '<?=$banner['date_from'] ?? $dBeginTime?>'
         });
         laydate.render({
             elem: '#date_to',
             type:"datetime"
             ,trigger: 'click'//呼出事件改成click
-            ,value: '<?=$dBeginTime?>'
+            ,value: '<?=$banner['date_to'] ?? $dBeginTime?>'
         });
     });
 

@@ -280,7 +280,7 @@ $this->beginContent('@views/layouts/public.php');
             elem: '#dGetDate',
             type:"date"
             ,trigger: 'click'//呼出事件改成click
-            ,value: '<?=$dBeginTime?>'
+            ,value: '<?=$profile['dGetDate'] ?? $dBeginTime?>'
         });
     });
     layui.config({

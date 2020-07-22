@@ -3,7 +3,11 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 $this->beginContent('@views/layouts/public.php');
 ?>
-
+<style>
+    .layui-table thead tr th{
+        text-align: center;
+    }
+</style>
 <body>
 <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -31,7 +35,8 @@ $this->beginContent('@views/layouts/public.php');
             <th>作者</th>
             <th>课时</th>
             <th>录制时间</th>
-            <th>类别</th>
+            <th>课程类别</th>
+            <th>所属行业类别</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
@@ -44,6 +49,7 @@ $this->beginContent('@views/layouts/public.php');
                 <td><?=$r['classhour']?></td>
                 <td><?=$r['dRecordingTime']?></td>
                 <td><?=\app\models\db\BCourse::$_type[$r['type']]?></td>
+                <td><?=$r['sIndustryName']?></td>
                 <td><?=\app\models\db\BCourse::$_status[$r['status']]?></td>
                 <td class="td-manage">
                     <?php if($r['status'] == \app\models\db\BCourse::UNRELEASED || $r['status'] == \app\models\db\BCourse::OFFTHESHELF){?>
