@@ -1,0 +1,359 @@
+* {
+    font-family: '-apple-system', 'BlinkMacSystemFont', 'Microsoft Yahei', '微软雅黑', 'sans-serif';
+    margin: 0;
+    padding: 0;
+}
+html{
+    font-size:4vw;
+    margin: 0px auto;
+    overflow-x: hidden;
+
+}
+a{
+    text-decoration: none;
+    color: #333;
+}
+input{
+    outline: none;
+    appearance: none;
+}
+button{
+    background-color: #EF8911;
+    color: #fff;
+    border: 1px solid #EF8911;
+    outline: none;
+}
+/* 临时占位 */
+img{
+    background-color: #F8F8F8;
+}
+
+/* 自定义通用 */
+.one-line{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.flex-box{
+    display: flex;
+}
+.filler{
+    flex: 1;
+    width: 0;
+    position: relative;
+}
+/* 页面布局通用 */
+header{
+    padding: 0 1.25rem;
+    height: 6.25rem;
+    position: relative;
+}
+header .logo{
+    width: 13.0625rem;
+    height: 2rem;
+    margin-top: 2.125rem;
+    background: rgba(0,0,0,0);
+}
+header .searcher{
+    border: 1px solid #7C7B79;
+    width: 15rem;
+    height: 3rem;
+    margin-top: 1.625rem;
+    border-radius: 6.25rem;
+    overflow: hidden;
+    padding: 0 1.25rem;
+}
+header .searcher .icon{
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.75rem;
+    margin-right: 1.25rem;
+}
+header .searcher input{
+    border: none;
+}
+header .nav-img{
+    width: 2.5rem;
+    height: 1.875rem;
+    margin-top: 2.1875rem;
+    margin-left: 1.5rem;
+}
+header .nav-list.active{
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s;
+    transform: translate(0,100%);
+}
+header .nav-list{
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    transform: translate(100%,100%);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: #FFFDFA;
+    z-index: 9;
+}
+header .nav-list img{
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+}
+header .nav-list a{
+    border-bottom: 1px solid #E7DACD;
+    padding: 2rem;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    color: #676562;
+}
+header .nav-list a:last-child{
+    border: none;
+}
+
+
+
+.section-title{
+    display: flex;
+    line-height: 6.25rem;
+    padding: 0 1.25rem;
+}
+.section-title .title{
+    flex: 1;
+    font-size: 2rem;
+    color: #676562;
+    font-weight: 800;
+}
+.section-title .more{
+    font-size: 1.5rem;
+    color: #676562;
+    margin-left: 1.25rem;
+}
+
+footer{
+    background-color: #5C5247;
+    padding-bottom: 3.125rem;
+}
+footer .slogan{
+    line-height: 10rem;
+    font-weight: 800;
+    color: #E2E2E3;
+    font-size: 2rem;
+    text-align: center;
+}
+footer hr{
+    height: 1px;
+    background-color: #81858B;
+    border: none;
+}
+footer .map{
+    width: 30rem;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 3.125rem;
+    margin-top: 3.125rem;
+}
+footer .map a{
+    color: #CECFCF;
+}
+footer.white{
+    background-color: #fff;
+    padding: 0;
+}
+footer.white .slogan{
+    display: none;
+}
+footer.white hr{
+    border-top: 1px solid #5C5247;
+    border-bottom: 1px solid #5C5247;
+    background-color: #fff;
+    height: 3px;
+}
+footer.white .map{
+    margin-top: 0;
+}
+footer.white .map a{
+    color: #333;
+}
+
+.pop-dp-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+}
+.pop-dp-bg.active{
+    opacity: 1;
+    visibility: visible;
+}
+.pop-dp-bg .content{
+    width: 100%;
+    height: 80%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.pop-dp-bg .close{
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    right: 1.25rem;
+    top: 1.25rem;
+}
+.certificate-info{
+    position: relative;
+    height: auto;
+    top: 2.0833rem;
+}
+.certificate-info img{
+    width: 21.8578rem;
+    height:28.5833rem;
+}
+.certificate-info .detail{
+    position: relative;
+}
+.certificate-info .detail .name{
+    overflow: hidden;
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-top: 2.45833rem;
+}
+.certificate-info .detail .tip2{
+    font-size: 2rem;
+    margin-top: 2.45833rem;
+    line-height: 4rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 0;
+    overflow: hidden;
+    text-align: justify;
+    text-indent:37px;
+}
+.certificate-title,.certificate-video{
+    font-weight:600;
+    color:rgba(103,101,98,1);
+    font-size: 2.4rem;
+}
+.certificate-video-list{
+    width:20.1666rem;
+    height:13.41666rem;
+    margin-bottom: 3.5833rem;
+    margin-right:1.25rem;
+    margin-left: 1.25rem;
+    position: relative;
+    background:rgba(0,0,0,1);
+    border-radius:4px;
+    overflow: hidden;
+
+}
+.certificate-video-list img{
+    width:100%;
+    height:100%;
+    border-radius:4px;
+}
+/*鼠标滑过放大缩小效果*/
+.certificate-video-list img{
+    transition: all 0.6s;
+}
+.certificate-video-list img:hover{
+    transform: scale(1.2);
+}
+.container2 .content-box{
+    margin-top: 2.0833rem;display: flex;flex-wrap: wrap;justify-content: center;
+}
+.instructorinfo-info{
+    position: relative;
+    height: auto;
+    top: 2.0833rem;
+}
+.instructorinfo-info img{
+    width: 21.8578rem;
+    height:28.5833rem;
+}
+.instructorinfo-info .detail{
+    position: relative;
+}
+.instructorinfo-info .detail .name{
+    overflow: hidden;
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-top: 2.45833rem;
+}
+.instructorinfo-info .detail .tip2{
+    font-size: 2rem;
+    margin-top: 2.45833rem;
+    line-height: 4rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 0;
+    overflow: hidden;
+    text-align: justify;
+    text-indent:37px;
+}
+.instructorinfo-title,.instructorinfo-book{
+    font-weight:600;
+    color:rgba(103,101,98,1);
+    font-size: 2.4rem;
+}
+.instructorinfo-book-list{
+    width:20.1666rem;
+    height:27.87735rem;
+    margin-bottom: 4.5833rem;
+    margin-right:1.25rem;
+    margin-left: 1.25rem;
+    position: relative;
+    background:rgba(0,0,0,1);
+    border-radius:4px;
+
+}
+.instructorinfo-book-list img{
+    width:100%;
+    height:100%;
+    border-radius:4px;
+}
+
+.container2 .content-box,.container3 .content-box{
+    margin-top: 2.0833rem;display: flex;flex-wrap: wrap;justify-content: center;
+}
+.instructorinfo-book-list .instructor-name{
+    font-size:2rem;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    display: inline-block;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:29rem;
+    left: 2.333rem;
+    line-height: 2rem;
+}
+.instructorinfo-video .item{
+    margin-bottom: 3rem;
+}
+.instructorinfo-video img{
+    width:20.1666rem;
+    height:14.82838rem;
+    border-radius:4px;
+    margin-right: 2rem;
+}
+.instructorinfo-video .tip2{
+    font-size: 1.5rem;
+    line-height: 3rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 0;
+    overflow: hidden;
+    text-align: justify;
+    width: 20.1666rem;
+}
+.container3{
+    margin: 0 auto;
+    position: relative;
+}

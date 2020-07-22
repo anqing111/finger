@@ -38,8 +38,6 @@ function videoPlay(url)
 {
     // 弹窗播放器
     var PopDPlayer='';
-    // 首页主播放器
-    var MainDPlayer='';
     // 弹窗视频播放器
     if($('.pop-dp-bg').length){
         PopDPlayer = new DPlayer({

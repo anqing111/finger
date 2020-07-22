@@ -1,0 +1,49 @@
+<?php
+use app\assets\WapAsset;
+use yii\helpers\Url;
+WapAsset::register($this);
+$this->beginContent('@views/layouts/wap.php');
+?>
+<style>
+    body{
+        overflow-x: hidden;
+    }
+    .title{
+        width:2.8916rem;
+        height:1px;
+        background:rgba(239,137,17,1);
+        border:1px solid rgba(216,112,0,1);
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    .top{
+        line-height: 4.04166rem;
+    }
+    .top img{
+        height: 16rem;
+        position: relative;
+        right: 40rem;
+    }
+</style>
+<?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
+<div class="top">
+    <img src="<?=Yii::$app->params['imagePath'].'/wap/images/bg.png'?>" alt="" style="background: rgba(0,0,0,0);">
+</div>
+<div class="container college" style="height: 100%;">
+    <div class="redactor-editor" contenteditable="true" dir="ltr" style="min-height: 800px;border: none">
+        <p style="text-align: center;font-weight: bold;font-size: 3rem"><span class="title"></span><?=$university->title?><span class="title"></span></p>
+        <?=$university->content?>
+    </div>
+</div>
+<footer>
+    <?=\app\modules\wap\model\process\PublicProcess::MiddleWeb()?>
+</footer>
+<script>
+    var windowHeight=$(window).height()<600?600:$(window).height();
+    if($('.container .college').length){
+        $('.container .college').css('height',windowHeight-195+'px')
+    }
+</script>
+<?php
+$this->endContent();
+?>

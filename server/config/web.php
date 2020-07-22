@@ -11,7 +11,8 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
         '@views' => '@app/views',
-        '@common' => '@app/common'
+        '@common' => '@app/common',
+        '@waproot' => '@app/wap',
     ],
     'components' => [
         'request' => [
@@ -87,6 +88,7 @@ if (YII_ENV_DEV) {
 }
 
 $config['modules']['web'] = ['class' => 'app\modules\web\Module'];
+$config['modules']['wap'] = ['class' => 'app\modules\wap\Module'];
 
 //yii2嵌入富文本编辑器
 $config['modules']['redactor'] = [
