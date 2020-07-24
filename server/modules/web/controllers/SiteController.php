@@ -13,6 +13,7 @@ use app\models\db\BProfessional;
 use app\models\db\BTrainingvideo;
 use app\models\db\BUniversity;
 use app\models\db\BUserbaseinfo;
+use app\models\db\BVideo;
 use app\models\db\EInstructor;
 use app\models\db\EStudentcertificate;
 use app\models\db\EStudentopus;
@@ -86,10 +87,10 @@ class SiteController extends BaseController
         }
         //获取直播
         $cclive = BCclive::find()->where(['status'=>BCclive::NORMAL])->orderBy('liveStartTime')->asArray()->all();
-        //获取学生作品秀视频
-        $studentopus = EStudentopus::find()->andWhere(['and',['isRec'=>EStudentopus::YES]])->orderBy('id desc')->all();
+        //获取学习视频
+        $video = BVideo::find()->andWhere(['and',['isRec'=>EStudentopus::YES]])->orderBy('id desc')->limit(\Yii::$app->params['opus'])->all();
         //获取学生专业技能
-        $professional = BProfessional::find()->andWhere(['and',['isRec'=>EStudentopus::YES]])->orderBy('id desc')->all();
+        $professional = BProfessional::find()->andWhere(['and',['isRec'=>BProfessional::YES]])->orderBy('id desc')->limit(\Yii::$app->params['skill'])->all();
         return $this->renderPartial('index',[
             'banner'=>$banner,
             'cclive'=>$cclive,
@@ -100,7 +101,7 @@ class SiteController extends BaseController
             'article4'=>$article4,
             'article5'=>$article5,
             'article6'=>$article6,
-            'studentopus'=>$studentopus,
+            'video'=>$video,
             'professional'=>$professional,
         ]);
     }
@@ -603,7 +604,8 @@ class SiteController extends BaseController
                     //跳转到错误页面
                     $this->redirect(array('/web/site/error'));
                 }else{
-                    return $this->renderPartial('certificateinfo',['cert'=>$cert]);
+                    $video = BVideo::find()->where(['iUserID'=>$cert->iUserID])->all();
+                    return $this->renderPartial('certificateinfo',['cert'=>$cert,'video'=>$video]);
                 }
             }
         }

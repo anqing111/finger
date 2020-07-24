@@ -40,7 +40,7 @@ $this->beginContent('@views/layouts/web.php');
                                 <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
                                 <div class="detail filler">
                                     <div class="name"><?=$r2->sName?></div>
-                                    <div class="time">3年从业经验</div>
+                                    <div class="time"><?=$r2->year?>年从业经验</div>
                                     <div class="tip"><?=mb_substr($r2->info,0,50)?>...</div>
                                 </div>
                             </div>

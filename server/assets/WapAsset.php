@@ -32,6 +32,7 @@ class WapAsset extends AssetBundle
 
     public $basePath = '@waproot';
     public $css = [
+        'css/font.css',
         'css/swiper.min.css',
         'css/default.css',
         'css/main.css',
@@ -39,6 +40,7 @@ class WapAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery.min.js',
+        'layui/layui.js',
         'js/swiper.min.js',
         'js/dplayer.min.js',
         'js/default.js',

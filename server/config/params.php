@@ -40,6 +40,10 @@ return [
     ],
     //前端讲师秀展示
     'teacher'=>9,
+    //前端学习作品显示
+    'opus'=>6,
+    //前端学员技能展示
+    'skill'=>10,
     'components' => [
         'log' => [
             'targets' => [

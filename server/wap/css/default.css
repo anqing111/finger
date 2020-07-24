@@ -200,6 +200,7 @@ footer.white .map a{
     transform: translate(-50%,-50%);
 }
 .pop-dp-bg .close{
+    background: rgba(0,0,0,0);
     position: absolute;
     width: 3rem;
     height: 3rem;
@@ -212,8 +213,8 @@ footer.white .map a{
     top: 2.0833rem;
 }
 .certificate-info img{
-    width: 21.8578rem;
-    height:28.5833rem;
+    width: 16.25rem;
+    height:21.875rem;
 }
 .certificate-info .detail{
     position: relative;
@@ -221,32 +222,31 @@ footer.white .map a{
 .certificate-info .detail .name{
     overflow: hidden;
     text-align: center;
-    font-size: 2.4rem;
+    font-size: 1.875rem;
     font-weight: bold;
-    margin-top: 2.45833rem;
+    margin-top: 3.6875rem;
 }
 .certificate-info .detail .tip2{
-    font-size: 2rem;
+    font-size: 1.875rem;
     margin-top: 2.45833rem;
-    line-height: 4rem;
+    line-height: 4.1375rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 0;
     overflow: hidden;
     text-align: justify;
-    text-indent:37px;
+    padding-left: 1.25rem;
 }
 .certificate-title,.certificate-video{
-    font-weight:600;
+    font-weight:400;
     color:rgba(103,101,98,1);
-    font-size: 2.4rem;
+    font-size: 1.875rem;
 }
 .certificate-video-list{
-    width:20.1666rem;
-    height:13.41666rem;
+    width:21.25rem;
+    height:15.625rem;
     margin-bottom: 3.5833rem;
-    margin-right:1.25rem;
-    margin-left: 1.25rem;
+    margin-right:1.875rem;
     position: relative;
     background:rgba(0,0,0,1);
     border-radius:4px;
@@ -270,90 +270,412 @@ footer.white .map a{
 }
 .instructorinfo-info{
     position: relative;
-    height: auto;
-    top: 2.0833rem;
+    top: 3.125rem;
+    width: 44.375rem;
+    left: 1.1875rem;
 }
 .instructorinfo-info img{
-    width: 21.8578rem;
-    height:28.5833rem;
+    width: 16.25rem;
+    height:21.875rem;
 }
 .instructorinfo-info .detail{
     position: relative;
+    top:3.6875rem;
 }
 .instructorinfo-info .detail .name{
     overflow: hidden;
     text-align: center;
-    font-size: 2.4rem;
+    font-size: 1.875rem;
     font-weight: bold;
-    margin-top: 2.45833rem;
 }
 .instructorinfo-info .detail .tip2{
-    font-size: 2rem;
-    margin-top: 2.45833rem;
-    line-height: 4rem;
+    font-size: 1.875rem;
+    margin-top: 1.6875rem;
+    line-height: 3.3875rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 0;
     overflow: hidden;
     text-align: justify;
-    text-indent:37px;
+    margin-bottom: 3.0625rem;
 }
 .instructorinfo-title,.instructorinfo-book{
-    font-weight:600;
+    font-weight:400;
     color:rgba(103,101,98,1);
-    font-size: 2.4rem;
+    font-size: 1.875rem;
 }
 .instructorinfo-book-list{
-    width:20.1666rem;
-    height:27.87735rem;
-    margin-bottom: 4.5833rem;
-    margin-right:1.25rem;
-    margin-left: 1.25rem;
+    width:21.25rem;
+    height:29.375rem;
+    margin-bottom: 5.375rem;
+    margin-right:1.875rem;
     position: relative;
     background:rgba(0,0,0,1);
-    border-radius:4px;
 
 }
-.instructorinfo-book-list img{
-    width:100%;
-    height:100%;
-    border-radius:4px;
+.instructorinfo-book-list img {
+    width: 21.25rem;
+    height: 29.375rem;
 }
 
 .container2 .content-box,.container3 .content-box{
-    margin-top: 2.0833rem;display: flex;flex-wrap: wrap;justify-content: center;
+    margin-top: 3.125rem;display: flex;flex-wrap: wrap;justify-content: center;
 }
 .instructorinfo-book-list .instructor-name{
-    font-size:2rem;
+    font-size:1.5rem;
     font-family:Microsoft YaHei;
     font-weight:400;
     color:rgba(103,101,98,1);
     display: inline-block;
     position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
-    top:29rem;
-    left: 2.333rem;
+    top:30.375rem;
     line-height: 2rem;
+    width: 21.25rem;
+    text-align: center;
 }
 .instructorinfo-video .item{
     margin-bottom: 3rem;
 }
 .instructorinfo-video img{
-    width:20.1666rem;
-    height:14.82838rem;
-    border-radius:4px;
-    margin-right: 2rem;
+    width:21.25rem;
+    height:15.625rem;
+    margin-right: 1.875rem;
 }
 .instructorinfo-video .tip2{
-    font-size: 1.5rem;
-    line-height: 3rem;
+    font-size: 1.625rem;
+    line-height: 4.1375rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 0;
     overflow: hidden;
     text-align: justify;
-    width: 20.1666rem;
+    width: 21.1875rem;
+    margin-right: 1.3125rem;
+    height: 14.9375rem;
 }
 .container3{
     margin: 0 auto;
     position: relative;
+}
+.article-title{
+    font-weight:600;
+    color:rgba(103,101,98,1);
+    font-size: 1.875rem;
+}
+.article-type{
+    width: 12.5rem;background-color: #FFFBFB;display: inline-block;flex-wrap: wrap;justify-content: center;
+}
+.article-type .article-type-info,.article-type .article-type-technical{
+    width: 12.5rem;
+    display: inline-block;
+    background-color: #fff;
+    height: 7rem;
+    font-size: 1.875rem;
+    text-align: center;
+    line-height: 7rem;
+}
+.article-type .article-type-technical{
+    margin-top: -5rem;
+    background-color: #FFFCF9;
+}
+.article-info{
+    display: inline-block; position: absolute;
+}
+
+.article-type-info-tag{
+    width: 0.625rem;
+    height: 6.25rem;
+    background: #EF8911;
+}
+.article-type-info-title{
+    width: 12.5rem;
+    display: inline-block;
+    position: relative;
+    bottom: 6.75rem;
+    height: 6.25rem;
+}
+.article-info{
+    line-height: 4.5625rem;
+    font-size: 1.75rem;
+    padding-left: 1.8125rem;
+    background: #FFFFFF;
+    width: 34.375rem;
+}
+.article-info h3{
+    font-weight: 400;
+    font-size: 1.75rem;
+}
+.top{
+    background: #FEF6F2;
+    height:17.5rem;
+    position:relative;
+}
+.top .article-title{
+    width: 46.875rem;
+    font-size: 2.125rem;
+    font-family:Microsoft YaHei;
+    font-weight:bold;
+    color:rgba(39,38,37,1);
+    line-height:2.625rem;
+    text-align: center;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:5.75rem;
+}
+.top .article-author{
+    font-size:1.875rem;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(114,112,109,1);
+    line-height:2.625rem;
+    text-align: left;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:7.9375rem;
+    top:9.5625rem;
+}
+.top .article-time{
+    font-size:1.5rem;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(114,112,109,1);
+    line-height:2.625rem;
+    text-align: left;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:7.9375rem;
+    top:12.0625rem;
+}
+.top .article-head{
+    width:3.75rem;
+    height:3.75rem;
+    line-height:2.625rem;
+    text-align: left;
+    margin:auto;
+    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left:3.3125rem;
+    top:9.75rem;
+}
+.errorPrompt span{display: inline-block;font-size:14px;color: #F54C47; line-height: 29px;}
+.errorPrompt2 span{display: inline-block;font-size:14px;color: #F54C47; line-height: 29px;}
+.errorPrompt2{position: absolute; bottom: 50px; left:0%;}
+.join{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;justify-content: center;
+}
+.join .content{
+    line-height: 3.0625rem;
+    margin-bottom: 3.0625rem;
+    margin-top: 4.625rem;
+}
+.join .content .input-box{
+    width: 31.8rem;
+    height: 4.59375rem;
+    margin-bottom: 3.0625rem;
+    border: 1px #E1D5C7 solid;
+}
+.join .content .input-box img{
+    width: 1.75rem;
+    height: 1.5625rem;
+    background: rgba(0,0,0,0);
+    margin: 1.5625rem 0.9375rem;
+}
+.join .content .input-box input ,.join .content .input-box select{
+    border: none;
+    width: 28.1875rem;
+}
+.join .content .commit{
+    width: 31.8rem;
+    height: 4.59375rem;
+    margin-top: 5.0625rem;
+    margin-bottom: 4.5625rem;
+    border: 1px #FF9D2A solid;
+}
+.course .course-title{
+    font-size: 1.875rem;
+    font-weight:600;
+    color:rgba(103,101,98,1);
+}
+.course-type{
+    width: 12.5rem;background-color: #FFFBFB;display: inline-block;flex-wrap: wrap;justify-content: center;
+}
+.course-type .course-type-info{
+    width: 12.5rem;
+    display: inline-block;
+    background-color: #fff;
+    height: 7rem;
+    font-size: 1.875rem;
+    text-align: center;
+    line-height: 7rem;
+}
+.course-type-info-tag{
+    width: 0.625rem;
+    height: 6.25rem;
+    background: #EF8911;
+}
+.course-type-info-title{
+    width: 12.5rem;
+    display: inline-block;
+    position: relative;
+    bottom: 6.75rem;
+    height: 6.25rem;
+}
+.course-info{
+    line-height: 4.5625rem;
+    font-size: 1.75rem;
+    padding-left: 1.875rem;
+    background: #FFFFFF;
+    width: 34.375rem;
+    display: inline-block; position: absolute;
+}
+.course-info h3{
+    font-weight: 400;
+    font-size: 1.75rem;
+}
+.course-info .course-list{
+    margin-top: 2rem;
+}
+.course-info .course-list .course-head{
+    display: inline-block;
+    width: 13.6875rem;
+    height: 10rem;
+}
+.course-info .course-list .course-head img{
+    width: 13.6875rem;
+    height: 10rem;
+}
+.course-info .course-list .course-content{
+    display: inline-block; position: absolute;
+    width: 15.6875rem;
+    height: 10rem;
+    margin-left: 1.875rem;
+}
+.course-info .course-list .course-content .course-sign{
+    width: 13.6875rem;height: 3.125rem;position: absolute;top: 6.75625rem;
+    background:rgba(255,158,43,1);
+    border-radius:4px;
+}
+.course-info .course-list .course-content .course-sign a{
+    font-size:1.625rem;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(255,255,255,255);
+    position: absolute;
+    zoom: 1;
+    left: 3.8125rem;
+    top:-0.75rem;
+}
+.course-info .course-list .course-content .course-author{
+    font-size: 1.5rem;position: absolute;top: 2.65625rem;height: 1.5rem;
+}
+.course-info .course-list .course-content .course-name{
+    font-size: 1.875rem;position:absolute; top:-1.25rem;height: 1.96875rem;
+}
+.couserinfo{
+    background: #FFFFFD;
+    position: relative;
+    display: flex;
+    margin: 0 auto;
+}
+.couserinfo .couserinfo-info img{
+    width: 46.875rem;
+    height: 24.25rem;
+}
+.couserinfo .couserinfo-info .detail ,.couserinfo-video-author{
+    width: 44.375rem;
+    position: relative;
+    zoom: 1;
+    left: 1.1875rem;
+    top:2.0625rem;
+    color: #676562;
+    font-weight:400;
+    font-size: 1.875rem;
+}
+.couserinfo .couserinfo-info .detail .couserinfo-name{
+    line-height:3.125rem;
+    margin-bottom: 2.3125rem;
+    display: flex;flex-wrap: wrap;
+}
+.couserinfo .couserinfo-info .detail .couserinfo-name .couserinfo-author{
+    position: absolute;
+    left: 34rem;
+}
+.couserinfo .couserinfo-info .detail .couserinfo-jianjie{
+    line-height:3.75rem;
+    margin-top: 2.3125rem;
+    margin-bottom: 1.3125rem;
+}
+.couserinfo .couserinfo-info .detail .couserinfo-content{
+    line-height:3.75rem;
+}
+.couserinfo .couserinfo-info .couserinfo-video{
+    position: relative;
+    zoom: 1;
+    left: 1.25rem;
+    color: #676562;
+    font-weight:400;
+    font-size: 1.875rem;
+    background: #FFFEFF;
+}
+.couserinfo .couserinfo-info .couserinfo-video .couserinfo-video-info{
+    margin-top: 2.125rem;
+}
+.couserinfo .couserinfo-info .couserinfo-video .couserinfo-video-info .div1{
+    height:6.25rem;
+    display: flex;flex-wrap: wrap;
+}
+.couserinfo .couserinfo-info .couserinfo-video .couserinfo-video-info .div3 img{
+    width: 1.875rem;
+    height: 1.875rem;
+    margin-top: 0.4rem;
+}
+.couserinfo .couserinfo-info .couserinfo-video .couserinfo-video-info .div2{
+    width: 3.6875rem;
+}
+.couserinfo .couserinfo-info .couserinfo-video .couserinfo-video-info .div2,.div3,.div4{
+    margin-top: 2.125rem;
+}
+.couserinfo .couserinfo-info .couserinfo-video .couserinfo-video-info .div4{
+    margin-left: 2.125rem;
+}
+.couserinfo .couserinfo-info .couserinfo-video-sign{
+    height: 5rem;
+    background: #FF9E2B;
+    text-align: center;
+    color: #fff;
+    font-size: 1.875rem;
+    font-weight: 400;
+    padding-top: 1.5625rem;
+}
+.couserinfo .couserinfo-video-author .couserinfo-video-author-title{
+    font-size:1.875rem;
+    font-weight:400;
+    color:rgba(103,101,98,1);
+    line-height:3.125rem;
+}
+.couserinfo .couserinfo-video-author .couserinfo-video-author-head{
+    margin: 0 auto;
+    position: relative;
+    top:19px;
+}
+.couserinfo .couserinfo-video-author .couserinfo-video-author-head img{
+    width:12.5rem;
+    height:12.5rem;
+    box-shadow:0 5px 9px 0 rgba(4,0,0,0.16);
+    border-radius:50%;
+    margin-left: 16rem;
+    margin-bottom: 3.75rem;
+}
+.couserinfo .couserinfo-video-author .couserinfo-video-author-head p{
+    color:rgba(103,101,98,1);
+    line-height:3.125rem;
+    text-align: center;
+}
+.couserinfo .couserinfo-video-author .couserinfo-video-author-content{
+    height:52.9375rem;
+    color:rgba(103,101,98,1);
+    line-height:4rem;
+    position: relative;
+    top: 3.625rem;
 }

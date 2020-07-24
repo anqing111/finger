@@ -20,7 +20,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    background-image: url(../images/blur-bg.jpeg);
+    background-image: url(../images/blur-bg.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -85,11 +85,11 @@
 }
 .container.index .person-show .content-box .img-title{
     width: 15.375rem;
-    height: 22.5rem;
+    height: 22.5625rem;
 }
 .container.index .person-show .content-box .list{
     flex: 1;
-    margin-left: 1rem;
+    margin-left: 0.875rem;
     background-color: #F8F8F8;
     padding: 0 1.25rem;
 }
@@ -107,7 +107,7 @@
 .container.index .person-show .content-box .list .title .text{
     color: #676562;
     font-weight: 800;
-    font-size: 2rem;
+    font-size: 1.875rem;
 } 
 .container.index .person-show .content-box .list .content .item .index{
     display: inline-block;

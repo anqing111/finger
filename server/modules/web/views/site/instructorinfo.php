@@ -38,7 +38,7 @@ $this->beginContent('@views/layouts/web.php');
                 <hr>
                 <div class="content-box instructor-info">
                     <div class="item flex-box" style="width: 800px">
-                        <img src="<?=$instructor['bigheadportrait']?>" alt="" style="width:256px;margin-right: 80px;">
+                        <img src="<?=Yii::$app->params['imagePath'].$instructor['bigheadportrait']?>" alt="" style="width:256px;margin-right: 80px;">
                         <div class="detail filler">
                             <div class="name"><?=$instructor['sName']?></div>
                             <div class="time"><?=$instructor['year']?>年从业经验</div>

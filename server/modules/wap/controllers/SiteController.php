@@ -2,9 +2,20 @@
 
 namespace app\modules\wap\controllers;
 
+use app\models\db\BArticle;
+use app\models\db\BBanner;
+use app\models\db\BCclive;
+use app\models\db\BCity;
+use app\models\db\BCourse;
+use app\models\db\BIndustry;
+use app\models\db\BJoin;
+use app\models\db\BProfessional;
+use app\models\db\BTrainingvideo;
 use app\models\db\BUniversity;
+use app\models\db\BVideo;
 use app\models\db\EInstructor;
 use app\models\db\EStudentcertificate;
+use app\models\db\EStudentopus;
 
 /**
  * Default controller for the `wap` module
@@ -17,7 +28,42 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        return $this->renderPartial('index');
+        //获取banner轮播图
+        $today = date('Y-m-d H:i:s');
+        $banner = BBanner::find()->andWhere(['and',['status'=>BBanner::PUBLISHED],['<','date_from',$today],['>','date_to',$today]])->orderBy('id desc')->all();
+        //获取专家/讲师简介（讲师秀）
+        $instructor = EInstructor::find()->andWhere(['isRec'=>EInstructor::YES])->orderBy('id')->limit(\Yii::$app->params['teacher'])->all();
+
+        //获取网站咨询类文章
+        $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['INFORMATION_TYPE'])->all();
+        $article3 = $ids = [];
+        foreach ($article as $r)
+        {
+            $ids[] = $r->id;
+        }
+        //获取热点网站咨询类文章
+        if(count($ids) > \Yii::$app->params['article']['INFORMATION_TYPE'])
+        {
+            $article3 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::INFORMATION_TYPE],['not in',['id'],[implode(',',$ids)]]])->orderBy('click desc')->limit(\Yii::$app->params['article']['RE_INFORMATION_TYPE'])->all();
+        }
+        //技能薪酬类文章
+        $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['TECHNICAL_TYPE'])->all();
+        //获取直播
+        $cclive = BCclive::find()->where(['status'=>BCclive::NORMAL])->orderBy('liveStartTime')->asArray()->all();
+        //获取学生学习视频
+        $video = BVideo::find()->andWhere(['and',['isRec'=>EStudentopus::YES]])->orderBy('id desc')->limit(\Yii::$app->params['opus'])->all();
+        //获取学生专业技能
+        $professional = BProfessional::find()->andWhere(['and',['isRec'=>BProfessional::YES]])->orderBy('id desc')->limit(\Yii::$app->params['skill'])->all();
+        return $this->renderPartial('index',[
+            'banner'=>$banner,
+            'cclive'=>$cclive,
+            'instructor'=>$instructor,
+            'article'=>$article,
+            'article2'=>$article2,
+            'article3'=>$article3,
+            'video'=>$video,
+            'professional'=>$professional,
+        ]);
     }
     /**
      * Renders the index view for the module
@@ -138,7 +184,8 @@ class SiteController extends BaseController
                     //跳转到错误页面
                     $this->redirect(array('/wap/site/error'));
                 }else{
-                    return $this->renderPartial('certificateinfo',['cert'=>$cert]);
+                    $video = BVideo::find()->where(['iUserID'=>$cert->iUserID])->all();
+                    return $this->renderPartial('certificateinfo',['cert'=>$cert,'video'=>$video]);
                 }
             }
         }
@@ -153,5 +200,154 @@ class SiteController extends BaseController
         //获取学校列表
         $university = BUniversity::findOne(2);
         return $this->renderPartial('college',['university'=>$university]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 全部文章
+     */
+    public function actionArticlelist()
+    {
+        //获取文章列表
+        $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->all();
+        //获取文章列表
+        $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->all();
+
+        return $this->renderPartial('article',['article'=>$article,'article2'=>$article2]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 文章详情
+     */
+    public function actionArticleinfo()
+    {
+        //获取文章详情
+        if(!\Yii::$app->request->get('id'))
+        {
+            //跳转到错误页面
+            $this->redirect(array('/wap/site/error'));
+        }else{
+            $id = \Yii::$app->request->get('id');
+            if(!is_numeric($id))
+            {
+                //跳转到错误页面
+                $this->redirect(array('/wap/site/error'));
+            }else{
+                $article = BArticle::findOne($id);
+                if(!$article)
+                {
+                    //跳转到错误页面
+                    $this->redirect(array('/wap/site/error'));
+                }else{
+                    return $this->renderPartial('articleinfo',['article'=>$article]);
+                }
+            }
+        }
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 申请加盟
+     */
+    public function actionJoin()
+    {
+        if(\Yii::$app->request->isPost)
+        {
+            $post = \Yii::$app->request->post();
+            if(empty($post))
+            {
+                self::getFailInfo('单位名称不得为空',$this->method);
+            }
+
+            //获取城市名称
+            $city = BCity::findOne($post['iCityID']);
+            if($city)
+            {
+                $post['sCityName'] = $city->sCityName;
+            }
+
+            if(false == BJoin::insertJoin($post))
+            {
+                self::getFailInfo('申请加盟添加失败',$this->method);
+            }
+
+            self::getSucInfo(['ok'=>true],$this->method);
+        }
+        //获取城市列表
+        $city = BCity::find()->orderBy('sCityPY')->all();
+        return $this->renderPartial('join',['city'=>$city]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 全部课程
+     */
+    public function actionCourseindex()
+    {
+        if(\Yii::$app->request->isPost)
+        {
+            $post = \Yii::$app->request->post();
+            if(!isset($post['tid']) || !is_numeric($post['tid']))
+            {
+                self::getFailInfo('请选择课程类别',$this->method);
+            }
+
+            if($post['tid'] > 0)
+            {
+                $course = BCourse::find()->andWhere(['and',['status'=>BCourse::PUBLISHED],['tid'=>$post['tid']]])->orderBy('id desc')->asArray()->all();
+            }else{
+                $course = BCourse::find()->andWhere(['status'=>BCourse::PUBLISHED])->orderBy('id desc')->asArray()->all();
+            }
+
+            self::getSucInfo(['course'=>$course],$this->method);
+        }
+        //全部类别
+        $industr = BIndustry::find()->where(['>','industryID','0'])->orderBy('id desc ')->all();
+        //全部课程
+        $course = BCourse::find()->andWhere(['status'=>BCourse::PUBLISHED])->orderBy('id desc')->all();
+        return $this->renderPartial('courseindex',['course'=>$course,'industr'=>$industr]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 课程详情
+     */
+    public function actionCourseinfo()
+    {
+        if(!\Yii::$app->request->get('id'))
+        {
+            //跳转到错误页面
+            $this->redirect(array('/wap/site/error'));
+        }else{
+            $id = \Yii::$app->request->get('id');
+            if(!is_numeric($id))
+            {
+                //跳转到错误页面
+                $this->redirect(array('/wap/site/error'));
+            }else{
+                $course = BCourse::find()->where(['and',['id'=>$id],['status'=>BCourse::PUBLISHED]])->asArray()->one();
+                if(!$course)
+                {
+                    //跳转到错误页面
+                    $this->redirect(array('/wap/site/error'));
+                }else{
+                    //获取章节
+                    $course['trainingvideo'] = [];
+                    $video = BTrainingvideo::find()->where(['and',['cid'=>$id],['status'=>BTrainingvideo::PUBLISHED]])->orderBy('id asc')->all();
+                    if(!empty($video))
+                    {
+                        $course['trainingvideo'] = $video;
+                    }
+
+                    return $this->renderPartial('courseinfo',['course'=>$course]);
+                }
+            }
+        }
+    }
+    //错误页面
+    public function actionError()
+    {
+        return $this->renderPartial('error');
     }
 }

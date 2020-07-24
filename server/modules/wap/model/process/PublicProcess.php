@@ -81,7 +81,7 @@ class PublicProcess
             <div class="map">
                 <div class="line flex-box">
                     <a href="index.php?r=wap/site/college" class="filler">校企合作</a>
-                    <a href="" class="filler">申请加盟</a>
+                    <a href="index.php?r=wap/site/join" class="filler">申请加盟</a>
                     <a href="" class="filler">我要加入</a>
                 </div>
                 <div class="line flex-box">

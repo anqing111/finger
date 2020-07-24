@@ -88,8 +88,8 @@ $this->beginContent('@views/layouts/web.php');
         <div class="content-box flex-box">
             <img src="<?=Url::to('images/join.png')?>" alt="" class="img-title">
             <div class="group filler">
-                <?php foreach($studentopus as $ks => $s){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$s->sOpusvideoImg?>" class="item" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$s->sOpusvideoUrl?>')"/>
+                <?php foreach($video as $ks => $s){?>
+                    <img src="<?=Yii::$app->params['imagePath'].$s->sVideoImg?>" class="item" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$s->sVideoUrl?>')"/>
                 <?php }?>
             </div>
             <div class="list flex-box">
@@ -133,8 +133,8 @@ $this->beginContent('@views/layouts/web.php');
     <div class="articles">
         <div class="section-title">
             <div class="title">文章资讯</div>
-            <a style="cursor:pointer" class="more" onclick="optionsArticle(2)">技能薪酬类文章></a>
-            <a style="cursor:pointer" class="more" onclick="optionsArticle(1)">网站资讯类文章></a>
+            <a style="cursor:pointer" class="more" onclick="optionsArticle(2,this)">技能薪酬类文章></a>
+            <a style="cursor:pointer;color: #FF9D2A" class="more" onclick="optionsArticle(1,this)">网站资讯类文章></a>
         </div>
         <div class="content-box flex-box articles1">
             <div class="main-list" style="width: 26%">
@@ -198,7 +198,7 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="list filler">
                     <div class="title flex-box">
                         <span class="dot"></span>
-                        <span class="text">技能展示</span>
+                        <span class="text">热门文章</span>
                     </div>
                     <div class="content">
                         <?php foreach($article4 as $k8 => $r8){?>
@@ -304,9 +304,11 @@ $this->beginContent('@views/layouts/web.php');
             $('.blur-shadow-live').css('opacity','1');
         }
     }
-    function optionsArticle(index) {
+    function optionsArticle(index,that) {
         $('.articles1').css('display','none');
         $('.articles2').css('display','none');
+        $('.more').css('color','#676562');
+        $(that).css('color','#FF9D2A');
         if(index == 1)
         {
             $('.articles1').css('display','');

@@ -18,11 +18,12 @@ $this->beginContent('@views/layouts/wap.php');
     }
     .top{
         line-height: 4.04166rem;
+        height: 15.625rem;
     }
     .top img{
-        height: 16rem;
+        height: 15.625rem;
         position: relative;
-        right: 40rem;
+        right: 38rem;
     }
 </style>
 <?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
@@ -38,12 +39,6 @@ $this->beginContent('@views/layouts/wap.php');
 <footer>
     <?=\app\modules\wap\model\process\PublicProcess::MiddleWeb()?>
 </footer>
-<script>
-    var windowHeight=$(window).height()<600?600:$(window).height();
-    if($('.container .college').length){
-        $('.container .college').css('height',windowHeight-195+'px')
-    }
-</script>
 <?php
 $this->endContent();
 ?>

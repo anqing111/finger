@@ -200,3 +200,36 @@ function getDateTime()
     return now;
 }
 
+//手机适配
+function iphoneAdapter() {
+    var events = navigator.userAgent;
+    if(events.indexOf('Android')>-1 || events.indexOf('Linux')>-1 || events.indexOf('Adr')>-1){
+        if(events.indexOf("Pixel 2 XL") > -1){
+            return 'Pixel 2 XL';
+        }else if(events.indexOf("Pixel 2") > -1){
+            return 'Pixel 2';
+        }else if(events.indexOf("Moto G (4)") > -1){
+            return 'Moto G (4)';
+        }
+        return 'Android';
+    }else if(events.indexOf('iPhone')>-1){
+        //根据尺寸进行判断 苹果的型号
+        if(screen.height == 812 && screen.width == 375){
+            return 'iPhoneX';
+        }else if(screen.height == 736 && screen.width == 414){
+            return 'iPhone8P';
+        }else if(screen.height == 667 && screen.width == 375){
+            return 'iPhone8'
+        }else if(screen.height == 568 && screen.width == 320){
+            return 'iPhone5'
+        }else{
+            return 'iPhone4'
+        }
+    }else if(events.indexOf('Windows Phone')>-1){
+        console.log("诺基亚手机");
+
+    }else if(events.indexOf("iPad")>-1){
+        return 'iPad';
+    }
+    return 'other';
+}

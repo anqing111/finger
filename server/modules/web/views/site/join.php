@@ -6,7 +6,7 @@ $this->beginContent('@views/layouts/web.php');
 ?>
 <?=\app\modules\web\model\process\PublicProcess::TopWeb()?>
 <div class="top">
-    <img src="<?=Url::to('images/bg.png')?>" alt="" style="background: rgba(0,0,0,0);">
+    <img src="<?=Url::to('images/join_bg.png')?>" alt="" style="background: rgba(0,0,0,0);">
 </div>
 <div class="container login">
     <div class="bg"></div>

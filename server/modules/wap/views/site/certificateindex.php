@@ -5,6 +5,9 @@ WapAsset::register($this);
 $this->beginContent('@views/layouts/wap.php');
 ?>
 <style>
+    body{
+        overflow: hidden;
+    }
     .container.index{
         background-image: url('<?=Yii::$app->params['imagePath']?>/wap/images/cert_bg.png');
         background-repeat: no-repeat;
@@ -35,17 +38,29 @@ $this->beginContent('@views/layouts/wap.php');
         </div>
     </div>
 </div>
-<footer>
+<footer style="position: fixed;
+    bottom: 0;
+    width: 46.875rem;">
     <?=\app\modules\wap\model\process\PublicProcess::MiddleWeb()?>
 </footer>
 <script>
     $(function()
     {
-        var windowHeight=$(window).height()<600?600:$(window).height();
-        windowHeight = windowHeight / 16;
-        // 固定高度
-        if($('.container.index').length){
-            $('.container.index').css('height',windowHeight+12.8+'rem');
+        var windowHeight = $(window).height() / 8;
+        $('.container.index').css('height',windowHeight - 28.85+'rem');
+        optionsHeight();
+        function optionsHeight() {
+
+            var phoneType = iphoneAdapter();
+            if(phoneType == 'Pixel 2 XL'){
+
+            }
+            if(phoneType == 'Moto G (4)' || phoneType == 'Android'){
+                $('.container.index').css('height',windowHeight - 24.85+'rem');
+            }
+            if(phoneType == 'iPhone5'){
+                $('.container.index').css('height',windowHeight - 15.85+'rem');
+            }
         }
 
         $('.commit').click(function(){
