@@ -1,6 +1,7 @@
 <?php
 use app\assets\WapAsset;
 use yii\helpers\Url;
+use app\models\lib\CCliveRetrieverProcess;
 WapAsset::register($this);
 $this->beginContent('@views/layouts/wap.php');
 ?>
@@ -10,13 +11,65 @@ $this->beginContent('@views/layouts/wap.php');
             color: #676562;
             margin-left: 27.25rem;
         }
-        .container.index .player-box .list .content .item .icon {
-            width: 15px;
-            height: 15px;
-            margin-top: 16.5px;
-        }
+
         .articles2{
             display: none;
+        }
+        .blur-shadow-box{
+            height: 11.375rem;
+            position: relative;
+            top:9.5rem;
+        }
+        .blur-shadow-box img{
+            background-color: rgba(0, 0, 0, 0);
+            width: 5rem;
+            height: 4.5625rem;
+        }
+        .blur-shadow-live{
+            width: 40.625rem;
+            height: 8.625rem;
+            position: absolute;
+            left: 4.6875rem;
+            top: 10.9375rem;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.3s;
+        }
+        .blur-shadow-live .img1{
+            width: 8.75rem;
+            height: 8.625rem;
+            background-color: rgba(0, 0, 0, 0);
+            position: relative;
+            top: -10.0625rem;
+        }
+        .blur-shadow-live .img2{
+            width: 31.875rem;
+            height: 5.625rem;
+            background-color: rgba(0, 0, 0, 0);
+            position: relative;
+            left: 1.75rem;
+            top:-1.75rem;
+        }
+        .blur-shadow-live .img3{
+            width: 2.5rem;
+            height: 1.625rem;
+            background-color: rgba(0, 0, 0, 0);
+            position: relative;
+            left: 19.375rem;
+            top:-12.555rem;
+        }
+        .blur-shadow-live p{
+            width: 17.0625rem;
+            height: 1.8125rem;
+            position: relative;
+            left: 11.87rem;
+            top:1.625rem;
+            z-index: 1;
+            font-size: 1.875rem;
+            color: #FFFFFF;
         }
     </style>
 <?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
@@ -38,14 +91,19 @@ $this->beginContent('@views/layouts/wap.php');
                 <iframe src="" frameborder="0"  name="myFrameName" scrolling="yes" class="x-iframe" style="height: 100%;width: 100%"></iframe>
             </div>
             <div class="blur-shadow-live">
-                <img src="<?=Url::to('images/livein.png')?>" alt="" style="margin-top: 25px;background-color: rgba(0, 0, 0, 0);">
+                <p>进入教室  边学边聊</p>
+                <img src="<?=Url::to('images/rectangle.png')?>" alt="" class="img2">
+                <img src="<?=Url::to('images/livein.png')?>" alt="" class="img1">
+                <img src="<?=Url::to('images/arrow.png')?>" alt="" class="img3">
             </div>
             <div class="blur-shadow active">
-                <img src="<?=Url::to('images/live.png')?>" alt="" style="margin-top: 110px;margin-left : 25px;background-color: rgba(0, 0, 0, 0);">
-                <div class="title" style="margin-top: 40px"></div>
-                <div class="tip"></div>
+                <div class="blur-shadow-box">
+                    <img src="<?=Url::to('images/live.png')?>" alt="">
+                    <div class="title" style="margin-top: 2.1875rem;color: #F9F9F9;font-size: 1.875rem;"></div>
+                    <div class="tip" style="margin-top: 0.625rem;color: #F9F9F9;font-size: 1.5rem;"></div>
+                </div>
             </div>
-            <div class="list">
+            <div class="list" style="margin-bottom: 1.3125rem">
                 <div class="title"><?=date('m月d日')?>   <?=\app\modules\wap\model\process\PublicProcess::week()?></div>
                 <div class="content">
                     <?php if(!empty($cclive)){?>
@@ -63,17 +121,25 @@ $this->beginContent('@views/layouts/wap.php');
 
                             ?>
                             <?php if($k == 0){?>
-                                <div class="item flex-box active" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)'>
+                                <div class="item flex-box active" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)' style="height: 3.65625rem;">
                                     <img src="<?=Url::to('images/player-list-icon.png')?>" alt="" class="icon" style="background-color:rgba(0,0,0,0);">
-                                    <div class="filler one-line"><?=$c['name']?></div>
-                                    <span class="time"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
+                                    <div class="filler one-line" style="font-size: 1.875rem"><?=$c['name']?></div>
+                                    <span class="time" style="font-size: 1.875rem"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
                                 </div>
                             <?php }else{?>
-                                <div class="item flex-box" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)'>
-                                    <img src="<?=Url::to('images/player-list-icon.png')?>" alt="" class="icon" style="background-color:rgba(0,0,0,0);">
-                                    <div class="filler one-line"><?=$c['name']?></div>
-                                    <span class="time"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
-                                </div>
+                                <?php if($k == count($cclive)-1){?>
+                                    <div class="item flex-box" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)' style="height: 4.65625rem;">
+                                        <img src="<?=Url::to('images/player-list-icon.png')?>" alt="" class="icon" style="background-color:rgba(0,0,0,0);">
+                                        <div class="filler one-line" style="font-size: 1.875rem"><?=$c['name']?></div>
+                                        <span class="time" style="font-size: 1.875rem"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
+                                    </div>
+                                <?php }else{?>
+                                    <div class="item flex-box" onclick='liveUrl("<?= $c['id']?>","<?=$c['name']?>","<?=$timeEnd?>",this)' style="height: 3.65625rem;">
+                                        <img src="<?=Url::to('images/player-list-icon.png')?>" alt="" class="icon" style="background-color:rgba(0,0,0,0);">
+                                        <div class="filler one-line" style="font-size: 1.875rem"><?=$c['name']?></div>
+                                        <span class="time" style="font-size: 1.875rem"><?=date('m-d H:i',strtotime($c['liveStartTime']))?></span>
+                                    </div>
+                                <?php }?>
                             <?php }?>
                         <?php }?>
                     <?php }?>
@@ -191,8 +257,7 @@ $this->beginContent('@views/layouts/wap.php');
     <script>
         $(function () {
             if($('.container.index').length) {
-                $('.blur-shadow-live').css('visibility','hidden');
-                $('.blur-shadow-live').css('opacity','0');
+                $('.blur-shadow-live').css('display','none');
                 // 主播放器初始化
                 $('#MainDPlayer').find('iframe').attr('src', '<?=Url::to("live/video.html#roomid={$cclive[0]['id']}")?>');
                 $('.blur-shadow').find('.title').html("<?=$cclive[0]['name']?>");
@@ -220,8 +285,11 @@ $this->beginContent('@views/layouts/wap.php');
                     $('.blur-shadow').find('.title').css('display','none');
                     $('.blur-shadow.active').css('visibility','hidden');
                     $('.icon:first').attr('src',"<?=Url::to('images/live.gif')?>");
-                    $('.blur-shadow-live').css('visibility','visible');
-                    $('.blur-shadow-live').css('opacity','1');
+                    $('.blur-shadow-live').css('display','block');
+                    $('.blur-shadow-live').click(function () {
+                        var url = '<?=sprintf(Yii::$app->params['ccliveUrl'],$cclive[0]['id'],CCliveRetrieverProcess::userid)?>';
+                        window.open(url);
+                    });
                 }
             }
         });
@@ -235,8 +303,7 @@ $this->beginContent('@views/layouts/wap.php');
             $('.blur-shadow').find('.title').css('display','block');
             $('.blur-shadow.active').css('visibility','visible');
             $('.blur-shadow').find('.title').html(name);
-            $('.blur-shadow-live').css('visibility','hidden');
-            $('.blur-shadow-live').css('opacity','0');
+            $('.blur-shadow-live').css('display','none');
             if(timeEnd == 2)
             {
                 $('.blur-shadow').find('.tip').html("直播已结束");
@@ -248,8 +315,12 @@ $this->beginContent('@views/layouts/wap.php');
                 $('.blur-shadow').find('.title').css('display','none');
                 $('.blur-shadow.active').css('visibility','hidden');
                 $(that).find('img').attr('src',"<?=Url::to('images/live.gif')?>");
-                $('.blur-shadow-live').css('visibility','visible');
-                $('.blur-shadow-live').css('opacity','1');
+                $('.blur-shadow-live').css('display','block');
+                $('.blur-shadow-live').click(function () {
+                    var url = '<?=sprintf(Yii::$app->params['ccliveUrl'],'roomid1234',CCliveRetrieverProcess::userid)?>';
+                    url = url.replace("roomid1234",roomid);
+                    window.open(url);
+                });
             }
         }
 

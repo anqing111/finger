@@ -13,6 +13,7 @@ return [
     'timeZone' => 'Asia/Shanghai',
     'imagePath' => 'http://image.mybaze.com',
     'baseUrl' => 'http://www.mybaze.com/',
+    'ccliveUrl'=>'https://view.csslcloud.net/api/view/index?roomid=%s&userid=%s',
     'secretKey'=>'4a971e57ec25f701660b30515cf17aa5',
     //前端ajax调用密钥
     'KEY'=>'a7976b01a29bf6f1a261a69583c4df5e',

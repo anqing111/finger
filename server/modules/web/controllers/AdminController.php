@@ -17,6 +17,7 @@ use app\models\db\BProfessional;
 use app\models\db\BSkill;
 use app\models\db\BTrainingvideo;
 use app\models\db\BUniversity;
+use app\models\db\BVideo;
 use app\models\db\EInstructor;
 use app\models\db\EInstructorbook;
 use app\models\db\EInstructorvideo;
@@ -100,12 +101,17 @@ class AdminController extends BaseController
             self::getFailInfo('参数错误',$this->method);
         }
 
+        $sPassWord = base64_decode($userBaseInfo->sPassWord);
+        $userBaseInfo->sPassWord = \Yii::$app->getSecurity()->decryptByPassword($sPassWord, \Yii::$app->params['secretKey']);
+
         switch ($userBaseInfo->pid)
         {
             case BUserbaseinfo::STUDENT;
             {
                 $userBaseInfo = BUserbaseinfo::getUserbaseinfo([BUserbaseinfo::tableName().'.iUserID' => $iUserID]);
-                return $this->renderPartial('studentinfo');
+                $sPassWord = base64_decode($userBaseInfo['sPassWord']);
+                $userBaseInfo['sPassWord'] = \Yii::$app->getSecurity()->decryptByPassword($sPassWord, \Yii::$app->params['secretKey']);
+                return $this->renderPartial('studentinfo',['userBaseInfo'=>$userBaseInfo]);
             }
                 break;
             case BUserbaseinfo::EXPERT;
@@ -116,7 +122,7 @@ class AdminController extends BaseController
             }
                 break;
             default:
-                return $this->renderPartial('userinfo');
+                return $this->renderPartial('userinfo',['userBaseInfo'=>$userBaseInfo]);
                 break;
         }
 
@@ -1078,6 +1084,9 @@ class AdminController extends BaseController
             case 'professional': //学员专业技能发布到首页
                 $typeName = '专业技能';
                 break;
+            case 'video': //学员学习视频发布到首页
+                $typeName = '学习视频';
+                break;
         }
 
         if(empty($ids)){
@@ -1123,6 +1132,19 @@ class AdminController extends BaseController
                         {
                             $post = ['id'=>$r,'isRec'=>$isRec];
                             $id = BProfessional::updateProfessional($post);
+                            if(!$id)
+                            {
+                                self::getFailInfo('编辑失败',$this->method);
+                            }
+                        }
+                    }
+                    break;
+                case 'video':
+                    {
+                        foreach($idsArr as $r)
+                        {
+                            $post = ['id'=>$r,'isRec'=>$isRec];
+                            $id = BVideo::updateVideo($post);
                             if(!$id)
                             {
                                 self::getFailInfo('编辑失败',$this->method);
@@ -1851,5 +1873,71 @@ class AdminController extends BaseController
         }
 
         return $this->renderPartial('liveinfo',['cclive'=>$cclive]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 学员学习视频管理
+     */
+    public function actionVideoindex()
+    {
+        /*
+         * 获取所有学习视频
+         * */
+        $video = BVideo::getVideolist();
+
+        return $this->renderPartial('videoindex',['video'=>$video]);
+    }
+    /**
+     * Renders the index view for the module
+     * @return string
+     * 学员学习视频管理 - 编辑
+     */
+    public function actionVideoedit()
+    {
+        $video = [];
+        if(\Yii::$app->request->isPost)
+        {
+            $post = \Yii::$app->request->post();
+
+            if(empty($post))
+            {
+                self::getFailInfo('标题不得为空',$this->method);
+            }
+
+            if(\Yii::$app->request->post('id'))
+            {
+                //编辑
+                if(false == BVideo::updateVideo($post))
+                {
+                    self::getFailInfo('学员学习视频编辑失败',$this->method);
+                }
+            }else{
+                //添加
+                if(false == BVideo::insertVideo($post))
+                {
+                    self::getFailInfo('学员学习视频添加失败',$this->method);
+                }
+            }
+
+            self::getSucInfo(['ok'=>true],$this->method);
+
+        }else{
+
+            $id = \Yii::$app->request->get('id');
+            if ($id)
+            {
+                $video = BVideo::findOne($id);
+                if(!$video)
+                {
+                    self::getFailInfo('参数错误',$this->method);
+                }
+            }
+        }
+
+        //获取所有学员
+        $user = BUserbaseinfo::find()->where(['pid'=>BUserbaseinfo::STUDENT])->all();
+
+        return $this->renderPartial('videoedit',['video'=>$video,'user'=>$user]);
     }
 }

@@ -258,13 +258,6 @@ footer.white .map a{
     height:100%;
     border-radius:4px;
 }
-/*鼠标滑过放大缩小效果*/
-.certificate-video-list img{
-    transition: all 0.6s;
-}
-.certificate-video-list img:hover{
-    transform: scale(1.2);
-}
 .container2 .content-box{
     margin-top: 2.0833rem;display: flex;flex-wrap: wrap;justify-content: center;
 }

@@ -55,7 +55,7 @@ class OrginController extends BaseController
             self::getFailInfo('参数错误',$this->method);
         }
 
-        return $this->render('studentinfo');
+        return $this->render('/web/studentinfo');
     }
     /**
      * Renders the index view for the module

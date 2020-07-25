@@ -1,6 +1,7 @@
 $(function(){
-    var windowWidth=$(window).width()<1200?1200:$(window).width()
-    var windowHeight=$(window).height()<600?600:$(window).height()
+    var windowWidth=$(window).width()<1200?1200:$(window).width();
+    var windowHeight=$(window).height()<600?600:$(window).height();
+
     // 首页
     if($('.container.index').length){
         // 主轮播图尺寸配置

@@ -1,6 +1,7 @@
 <?php
 use app\assets\WebAsset;
 use yii\helpers\Url;
+use app\models\lib\CCliveRetrieverProcess;
 WebAsset::register($this);
 $this->beginContent('@views/layouts/web.php');
 ?>
@@ -38,13 +39,18 @@ $this->beginContent('@views/layouts/web.php');
         <div class="player" id="MainDPlayer">
             <iframe src="" frameborder="0"  name="myFrameName" scrolling="yes" class="x-iframe" style="height: 100%;width: 100%"></iframe>
         </div>
-        <div class="blur-shadow-live">
-            <img src="<?=Url::to('images/livein.png')?>" alt="" style="margin-top: 25px;background-color: rgba(0, 0, 0, 0);">
+        <div class="blur-shadow-live" style="cursor:pointer">
+            <p>进入教室  边学边聊</p>
+            <img src="<?=Url::to('images/rectangle.png')?>" alt="" class="img2">
+            <img src="<?=Url::to('images/livein.png')?>" alt="" class="img1">
+            <img src="<?=Url::to('images/arrow.png')?>" alt="" class="img3">
         </div>
         <div class="blur-shadow active">
-            <img src="<?=Url::to('images/live.png')?>" alt="" style="margin-top: 110px;margin-left : 25px;background-color: rgba(0, 0, 0, 0);">
-            <div class="title" style="margin-top: 40px"></div>
-            <div class="tip"></div>
+            <div class="blur-shadow-box">
+                <img src="<?=Url::to('images/live.png')?>" alt="">
+                <div class="title" style="margin-top: 27px"></div>
+                <div class="tip" style="margin-top: 10px"></div>
+            </div>
         </div>
         <div class="list filler flex-box">
             <div class="title"><?=date('m月d日')?>   <?=\app\modules\web\model\process\PublicProcess::week()?></div>
@@ -271,6 +277,10 @@ $this->beginContent('@views/layouts/web.php');
                 $('.icon:first').attr('src',"<?=Url::to('images/live.gif')?>");
                 $('.blur-shadow-live').css('visibility','visible');
                 $('.blur-shadow-live').css('opacity','1');
+                $('.blur-shadow-live').click(function () {
+                    var url = '<?=sprintf(Yii::$app->params['ccliveUrl'],$cclive[0]['id'],CCliveRetrieverProcess::userid)?>';
+                    window.open(url);
+                });
             }
         }
     });
@@ -302,8 +312,15 @@ $this->beginContent('@views/layouts/web.php');
             $(that).find('img').attr('src',"<?=Url::to('images/live.gif')?>");
             $('.blur-shadow-live').css('visibility','visible');
             $('.blur-shadow-live').css('opacity','1');
+            $('.blur-shadow-live').click(function () {
+                var url = '<?=sprintf(Yii::$app->params['ccliveUrl'],'roomid1234',CCliveRetrieverProcess::userid)?>';
+                url = url.replace("roomid1234",roomid);
+                window.open(url);
+            });
         }
+
     }
+
     function optionsArticle(index,that) {
         $('.articles1').css('display','none');
         $('.articles2').css('display','none');
@@ -320,6 +337,7 @@ $this->beginContent('@views/layouts/web.php');
     function optionInstructor(id) {
         location.href = 'index.php?r=web/site/instructorinfo&id='+id;
     }
+
 </script>
 <?php
 $this->endContent();

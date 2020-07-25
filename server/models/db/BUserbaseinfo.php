@@ -185,7 +185,7 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
     //获取学员档案信息
     public function getStudentprofile()
     {
-        $studentprofile = $this->hasMany(EStudentprofile::className(),['iUserID' => 'iUserID'])->asArray();
+        $studentprofile = $this->hasOne(EStudentprofile::className(),['iUserID' => 'iUserID'])->asArray();
         return $studentprofile;
     }
 
@@ -197,7 +197,8 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
                 'studentopus b'=>function(Query $query){
                     $query->select([
                         'b.sContent',
-                        'b.sOpusvideoUrl'
+                        'b.sOpusvideoUrl',
+                        'b.iUserID',
                     ]);
                 },
                 'trainingvideo c'=>function(Query $query){
@@ -206,6 +207,7 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
                         'c.sTrainingvideoUrl',
                         'c.author',
                         'c.time',
+                        'c.iUserID',
                     ]);
                 },
                 'defensevideo d'=>function(Query $query){
@@ -214,6 +216,7 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
                         'd.sDefensevideoUrl',
                         'd.author',
                         'd.time',
+                        'd.iUserID',
                     ]);
                 },
                 'practicevideo e'=>function(Query $query){
@@ -222,6 +225,7 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
                         'e.sPracticevideoUrl',
                         'e.author',
                         'e.time',
+                        'e.iUserID',
                     ]);
                 },
                 'studentcertificate f'=>function(Query $query){
@@ -232,23 +236,27 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
                         'f.sCertificateNum',
                         'f.sCertificateImg',
                         'f.sOrganName',
+                        'f.dGetDate',
+                        'f.iUserID',
                     ]);
                 },
                 'video g'=>function(Query $query){
                     $query->select([
                         'g.sProblemName',
                         'g.sVideoUrl',
-                        'g.id'
+                        'g.id',
+                        'g.iUserID',
                     ]);
                 },
                 'studentprofile h'=>function(Query $query){
                     $query->select([
                         'h.sInstructorEndorsementImg',
                         'h.sStudentEndorsementImg',
-                        'h.sClassNotesImg'
+                        'h.sClassNotesImg',
+                        'h.iUserID',
                     ]);
                 }
-            ])->where($params)->asArray()->all();
+            ])->where($params)->asArray()->one();
 
         return $profile;
     }

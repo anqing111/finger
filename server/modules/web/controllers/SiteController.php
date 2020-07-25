@@ -17,6 +17,7 @@ use app\models\db\BVideo;
 use app\models\db\EInstructor;
 use app\models\db\EStudentcertificate;
 use app\models\db\EStudentopus;
+use app\models\SMSForm;
 use yii\db\Exception;
 use yii\web\Controller;
 
@@ -473,12 +474,21 @@ class SiteController extends BaseController
             try{
                 if(strpos($current,'message') !== false){
                     //短信验证码
-                    \Yii::$app->session->set($current.'phone',$account);
+                    $arPara = array('code'=>$code);
+                    $sTemplate = 'SMS_196643077';
+                    $sPhone = $account;
+                    $res = SMSForm::sendDayuTextMsg($sPhone,$arPara,$sTemplate);
+                    if($res == 1)
+                    {
+                        \Yii::$app->session->set($current.'phone',$account);
+                    }else{
+                        self::getFailInfo('验证码发送失败请稍后重试',$this->method);
+                    }
                 }else{
                     //邮箱验证码
                     $mail= \Yii::$app->mailer->compose();
                     $mail->setTo($account);
-                    $mail->setSubject("邮件测试");
+                    $mail->setSubject("八泽国际");
                     $mail->setTextBody('邮箱验证码：'.$code);   //发布纯文字文本
 //                $mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
                     if(@$mail->send())

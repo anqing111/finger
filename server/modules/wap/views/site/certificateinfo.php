@@ -63,6 +63,12 @@ $this->beginContent('@views/layouts/wap.php');
 <footer>
     <?=\app\modules\wap\model\process\PublicProcess::MiddleWeb()?>
 </footer>
+<section class="pop-dp-bg">
+    <img src="<?=Url::to('images/close.png')?>" alt="" class="close">
+    <div class="content" id="PopDPlayer">
+
+    </div>
+</section>
 <?php
 $this->endContent();
 ?>

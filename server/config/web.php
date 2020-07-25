@@ -56,16 +56,15 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-                        'enablePrettyUrl' => true,
-                        'showScriptName' => false,
-                        'enableStrictParsing' => true,
-                        'suffix' => ".html",
-                        'rules' => [ '' => 'site/index', // 如果没有这里，则访问域名不能直接打开默认Action
-                        ]
-                ]
-        */
+//        'urlManager' => [
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//            'enableStrictParsing' => true,
+//            'suffix' => ".html",
+//            'rules' => [ 'web' => 'web/site/index', // 如果没有这里，则访问域名不能直接打开默认Action
+//                'wap' => 'wap/site/index', // 如果没有这里，则访问域名不能直接打开默认Action
+//            ]
+//        ]
     ],
     'params' => $params,
 ];

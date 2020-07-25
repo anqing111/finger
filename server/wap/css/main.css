@@ -71,11 +71,11 @@
 .container.index .player-box .list .content .item.active{
     color: #fff;
 }
-.container.index .player-box .list .content .item .icon{
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    margin-top: 0.75rem;
+.container.index .player-box .list .content .item .icon {
+    width: 1.625rem;
+    height: 1.625rem;
+    margin-top: 0.5625rem;
+    margin-right: 1.6875rem;
 }
 .container.index .player-box .list .content .item .time{
     margin-left: 1rem;

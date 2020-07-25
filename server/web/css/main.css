@@ -41,19 +41,64 @@
     visibility: hidden;
     transition: all 0.3s;
 }
+.blur-shadow-box{
+    height: 138px;
+    position: relative;
+    top:225px;
+}
+.blur-shadow-box img{
+    background-color: rgba(0, 0, 0, 0);
+    width: 66px;
+    height: 60px;
+}
+.blur-shadow-box .title{
+    font-size: 18px;
+}
 .blur-shadow-live{
-    width: 350px;
-    height: 200px;
+    width: 430px;
+    height: 122px;
     position: absolute;
-    left: 245px;
-    top: 780px;
+    left: 210px;
+    top: 843px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    text-align: center;
     opacity: 1;
     visibility: visible;
     transition: all 0.3s;
+}
+.blur-shadow-live .img1{
+    width: 124px;
+    height: 122px;
+    background-color: rgba(0, 0, 0, 0);
+    position: relative;
+    top: -108px;
+}
+.blur-shadow-live .img2{
+    width: 401px;
+    height: 81px;
+    background-color: rgba(0, 0, 0, 0);
+    position: relative;
+    left: 29px;
+    top:5px;
+}
+.blur-shadow-live .img3{
+    width: 32px;
+    height: 21px;
+    background-color: rgba(0, 0, 0, 0);
+    position: relative;
+    left: 231px;
+    top:-150px;
+}
+.blur-shadow-live p{
+    width: 190px;
+    height: 21px;
+    position: relative;
+    left: 153px;
+    top:56px;
+    z-index: 1;
+    font-size: 20px;
+    color: #FFFFFF;
 }
 .container.index .player-box .blur-shadow.active{
     opacity: 1;
