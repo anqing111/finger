@@ -4,9 +4,29 @@ use yii\helpers\Url;
 WebAsset::register($this);
 $this->beginContent('@views/layouts/web.php');
 ?>
+<style>
+    .layui-select-title input{
+        border: none;
+        width: 300px;
+        height: 40px;
+    }
+    .layui-form-select .layui-edge{
+        left: 297px;
+    }
+    .layui-form-selected dl{
+        width: 307px;
+    }
+    .layui-form-item{
+        margin-bottom:0;
+    }
+    .layui-form-select dl dd.layui-this
+    {
+        background: #FF9D2A ;
+    }
+</style>
 <?=\app\modules\web\model\process\PublicProcess::TopWeb()?>
 <div class="top">
-    <img src="<?=Url::to('images/join_bg.png')?>" alt="" style="background: rgba(0,0,0,0);">
+    <img src="<?=Url::to('images/join_bg.png')?>" alt="" style="background: rgba(0,0,0,0);margin-top: 0px">
 </div>
 <div class="container login">
     <div class="bg"></div>
@@ -17,7 +37,7 @@ $this->beginContent('@views/layouts/web.php');
         <div class="form">
             <div class="content">
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/company.png')?>" alt="">
+                    <img src="<?=Url::to('images/company.png')?>" alt="" style="height:18px;width: 20px">
                     <input type="text" name="sUnitName" placeholder="单位名称" class="filler">
                 </div>
                 <!-- 错误提示 -->
@@ -26,7 +46,7 @@ $this->beginContent('@views/layouts/web.php');
                     <span class="eptitle">&nbsp;</span>
                 </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/user.png')?>" alt="">
+                    <img src="<?=Url::to('images/user.png')?>" alt="" style="width: 21px;height: 21px">
                     <input type="text" name="person" placeholder="负责人" class="filler">
                 </div>
                 <!-- 错误提示 -->
@@ -35,7 +55,7 @@ $this->beginContent('@views/layouts/web.php');
                     <span class="eptitle">&nbsp;</span>
                 </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/direction.png')?>" alt="">
+                    <img src="<?=Url::to('images/direction.png')?>" alt="" style="height: 21px;width: 21px">
                     <input type="text" name="direction" placeholder="加盟方向" class="filler">
                 </div>
                 <!-- 错误提示 -->
@@ -43,14 +63,32 @@ $this->beginContent('@views/layouts/web.php');
                     <span class="font_family">&#xe635;</span>
                     <span class="eptitle">&nbsp;</span>
                 </div>
+                <div class="input-box flex-box" style="margin-bottom: -14px;">
+                    <img src="<?=Url::to('images/city.png')?>" alt="" style="width: 20px;height: 16px">
+                    <input type="hidden" name="iCityID">
+                </div>
+                <!-- 错误提示 -->
+                <div class="errorPrompt" style="display: none;">
+                    <span class="font_family">&#xe635;</span>
+                    <span class="eptitle">&nbsp;</span>
+                </div>
+                <div class="x-body" style="position: relative;top: -34px;left: 30px;">
+                    <form class="layui-form" method="post" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <select name="iCityID" id="iCityID" class="filler" lay-filter="iCityID" lay-verify="required">
+                                    <option value="0">所属城市</option>
+                                    <?php foreach($city as $r){?>
+                                        <option value="<?=$r->iCityID?>"><?=$r->sCityName?></option>
+                                    <?php }?>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/city.png')?>" alt="">
-                    <select name="iCityID" id="iCityID" class="filler">
-                        <option value="0">所属城市</option>
-                        <?php foreach($city as $r){?>
-                            <option value="<?=$r->iCityID?>"><?=$r->sCityName?></option>
-                        <?php }?>
-                    </select>
+                    <img src="<?=Url::to('images/phone.png')?>" alt="" style="width: 13px;height: 21px">
+                    <input type="text" name="sPhone" placeholder="联系电话" class="filler" style="margin-left: 10px;">
                 </div>
                 <!-- 错误提示 -->
                 <div class="errorPrompt" style="display: none;">
@@ -58,16 +96,7 @@ $this->beginContent('@views/layouts/web.php');
                     <span class="eptitle">&nbsp;</span>
                 </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/phone.png')?>" alt="">
-                    <input type="text" name="sPhone" placeholder="联系电话" class="filler">
-                </div>
-                <!-- 错误提示 -->
-                <div class="errorPrompt" style="display: none;">
-                    <span class="font_family">&#xe635;</span>
-                    <span class="eptitle">&nbsp;</span>
-                </div>
-                <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/password.png')?>" alt="">
+                    <img src="<?=Url::to('images/password.png')?>" alt="" style="width: 20px;height: 15px">
                     <input type="text" name="sMail" placeholder="邮箱" class="filler">
                 </div>
                 <!-- 错误提示 -->
@@ -92,7 +121,7 @@ $this->beginContent('@views/layouts/web.php');
             var sUnitName = $('input[name=sUnitName]').val();
             var person = $('input[name=person]').val();
             var direction = $('input[name=direction]').val();
-            var iCityID = $('#iCityID').val();
+            var iCityID = $('input[name=iCityID]').val();
             var sMail = $('input[name=sMail]').val();
             var sPhone = $('input[name=sPhone]').val();
             var key = '<?=Yii::$app->params['KEY']?>';
@@ -112,14 +141,18 @@ $this->beginContent('@views/layouts/web.php');
                 $("input[name=direction]").parent().next(".errorPrompt").find(".eptitle").html("&nbsp;加盟方向不得为空");
                 return false;
             }
-            if(iCityID == 0){
-                $('#iCityID').parent().next(".errorPrompt").css("display","block");
-                $('#iCityID').parent().next(".errorPrompt").find(".eptitle").html("&nbsp;请选择城市");
+            if(iCityID.length == 0){
+                $('.layui-select-title input').css('height','34px');
+                $('.x-body').css('top','-80px');
+                $("input[name=iCityID]").parent().next(".errorPrompt").css('margin-top','19px');
+                $("input[name=iCityID]").parent().next(".errorPrompt").css("display","block");
+                $("input[name=iCityID]").parent().next(".errorPrompt").find(".eptitle").html("&nbsp;请选择城市");
                 return false;
             }
             var data2 = validatemobile(sPhone);
             if(data2["code"] != 0)
             {
+                $('.x-body').css('top','-34px');
                 $("input[name=sPhone]").parent().next(".errorPrompt").css("display","block");
                 $("input[name=sPhone]").parent().next('.errorPrompt').find(".eptitle").html("&nbsp;"+data2["msg"]);
                 return false;
@@ -156,30 +189,40 @@ $this->beginContent('@views/layouts/web.php');
         });
     });
 
+    layui.use(['form','layer'], function() {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer;
+
+        form.on('select(iCityID)', function (data) {
+
+            $('input[name=iCityID]').val(data.value);
+            form.render('select');
+        });
+    });
+
     function join(jsonStr)
     {
-        if(jsonStr.code!=0)
-        {
-            $(".errorPrompt").css("display","block");
-            if(jsonStr.msg == undefined){
-
-                $(".errorPrompt").find(".eptitle").html("&nbsp;网络异常");
-            }else{
-
-                $(".errorPrompt").find(".eptitle").html("&nbsp;"+jsonStr.msg);
-            }
-
-            return false;
-        }
-
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
             var layer = layui.layer;
+            if(jsonStr.code!=0)
+            {
+                $(".errorPrompt").css("display","block");
+                if(jsonStr.msg == undefined){
+
+                    layer.msg("网络异常");
+                }else{
+                    layer.msg(jsonStr.msg);
+                }
+                return false;
+            }
             setTimeout(function(){
                 location.href= 'index.php?r=web/site/join';
             },3000);
             layer.msg("提交成功，请等待审核");
         });
+
     }
 </script>
 

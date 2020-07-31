@@ -16,6 +16,7 @@ $this->beginContent('@views/layouts/public.php');
 </div>
 <div class="x-body">
     <xblock>
+        <button class="layui-btn" data-title="添加" onclick="x_admin_show('添加','index.php?r=web/admin/professionaledit')"><i class="layui-icon"></i>添加</button>
         <button class="layui-btn" id="start">发布到首页</button>
         <button class="layui-btn" id="stop">取消发布到首页</button>
     </xblock>
@@ -27,6 +28,7 @@ $this->beginContent('@views/layouts/public.php');
             <th>姓名</th>
             <th>专业技能</th>
             <th>发布到首页</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody class="for" align="center">
@@ -37,6 +39,10 @@ $this->beginContent('@views/layouts/public.php');
                 <td><?=$r['sNick']?></td>
                 <td title="<?=$r['sProfessionalName']?>"><?=mb_substr($r['sProfessionalName'],0,30)?>......</td>
                 <td><?=\app\models\db\BProfessional::$_isRec[$r['isRec']]?></td>
+                <td class="td-manage">
+                    <a title="编辑" onclick="x_admin_show('编辑','index.php?r=web/admin/professionaledit&id=<?=$r['id']?>')" href="javascript:;">【编辑】
+                    </a>
+                </td>
             </tr>
         <?php }?>
         </tbody>

@@ -35,7 +35,7 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="instructor-title">讲师信息</div>
                 </div>
-                <hr>
+                <hr style="height:3px;border:none;border-top:1px double rgba(222,230,236,1);;">
                 <div class="content-box instructor-info">
                     <div class="item flex-box" style="width: 800px">
                         <img src="<?=Yii::$app->params['imagePath'].$instructor['bigheadportrait']?>" alt="" style="width:256px;margin-right: 80px;">
@@ -53,7 +53,7 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="instructor-book" style="margin-bottom: 20px">著作展示</div>
                 </div>
-                <hr>
+                <hr style="height:3px;border:none;border-top:1px double rgba(222,230,236,1);;">
                 <div class="content-box" style="margin-top: 20px">
                     <?php foreach ($instructor['instructorbook'] as $book){?>
                         <div class="flex-box instructor-book-list">
@@ -67,11 +67,11 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="instructor-title">作品展示</div>
                 </div>
-                <hr>
+                <hr style="height:3px;border:none;border-top:1px double rgba(222,230,236,1);;">
                 <div class="content-box instructor-video">
                     <?php foreach ($instructor['instructorvideo'] as $video){?>
                         <div class="item flex-box" style="width: 1000px">
-                            <img src="<?=Yii::$app->params['imagePath'].$video['sTrainImg']?>" alt="" style="width:256px;margin-right: 58px;" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$video['sTrainUrl']?>')">
+                            <img src="<?=Yii::$app->params['imagePath'].$video['sTrainImg']?>" alt="" style="width:256px;margin-right: 58px;" onclick="videoPlay('<?=$video['sTrainUrl']?>')">
                             <div class="detail filler">
                                 <div class="tip2">
                                     <?=$video['sOpusInfo']?>

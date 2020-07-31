@@ -49,7 +49,6 @@ header.shadow{
 header .logo{
     width: 190px;
     height: 30px;
-    margin-top: 30px;
     margin-right: 70px;
 }
 header .menu a{
@@ -293,10 +292,13 @@ footer.white .slogan{
     display: none;
 }
 footer.white hr{
-    border-top: 1px solid #5C5247;
-    border-bottom: 1px solid #5C5247;
-    background-color: #fff;
+    border-top: 1px solid #D2CFD2;
+    border-bottom: 1px solid #D2CFD2;
+    background-color: #FEFBFF;
     height: 3px;
+    width: 1920px;
+    position: relative;
+    right: 362px;
 }
 footer.white .map{
     margin-top: 0;

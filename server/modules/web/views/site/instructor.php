@@ -33,7 +33,7 @@ $this->beginContent('@views/layouts/web.php');
                     <div class="section-title">
                         <div class="instructor-title">全部专家</div>
                     </div>
-                    <hr>
+                    <hr style=" height: 1px;border: none;background:rgba(231,237,241,1);">
                     <div class="content-box">
                         <?php foreach($instructor as $r2){?>
                             <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer">

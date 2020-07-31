@@ -29,7 +29,7 @@ $this->beginContent('@views/layouts/public.php');
             <th>学员</th>
             <th>标题</th>
             <th>视频</th>
-            <th>状态</th>
+            <th>是否发布到首页</th>
             <th>操作</th>
         </thead>
         <tbody class="for" align="center">

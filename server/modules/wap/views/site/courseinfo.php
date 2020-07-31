@@ -27,7 +27,7 @@ $this->beginContent('@views/layouts/wap.php');
             <div class="couserinfo-video-title">录播课时（共<?=count($course['trainingvideo'])?>个课时）</div>
             <div class="couserinfo-video-info">
                 <?php foreach ($course['trainingvideo'] as $k => $r){?>
-                    <div class="div1" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$r['sTrainingvideoUrl']?>')">
+                    <div class="div1" onclick="videoPlay('<?=$r['sTrainingvideoUrl']?>')">
                         <div class="div2"><?=($k+1)?></div>
                         <div class="div3"><img src="<?= Yii::$app->params['imagePath'] . '/wap/images/live.png' ?>" alt=""></div>
                         <div class="div4"><?=$r['sChapterName']?></div>

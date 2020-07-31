@@ -3,7 +3,11 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 $this->beginContent('@views/layouts/public.php');
 ?>
-
+<style>
+    .layui-table thead tr th{
+        text-align: center;
+    }
+</style>
 <body>
 <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -21,7 +25,8 @@ $this->beginContent('@views/layouts/public.php');
         <tr>
             <th>序号</th>
             <th>标题</th>
-            <th>URL</th>
+            <th>PCUrl</th>
+            <th>WapURL</th>
             <th>开始日期</th>
             <th>结束日期</th>
             <th>状态</th>
@@ -33,6 +38,7 @@ $this->beginContent('@views/layouts/public.php');
                 <td><?=($k+1)?></td>
                 <td><?=$r['name']?></td>
                 <td><?=$r['url']?></td>
+                <td><?=$r['wapUrl']?></td>
                 <td><?=$r['date_from']?></td>
                 <td><?=$r['date_to']?></td>
                 <td><?=\app\models\db\BBanner::$_status[$r['status']]?></td>

@@ -3,6 +3,7 @@
 namespace app\modules\web\controllers;
 
 use app\models\RedactorForm;
+use app\models\VideoForm;
 use YII;
 use yii\web\Controller;
 use app\models\UploadForm;
@@ -58,6 +59,7 @@ class UploadController extends BaseController
     {
         $model = new UploadForm();
         if (\Yii::$app->request->isPost) {
+            $client = VideoForm::initVodClient();
             $model->videoFile = UploadedFile::getInstance($model, "videoFile");
             //文件上传存放的目录
             $path = "/common/video/".date("Ymd").'/';
@@ -66,11 +68,23 @@ class UploadController extends BaseController
                 mkdir($dir, 0777);
             $imagePath = $model->uploadVideo($dir);
             if (false != $imagePath) {
-                //文件上传成功
-                self::getSucInfo(['url'=>$path.$imagePath],$this->method);
+                BaseController::log($imagePath,'video');
+                self::getSucInfo(['url'=>Yii::$app->params['imagePath'].$path.$imagePath],$this->method);
             }else{
                 self::getFailInfo($model->getErrors()['videoFile'][0],$this->method);
             }
+
+            $url = $dir.$imagePath;
+            //上传到远端阿里云
+            $today = $model->nameRules();
+            $imagePath = $today.'.'.$model->videoFile->extension;
+
+            $VideoId = VideoForm::uploadLocalVideo($imagePath,$url);
+//            $uploadVideo = VideoForm::createUploadVideo($client,$imagePath,$url);
+            //文件上传成功，获取源文件地址
+            $playAuth = VideoForm::getPlayInfo($client, $VideoId);
+
+            self::getSucInfo(['url'=>$playAuth->PlayInfoList->PlayInfo[0]->PlayURL],$this->method);
 
         }
         return $this->render('video', ['model' => $model]);

@@ -31,9 +31,9 @@ $this->beginContent('@views/layouts/wap.php');
     <img src="<?=Yii::$app->params['imagePath'].'/wap/images/bg.png'?>" alt="" style="background: rgba(0,0,0,0);">
 </div>
 <div class="container college" style="height: 100%;">
-    <div class="redactor-editor" contenteditable="true" dir="ltr" style="min-height: 800px;border: none">
-        <p style="text-align: center;font-weight: bold;font-size: 3rem"><span class="title"></span><?=$university->title?><span class="title"></span></p>
-        <?=$university->content?>
+    <div class="redactor-editor" contenteditable="false" dir="ltr" style="min-height: 800px;border: none">
+        <p style="text-align: center;font-weight: bold;font-size: 3rem"><span class="title"></span><?=$university->title ?? ''?><span class="title"></span></p>
+        <?=$university->content ?? ''?>
     </div>
 </div>
 <footer>

@@ -102,6 +102,28 @@ class BProfessional extends \yii\db\ActiveRecord
         return array_intersect_key($inputFields,$defFields);
     }
 
+    public static function insertProfessional($params)
+    {
+        $post = new BProfessional();
+        //过滤无效字段（将数据表中未定义的字段去除）
+        $params = self::filterInputFields($params,$post->attributeLabels());
+        //新增项目
+        reset($params);
+
+        for($i=0; $i<count($params); $i++)
+        {
+            $nField = current($params);
+            $key = key($params);
+            $post->$key = $nField;
+            next($params);
+        }
+        if(!$post->validate() or !$post->save())
+        {
+            return FALSE;
+        }
+        return $post->primaryKey;
+    }
+
     public static function updateProfessional($params)
     {
         //新增项目

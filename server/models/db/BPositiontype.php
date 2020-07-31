@@ -73,9 +73,9 @@ class BPositiontype extends \yii\db\ActiveRecord
         //查询生成器查询
         $query = (new \yii\db\Query());
         $industr = $query->from(self::tableName())
-            ->select(['tb_b_positiontype.id','tb_b_positiontype.sPositionName','cName'=>'b.sPositionName','cid'=>'b.id','ccName'=>'c.sPositionName','ccid'=>'c.id'])
-            ->leftJoin(['b' => self::tableName()], 'b.iPositionID = tb_b_positiontype.id')
-            ->leftJoin(['c' => EPositiontype::tableName()], 'c.iPositionID = b.id')
+            ->select(['tb_b_positiontype.id','tb_b_positiontype.sPositiontypeName','cName'=>'b.sPositiontypeName','cid'=>'b.id','ccName'=>'c.sPositiontypeName','ccid'=>'c.id'])
+            ->leftJoin(['b' => self::tableName()], 'b.iPositiontypeID = tb_b_positiontype.id')
+            ->leftJoin(['c' => EPositiontype::tableName()], 'c.iPositiontypeID = b.id')
             ->where($params)
             ->all();
 
@@ -140,7 +140,7 @@ class BPositiontype extends \yii\db\ActiveRecord
         //数据批量入库
         $flag = $connection->createCommand()->batchInsert(
             ''.BPositiontype::tableName().'',
-            ['sPositionName','iPositionID'],//字段
+            ['sPositiontypeName','iPositiontypeID'],//字段
             $params
         )->execute();
 

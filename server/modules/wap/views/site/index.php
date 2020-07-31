@@ -9,7 +9,8 @@ $this->beginContent('@views/layouts/wap.php');
         .hot-list .more {
             font-size: 1.5rem;
             color: #676562;
-            margin-left: 27.25rem;
+            margin-left: 22.25rem;
+            width: 13rem;
         }
 
         .articles2{
@@ -71,16 +72,27 @@ $this->beginContent('@views/layouts/wap.php');
             font-size: 1.875rem;
             color: #FFFFFF;
         }
+        .container.index .articles .hot-list .imgs img:nth-child(even){
+            margin-left: 1.275rem;
+        }
+        .container.index .person-show .content-box .group .item:nth-child(even){
+            margin-left: 1.275rem;
+        }
+        .container.index .person-show .content-box .group .item {
+            /*width: 20.25rem;*/
+            height: 15.625rem;
+            margin-top: 1rem;
+        }
     </style>
 <?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
     <div class="container index">
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <?php foreach($banner as $r){?>
-                    <?php if(!empty($r->url)){?>
-                        <div class="swiper-slide" style="background-image: url(<?=Yii::$app->params['imagePath'].$r->image?>);" onclick="jumpUrl('<?=$r->url?>')"></div>
+                    <?php if(!empty($r->wapUrl)){?>
+                        <div class="swiper-slide" style="background-image: url(<?=Yii::$app->params['imagePath'].$r->WapBanner?>);background-repeat: no-repeat;background-size: 46.875rem 24.1875rem;" onclick="jumpUrl('<?=$r->wapUrl?>')"></div>
                     <?php }else{?>
-                        <div class="swiper-slide" style="background-image: url(<?=Yii::$app->params['imagePath'].$r->image?>);"></div>
+                        <div class="swiper-slide" style="background-image: url(<?=Yii::$app->params['imagePath'].$r->WapBanner?>);background-repeat: no-repeat;background-size: 46.875rem 24.1875rem;"></div>
                     <?php }?>
                 <?php }?>
             </div>
@@ -152,7 +164,7 @@ $this->beginContent('@views/layouts/wap.php');
             </div>
             <div class="content-box">
                 <div class="flex-box">
-                    <img src="<?=Url::to('images/join.png')?>" alt="" class="img-title">
+                    <img src="<?=Url::to('images/person.jpg')?>" alt="" class="img-title">
                     <div class="list">
                         <div class="title flex-box">
                             <span class="dot"></span>
@@ -174,9 +186,9 @@ $this->beginContent('@views/layouts/wap.php');
                         </div>
                     </div>
                 </div>
-                <div class="group flex-box">
+                <div class="group flex-box" style="width: 44.4rem">
                     <?php foreach($video as $ks => $s){?>
-                        <img src="<?=Yii::$app->params['imagePath'].$s->sVideoImg?>" class="item" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$s->sVideoUrl?>')"/>
+                        <img src="<?=Yii::$app->params['imagePath'].$s->sVideoImg?>" class="item" onclick="videoPlay('<?=$s->sVideoUrl?>')"/>
                     <?php }?>
                 </div>
             </div>
@@ -192,8 +204,12 @@ $this->beginContent('@views/layouts/wap.php');
                         <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
                         <div class="detail filler">
                             <div class="name"><?=$r2->sName?></div>
-                            <div class="time"><?=$r2->year?>年从业经验</div>
-                            <div class="tip"><?=mb_substr($r2->info,0,50)?>...</div>
+                            <div class="time" style="font-size: 1.7rem"><?=$r2->year?>年从业经验</div>
+                            <?php if(mb_strlen($r2->info) > 50){?>
+                                <div class="tip" style="font-size: 1.7rem"><?=mb_substr($r2->info,0,50)?>...</div>
+                            <?php }else{?>
+                                <div class="tip" style="font-size: 1.7rem"><?=$r2->info?></div>
+                            <?php }?>
                         </div>
                     </div>
                 <?php }?>
@@ -208,18 +224,26 @@ $this->beginContent('@views/layouts/wap.php');
             <div class="content-box">
                 <div class="main-list articles1">
                     <?php foreach ($article as $k3 => $r3){?>
-                        <a href="index.php?r=web/site/articleinfo&id=<?=$r3->id?>"><div class="item one-line"><?=($k3+1)?>、<?=mb_substr($r3->title,0,15)?>...</div></a>
+                        <?php if(mb_strlen($r3->title) > 15){?>
+                            <a href="index.php?r=wap/site/articleinfo&id=<?=$r3->id?>"><div class="item one-line" style="line-height: 3.625rem"><?=($k3+1)?>、<?=mb_substr($r3->title,0,15)?>...</div></a>
+                        <?php }else{?>
+                            <a href="index.php?r=wap/site/articleinfo&id=<?=$r3->id?>"><div class="item one-line" style="line-height: 3.625rem"><?=($k3+1)?>、<?=$r3->title?></div></a>
+                        <?php }?>
                     <?php }?>
                 </div>
                 <div class="main-list articles2">
                     <?php foreach ($article2 as $k2 => $r2){?>
-                        <a href="index.php?r=web/site/articleinfo&id=<?=$r2->id?>"><div class="item one-line"><?=($k2+1)?>、<?=mb_substr($r2->title,0,15)?>...</div></a>
+                        <?php if(mb_strlen($r2->title) > 15){?>
+                            <a href="index.php?r=wap/site/articleinfo&id=<?=$r2->id?>"><div class="item one-line" style="line-height: 3.625rem"><?=($k2+1)?>、<?=mb_substr($r2->title,0,15)?>...</div></a>
+                        <?php }else{?>
+                            <a href="index.php?r=wap/site/articleinfo&id=<?=$r2->id?>"><div class="item one-line" style="line-height: 3.625rem"><?=($k2+1)?>、<?=$r2->title?></div></a>
+                        <?php }?>
                     <?php }?>
                 </div>
                 <div class="hot-list">
                     <div class="title flex-box">
                         <span class="dot"></span>
-                        <span class="text">热门文章</span>
+                        <span class="text" style="width: 17rem;">热门文章</span>
                         <a href="index.php?r=wap/site/articlelist" class="more">查看更多></a>
                     </div>
                     <div class="imgs flex-box">
@@ -227,18 +251,27 @@ $this->beginContent('@views/layouts/wap.php');
                             <?php if($k5 == 2){
                                 break;
                             }?>
-                            <img src="<?=Yii::$app->params['imagePath'].$r5->picture?>" alt="">
+                            <img src="<?=Yii::$app->params['imagePath'].$r5->picture?>" onclick="jumpUrl('index.php?r=wap/site/articleinfo&id=<?=$r5->id?>')">
                         <?php }?>
                     </div>
                     <div class="list">
                         <?php foreach($article3 as $k6 => $r6){?>
-                            <?php if($k5 < 2){
+                            <?php if($k6 < 2){
                                 continue;
+                            }else{
+                                if(mb_strlen($r6->title) > 15)
+                                {
+                                    echo '<div class="item">
+                                <span class="index">'.($k6-1).'</span>
+                                <span class="text one-line">'.mb_substr($r6->title,0,15).'...'.'</span>
+                            </div>';
+                                }else{
+                                    echo '<div class="item" onclick="jumpUrl(\'index.php?r=web/site/articleinfo&id='.$r6->id.'\')">
+                                <span class="index">'.($k6-1).'</span>
+                                <span class="text one-line">'.$r6->title.'</span>
+                            </div>';
+                                }
                             }?>
-                            <div class="item">
-                                <span class="index"><?=($k6-1)?></span>
-                                <span class="text one-line"><?=mb_substr($r6->title,0,15)?>...</span>
-                            </div>
                         <?php }?>
                     </div>
                 </div>

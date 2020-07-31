@@ -7,6 +7,10 @@ $this->beginContent('@views/layouts/public.php');
     h1{
         font-size: 20px;padding: 1rem;font-weight: 900;
     }
+    font{
+        color: red;
+        margin-left: 90px;
+    }
 </style>
 <body>
 <div class="x-body">
@@ -25,6 +29,7 @@ $this->beginContent('@views/layouts/public.php');
             <img src="<?=isset($instructor['headportrait']) ? Yii::$app->params['imagePath'].$instructor['headportrait'] : ''?>" alt="" style="margin-bottom: -11rem;">
             <img src="<?=isset($instructor['bigheadportrait']) ? Yii::$app->params['imagePath'].$instructor['bigheadportrait'] : ''?>" alt="" style="margin-bottom: 1rem">
         </div>
+        <font>参考尺寸：256*348</font>
     </div>
     <form class="layui-form" method="post" action="">
         <input type="hidden" value="<?=$instructor['id'] ?? '' ?>" name="id">
@@ -71,8 +76,9 @@ $this->beginContent('@views/layouts/public.php');
                                 <div class="layui-input-inline" style="width: 80%">
                                     <input type="hidden" name="UploadForm[imageFile]" value="">
                                     <input type="hidden" name="book[sBookImg][0]" value="<?=$r['sBookImg']?>" class="sBookImg0">
-                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'image',0)">
-                                    <img src="<?=Yii::$app->params['imagePath'].$r['sBookImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="images0">
+                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'image',0)">
+                                    <font>参考尺寸：180*252</font>
+                                    <img src="<?=Yii::$app->params['imagePath'].$r['sBookImg']?>" alt="" class="images0">
                                 </div>
                             </div>
                         <?php }else{?>
@@ -88,8 +94,9 @@ $this->beginContent('@views/layouts/public.php');
                                 <div class="layui-input-inline" style="width: 80%">
                                     <input type="hidden" name="UploadForm[imageFile]" value="">
                                     <input type="hidden" name="book[sBookImg][<?=$k?>]" value="<?=$r['sBookImg']?>" class="sBookImg<?=$k?>">
-                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'image',<?=$k?>)">
-                                    <img src="<?=Yii::$app->params['imagePath'].$r['sBookImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="images<?=$k?>">
+                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'image',<?=$k?>)">
+                                    <font>参考尺寸：256*348</font>
+                                    <img src="<?=Yii::$app->params['imagePath'].$r['sBookImg']?>" alt="" class="images<?=$k?>">
                                     <button type="button" class="layui-btn" data-title="删除" onclick="deleteClass(this)" style="margin-left: 1rem"><i class="layui-icon"></i>删除</button>
                                 </div>
                             </div>
@@ -109,8 +116,9 @@ $this->beginContent('@views/layouts/public.php');
                         <div class="layui-input-inline" style="width: 80%">
                             <input type="hidden" name="UploadForm[imageFile]" value="">
                             <input type="hidden" name="book[sBookImg][0]" value="" class="sBookImg0">
-                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'image',0)">
-                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="images0">
+                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'image',0)">
+                            <font>参考尺寸：256*348</font>
+                            <img src="" alt="" style="display: none" class="images0">
                         </div>
                     </div>
                 <?php }?>
@@ -147,8 +155,9 @@ $this->beginContent('@views/layouts/public.php');
                                 <div class="layui-input-inline" style="width: 80%">
                                     <input type="hidden" name="UploadForm[imageFile]" value="">
                                     <input type="hidden" name="video[sTrainImg][<?=$k1?>]" value="<?=$r1['sTrainImg']?>" class="sTrainImg<?=$k1?>">
-                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sTrainImg',<?=$k1?>)">
-                                    <img src="<?=Yii::$app->params['imagePath'].$r1['sTrainImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sTrainImgs<?=$k1?>">
+                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'sTrainImg',<?=$k1?>)">
+                                    <font>参考尺寸：280*210</font>
+                                    <img src="<?=Yii::$app->params['imagePath'].$r1['sTrainImg']?>" alt="" class="sTrainImgs<?=$k1?>">
                                 </div>
                             </div>
                         <?php }else{?>
@@ -164,7 +173,7 @@ $this->beginContent('@views/layouts/public.php');
                                 <div class="layui-input-inline" style="width: 80%">
                                     <input type="hidden" name="UploadForm[videoFile]" value="">
                                     <input type="hidden" name="video[sTrainUrl][<?=$k1?>]" value="<?=$r1['sTrainUrl']?>" class="sTrainUrl<?=$k1?>">
-                                    <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'video',<?=$k1?>)">
+                                    <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'video',<?=$k1?>)">
                                     <span class="videos<?=$k1?>"><?=$r1['sTrainUrl']?></span>
                                     <button type="button" class="layui-btn" data-title="删除" onclick="deleteClassVideo(this)" style="margin-left: 1rem"><i class="layui-icon"></i>删除</button>
                                 </div>
@@ -174,8 +183,9 @@ $this->beginContent('@views/layouts/public.php');
                                 <div class="layui-input-inline" style="width: 80%">
                                     <input type="hidden" name="UploadForm[imageFile]" value="">
                                     <input type="hidden" name="video[sTrainImg][<?=$k1?>]" value="<?=$r1['sTrainImg']?>" class="sTrainImg<?=$k1?>">
-                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sTrainImg',<?=$k1?>)">
-                                    <img src="<?=Yii::$app->params['imagePath'].$r1['sTrainImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sTrainImgs<?=$k1?>">
+                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'sTrainImg',<?=$k1?>)">
+                                    <font>参考尺寸：280*210</font>
+                                    <img src="<?=Yii::$app->params['imagePath'].$r1['sTrainImg']?>" alt="" class="sTrainImgs<?=$k1?>">
                                 </div>
                             </div>
                         <?php }?>
@@ -203,8 +213,9 @@ $this->beginContent('@views/layouts/public.php');
                         <div class="layui-input-inline" style="width: 80%">
                             <input type="hidden" name="UploadForm[imageFile]" value="">
                             <input type="hidden" name="video[sTrainImg][0]" value="" class="sTrainImg0">
-                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sTrainImg',0)">
-                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sTrainImgs0">
+                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,'sTrainImg',0)">
+                            <font>参考尺寸：280*210</font>
+                            <img src="" alt="" style="display: none" class="sTrainImgs0">
                         </div>
                     </div>
                 <?php }?>
@@ -288,8 +299,9 @@ $this->beginContent('@views/layouts/public.php');
             '                        <div class="layui-input-inline" style="width: 80%">\n' +
             '                            <input type="hidden" name="UploadForm[imageFile]" value="">\n' +
             '                            <input type="hidden" name="book[sBookImg]['+bookindex+']" value="" class="sBookImg'+bookindex+'">\n' +
-            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,\'image\','+bookindex+')">\n' +
-            '                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="images'+bookindex+'">\n' +
+            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 62%;border: none" onclick="uploadFile(this,\'image\','+bookindex+')">\n' +
+            '                            <font>参考尺寸：280*210</font>'+
+            '                            <img src="" alt="" style="display: none" class="images'+bookindex+'">\n' +
             '                            <button type="button" class="layui-btn" data-title="删除" onclick="deleteClass(this)" style="margin-left: 1rem"><i class="layui-icon"></i>删除</button>\n' +
             '                        </div>\n' +
             '                    </div>';
@@ -332,7 +344,8 @@ $this->beginContent('@views/layouts/public.php');
             '                                    <input type="hidden" name="UploadForm[imageFile]" value="">\n' +
             '                                    <input type="hidden" name="video[sTrainImg]['+videoindex+']" value="" class="sTrainImg'+videoindex+'">\n' +
             '                                    <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,\'sTrainImg\','+videoindex+')">\n' +
-            '                                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sTrainImgs'+videoindex+'">\n' +
+            '                                    <font>参考尺寸：256*348</font>'+
+            '                                    <img src="" alt="" style="display: none" class="sTrainImgs'+videoindex+'">\n' +
             '                                </div>\n' +
             '                            </div>';
         $("#video").append(str);

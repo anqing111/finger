@@ -71,7 +71,7 @@ $this->beginContent('@views/layouts/wap.php');
         <hr style="height:1px;border:none;background: #FEF5EC">
         <div class="content-box instructorinfo-video">
             <?php foreach ($instructor['instructorvideo'] as $video){?>
-            <div class="item flex-box" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$video['sTrainUrl']?>')">
+            <div class="item flex-box" onclick="videoPlay('<?=$video['sTrainUrl']?>')">
                 <img src="<?=Yii::$app->params['imagePath'].$video['sTrainImg']?>" alt="">
                 <div class="tip2">
                     <?=mb_substr($video['sOpusInfo'],0,63).'...'?>

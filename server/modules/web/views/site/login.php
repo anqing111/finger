@@ -14,11 +14,11 @@ $this->beginContent('@views/layouts/web.php');
         <div class="form">
             <div class="content">
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/mail.png')?>" alt="">
+                    <img src="<?=Url::to('images/user.png')?>" alt="" style="width:21px;height: 21px;margin-top: 16px; margin-left: 11px">
                     <input type="text" name="account" placeholder="邮箱/手机号" class="filler">
                 </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/password.png')?>" alt="">
+                    <img src="<?=Url::to('images/password.png')?>" alt="" style="width: 17px;height: 20px;margin-left: 11px;margin-top: 15px">
                     <input type="password" name="sPassWord" placeholder="请输入密码" class="filler">
                 </div>
                 <!-- 错误提示 -->

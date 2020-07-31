@@ -62,8 +62,9 @@ $this->beginContent('@views/layouts/public.php');
                             <div class="layui-input-inline" style="width: 80%">
                                 <input type="hidden" name="UploadForm[imageFile]" value="">
                                 <input type="hidden" name="studentopus[sOpusvideoImg][<?=$k1?>]" value="<?=$r1['sOpusvideoImg']?>" class="sOpusvideoImg<?=$k1?>">
-                                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sOpusvideoImg',<?=$k1?>)">
-                                <img src="<?=\Yii::$app->params['imagePath'].$r1['sOpusvideoImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sOpusvideoImgs<?=$k1?>">
+                                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sOpusvideoImg',<?=$k1?>)">
+                                <font>参考尺寸：280*210</font>
+                                <img src="<?=\Yii::$app->params['imagePath'].$r1['sOpusvideoImg']?>" alt="" class="sOpusvideoImgs<?=$k1?>">
                             </div>
                         </div>
                     <?php }?>
@@ -89,8 +90,9 @@ $this->beginContent('@views/layouts/public.php');
                         <div class="layui-input-inline" style="width: 80%">
                             <input type="hidden" name="UploadForm[imageFile]" value="">
                             <input type="hidden" name="studentopus[sOpusvideoImg][0]" class="sOpusvideoImg0">
-                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sOpusvideoImg',0)">
-                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sOpusvideoImgs0">
+                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sOpusvideoImg',0)">
+                            <font>参考尺寸：280*210</font>
+                            <img src="" alt="" style="display: none" class="sOpusvideoImgs0">
                         </div>
                     </div>
                 <?php }?>
@@ -102,11 +104,12 @@ $this->beginContent('@views/layouts/public.php');
             <div class="layui-input-inline" style="width: 80%">
                 <input type="hidden" name="UploadForm[imageFile]" value="">
                 <input type="hidden" name="sInstructorEndorsementImg" value="<?=$profile['sInstructorEndorsementImg'] ?? ''?>">
-                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sInstructorEndorsementImg',0)">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sInstructorEndorsementImg',0)">
+                <font>参考尺寸：210*280</font>
                 <?php if(!empty($profile['sInstructorEndorsementImg'])){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$profile['sInstructorEndorsementImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sInstructorEndorsementImg">
+                    <img src="<?=Yii::$app->params['imagePath'].$profile['sInstructorEndorsementImg']?>" alt="" class="sInstructorEndorsementImg">
                 <?php }else{?>
-                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sInstructorEndorsementImg">
+                    <img src="" alt="" style="display: none" class="sInstructorEndorsementImg">
                 <?php }?>
 
             </div>
@@ -117,11 +120,12 @@ $this->beginContent('@views/layouts/public.php');
             <div class="layui-input-inline" style="width: 80%">
                 <input type="hidden" name="UploadForm[imageFile]" value="">
                 <input type="hidden" name="sStudentEndorsementImg" value="<?=$profile['sStudentEndorsementImg'] ?? ''?>">
-                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sStudentEndorsementImg',0)">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sStudentEndorsementImg',0)">
+                <font>参考尺寸：210*280</font>
                 <?php if(!empty($profile['sStudentEndorsementImg'])){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$profile['sStudentEndorsementImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sStudentEndorsementImg">
+                    <img src="<?=Yii::$app->params['imagePath'].$profile['sStudentEndorsementImg']?>" alt="" class="sStudentEndorsementImg">
                 <?php }else{?>
-                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sStudentEndorsementImg">
+                    <img src="" alt="" style="display: none" class="sStudentEndorsementImg">
                 <?php }?>
             </div>
         </div>
@@ -131,11 +135,12 @@ $this->beginContent('@views/layouts/public.php');
             <div class="layui-input-inline" style="width: 80%">
                 <input type="hidden" name="UploadForm[imageFile]" value="">
                 <input type="hidden" name="sClassNotesImg" value="<?=$profile['sClassNotesImg'] ?? ''?>">
-                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sClassNotesImg',0)">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sClassNotesImg',0)">
+                <font>参考尺寸：210*280</font>
                 <?php if(!empty($profile['sClassNotesImg'])){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$profile['sClassNotesImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sClassNotesImg">
+                    <img src="<?=Yii::$app->params['imagePath'].$profile['sClassNotesImg']?>" alt="" class="sClassNotesImg">
                 <?php }else{?>
-                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sClassNotesImg">
+                    <img src="" alt="" style="display: none" class="sClassNotesImg">
                 <?php }?>
             </div>
         </div>
@@ -539,8 +544,9 @@ $this->beginContent('@views/layouts/public.php');
             '                        <div class="layui-input-inline" style="width: 80%">\n' +
             '                            <input type="hidden" name="UploadForm[imageFile]" value="">\n' +
             '                            <input type="hidden" name="studentopus[sOpusvideoImg]['+bookindex+']" class="sOpusvideoImg'+bookindex+'">\n' +
-            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,\'sOpusvideoImg\','+bookindex+')">\n' +
-            '                            <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sOpusvideoImgs'+bookindex+'">\n' +
+            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,\'sOpusvideoImg\','+bookindex+')">\n' +
+            '                            <font>参考尺寸：280*210</font>'+
+            '                            <img src="" alt="" style="display: none" class="sOpusvideoImgs'+bookindex+'">\n' +
             '                        </div>\n' +
             '                    </div>';
         $("#studentopus").append(str);

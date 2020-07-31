@@ -30,13 +30,15 @@ class DefaultController extends Controller
 //        $res = SMSForm::sendDayuTextMsg($sPhone,$arPara,$sTemplate);
 //        print_r($res);
 
-        try {
-            $client = VideoForm::initVodClient(VideoForm::AccessKeyId, VideoForm::AccessKeySecret);
-            $playInfo = VideoForm::getPlayInfo($client, '43d9d99e54d445aa93f30b1554e1e9dd');
-            print_r($playInfo->PlayInfoList->PlayInfo);
-            var_dump($playInfo);
-        } catch (Exception $e) {
-            print $e->getMessage()."\n";
-        }
+//        try {
+//            $client = VideoForm::initVodClient(VideoForm::AccessKeyId, VideoForm::AccessKeySecret);
+//            $playInfo = VideoForm::getPlayInfo($client, '43d9d99e54d445aa93f30b1554e1e9dd');
+//            print_r($playInfo->PlayInfoList->PlayInfo);
+//            var_dump($playInfo);
+//        } catch (Exception $e) {
+//            print $e->getMessage()."\n";
+//        }
+        $video = 'C:/Users/a/Desktop/1049580407203cfc9ae803666.mp4';
+        VideoForm::createUploadVideo('test01',$video);
     }
 }

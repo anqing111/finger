@@ -7,6 +7,10 @@ $this->beginContent('@views/layouts/public.php');
     h1{
         font-size: 20px;padding: 1rem;font-weight: 900;
     }
+    font{
+        color: red;
+        margin-left: 90px;
+    }
 </style>
 <body>
 <div class="x-body">
@@ -24,6 +28,7 @@ $this->beginContent('@views/layouts/public.php');
         <div class="picture">
             <img src="<?=isset($article['picture']) ? Yii::$app->params['imagePath'].$article['picture'] : ''?>" alt="" style="margin-bottom: 10px">
         </div>
+        <font>参考尺寸：200*137</font>
     </div>
     <?php $form=\yii\widgets\ActiveForm::begin([
         'enableAjaxValidation' => false,
@@ -61,7 +66,7 @@ $this->beginContent('@views/layouts/public.php');
     <div class="layui-form-item">
         <label for="L_username" class="layui-form-label"></label>
         <div class="layui-input-inline">
-            <input type="checkbox" name="isRec" <?=isset($article['isRec']) && $article['isRec'] == \app\models\db\BArticle::YES ? 'checked' : ''?> value="<?=$article['isRec'] ?? ''?>" title="是否推荐到首页" lay-skin="primary" lay-filter="isRec">
+            <input type="checkbox" name="isHot" <?=isset($article['isHot']) && $article['isHot'] == \app\models\db\BArticle::YES ? 'checked' : ''?> value="<?=$article['isHot'] ?? ''?>" title="是否热门" lay-skin="primary" lay-filter="isHot">
         </div>
     </div>
 
@@ -84,7 +89,7 @@ $this->beginContent('@views/layouts/public.php');
         var form = layui.form
             ,layer = layui.layer;
 
-        form.on('checkbox(isRec)', function(data){
+        form.on('checkbox(isHot)', function(data){
             var ischecked = data.elem.checked;
             if(ischecked == true)
             {

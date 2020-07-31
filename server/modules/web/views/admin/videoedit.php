@@ -7,6 +7,9 @@ $this->beginContent('@views/layouts/public.php');
     h1{
         font-size: 20px;padding: 1rem;font-weight: 900;
     }
+    font{
+        color: red;
+    }
 </style>
 <body>
 <div class="x-body">
@@ -38,7 +41,7 @@ $this->beginContent('@views/layouts/public.php');
             <div class="layui-input-inline" style="width: 80%">
                 <input type="hidden" name="UploadForm[videoFile]" value="">
                 <input type="hidden" name="sVideoUrl" value="<?=$video['sVideoUrl'] ?? ''?>">
-                <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sVideoUrl')">
+                <input type="file" name="UploadForm[videoFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sVideoUrl')">
                 <?php if(!empty($video['sVideoImg'])){?>
                     <span class="sVideoUrl"><?=$video['sVideoUrl']?></span>
                 <?php }else{?>
@@ -51,11 +54,12 @@ $this->beginContent('@views/layouts/public.php');
             <div class="layui-input-inline" style="width: 80%">
                 <input type="hidden" name="UploadForm[imageFile]" value="">
                 <input type="hidden" name="sVideoImg" value="<?=$video['sVideoImg'] ?? ''?>">
-                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this,'sVideoImg')">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sVideoImg')">
+                <font>参考尺寸：236*210</font>
                 <?php if(!empty($video['sVideoImg'])){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$video['sVideoImg']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="sVideoImg">
+                    <img src="<?=Yii::$app->params['imagePath'].$video['sVideoImg']?>" alt="" class="sVideoImg">
                 <?php }else{?>
-                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="sVideoImg">
+                    <img src="" alt="" style="display: none" class="sVideoImg">
                 <?php }?>
 
             </div>

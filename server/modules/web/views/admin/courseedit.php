@@ -7,6 +7,9 @@ $this->beginContent('@views/layouts/public.php');
     h1{
         font-size: 20px;padding: 1rem;font-weight: 900;
     }
+    font{
+        color: red;
+    }
 </style>
 <body>
 <h1>基本信息：</h1>
@@ -62,11 +65,12 @@ $this->beginContent('@views/layouts/public.php');
             <div class="layui-input-inline" style="width: 80%">
                 <input type="hidden" name="UploadForm[imageFile]" value="">
                 <input type="hidden" name="headportrait" value="<?=$course['headportrait'] ?? ''?>">
-                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 80%;border: none" onclick="uploadFile(this)">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this)">
+                <font>参考尺寸：330*330</font>
                 <?php if(!empty($course['headportrait'])){?>
-                    <img src="<?=Yii::$app->params['imagePath'].$course['headportrait']?>" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;" class="headportrait">
+                    <img src="<?=Yii::$app->params['imagePath'].$course['headportrait']?>" alt="" class="headportrait">
                 <?php }else{?>
-                    <img src="" alt="" style="margin-bottom: 10px;width: 24%;height: 200px;display: none" class="headportrait">
+                    <img src="" alt="" style="display: none" class="headportrait">
                 <?php }?>
 
             </div>

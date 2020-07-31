@@ -41,13 +41,15 @@ function videoPlay(url)
             }
         });
         $('.pop-dp-bg .close').click(function(){
-            $('.pop-dp-bg').removeClass('active')
+            $('.pop-dp-bg').removeClass('active');
+            $('.PopDPlayer').css('display','none');
             // 暂停弹窗播放器视频播放
             PopDPlayer.pause();
-        })
+        });
     }
 
     $('.pop-dp-bg').addClass('active');
+    $('.PopDPlayer').css('display','block');
 }
 
 function initLayout(){

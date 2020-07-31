@@ -7,6 +7,10 @@ $this->beginContent('@views/layouts/public.php');
     h1{
         font-size: 20px;padding: 1rem;font-weight: 900;
     }
+    font{
+        color: red;
+        margin-left: 90px;
+    }
 </style>
 <body>
 <div class="x-body">
@@ -24,6 +28,7 @@ $this->beginContent('@views/layouts/public.php');
         <div class="img">
             <img src="<?=isset($university['img']) ? Yii::$app->params['imagePath'].$university['img'] : ''?>" alt="" style="margin-bottom: 10px">
         </div>
+        <font>参考尺寸：1920*200</font>
     </div>
     <?php $form=\yii\widgets\ActiveForm::begin([
         'enableAjaxValidation' => false,

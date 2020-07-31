@@ -19,13 +19,13 @@ $this->beginContent('@views/layouts/web.php');
 </style>
 <?=\app\modules\web\model\process\PublicProcess::TopWeb()?>
 <div class="top">
-    <img src="<?=Url::to('images/bg.png')?>" alt="" style="background: rgba(0,0,0,0);">
+    <img src="<?=Url::to('images/bg.png')?>" alt="" style="background: rgba(0,0,0,0);margin-top: 0px">
 </div>
 <div class="container college" style="height: 100%;">
     <div class="bg"></div>
-    <div class="redactor-editor" contenteditable="true" dir="ltr" style="min-height: 800px;border: none">
-        <p style="text-align: center;font-weight: bold;font-size: 22px"><span class="title"></span><?=$university->title?><span class="title"></span></p>
-        <?=$university->content?>
+    <div class="redactor-editor" contenteditable="false" dir="ltr" style="min-height: 800px;border: none">
+        <p style="text-align: center;font-weight: bold;font-size: 22px"><span class="title"></span><?=$university->title ?? ''?><span class="title"></span></p>
+        <?=$university->content ?? ''?>
     </div>
 </div>
 <footer>

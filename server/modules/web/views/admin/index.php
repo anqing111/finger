@@ -63,7 +63,7 @@ $this->beginContent('@views/layouts/public.php');
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src="index.php?r=web/admin/userindex" frameborder="0"  name="myFrameName" scrolling="yes" class="x-iframe"></iframe>
+                        <iframe src="index.php?r=web/admin/welcome" frameborder="0"  name="myFrameName" scrolling="yes" class="x-iframe"></iframe>
                     </div>
                 </div>
             </div>

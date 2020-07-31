@@ -44,7 +44,7 @@ $this->beginContent('@views/layouts/web.php');
         <div class="options">
             <a href="#"><?=Yii::$app->session->get('sNick')?></a>
             <span>|</span>
-            <a href="index.php?r=web/admin/index">用户中心</a>
+            <a href="index.php?r=web/admin/adminindex">用户中心</a>
             <span>|</span>
             <a href="index.php?r=web/site/logout" class="logout" onclick="if(!confirm('是否确认退出')){ return false}">退出</a>
         </div>
@@ -72,13 +72,13 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="couserinfo-video-title">录播课时</div>
                 </div>
-                <hr style="height:3px;border:none;border-top:1px double rgba(222,230,236,1);;">
+                <hr style="height:3px;border:none;border-top:1px double rgba(222,230,236,1);">
                 <div class="content-box">
                     <p>共<?=count($course['trainingvideo'])?>个章节</p>
                 </div>
                 <div class="couserinfo-video-info">
                     <?php foreach ($course['trainingvideo'] as $k => $r){?>
-                        <p onclick="videoPlay('<?=Yii::$app->params['imagePath'].$r['sTrainingvideoUrl']?>')"><?=($k+1)?>、<?=$r['sChapterName']?><span><?=$r['time']?></span></p>
+                        <p onclick="videoPlay('<?=$r['sTrainingvideoUrl']?>')"><?=($k+1)?>、<?=$r['sChapterName']?><span><?=$r['time']?></span></p>
                     <?php }?>
                 </div>
             </div>

@@ -35,7 +35,7 @@ $this->beginContent('@views/layouts/wap.php');
             <?php foreach($industr as $k => $r){?>
                 <div class="course-type-info" onclick='optionCourse(<?=$r->id?>,this)' style=" margin-top: -5rem;background-color: #FFFCF9;">
                     <div class="course-type-info-tag" style="visibility: hidden"></div>
-                    <div class="course-type-info-title"><?=$r->sIndustryName?></div>
+                    <div class="course-type-info-title"><?=mb_substr($r->sIndustryName,0,4)?>...</div>
                 </div>
             <?php }?>
         </div>

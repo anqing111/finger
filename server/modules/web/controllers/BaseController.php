@@ -4,7 +4,6 @@ use yii\log\FileTarget;
 use yii\web\Controller;
 date_default_timezone_set("PRC");
 class BaseController extends Controller{
-
     //终端类型
     public $_clients = ['web'=>1,'wap'=>2,'miniapp'=>3];
 
@@ -14,11 +13,11 @@ class BaseController extends Controller{
 
     public $method;
 
-    public $_filter = ['login','register','banding','error','success','forgetmail','forgetphone','forgetsuccess','join']; //不用登录就显示的文件
+    public $_filter = ['login','register','sendcode','getmesvalidate','banding','error','success','forgetmail','forgetphone','forgetsuccess','join','index','courseindex','courseinfo']; //不用登录就显示的文件
 
     public $_check = ['login','sendcode','getmesvalidate','register','banding','forgetmail','forgetphone','certificateindex','join','courseindex'];//验证的文件
 
-    public $_indexfilter = ['banding','success','forgetsuccess','error','join']; //登录成功也可以显示的页面
+    public $_indexfilter = ['banding','success','forgetsuccess','error','join','sendcode','index','courseindex','courseinfo']; //登录成功也可以显示的页面
     /**
      *  登录统一验证    (每次动作先执行本方法)
      */
@@ -78,7 +77,8 @@ class BaseController extends Controller{
             $session = \Yii::$app->session;
             if ($session['iUserID'] && !in_array($this->method,$this->_indexfilter))
             {
-                $this->redirect(array('/web/site/index'));
+//                $this->redirect(array('/web/site/index'));
+                header('location:index.php?r=web/site/index');
             }
         }
 
@@ -92,7 +92,7 @@ class BaseController extends Controller{
         {
             $this->userid = $session['iUserID'];
         }else{
-            $this->redirect(array('/web/site/login'));
+//            header('location:index.php?r=web/site/login');
         }
     }
 

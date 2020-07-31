@@ -44,7 +44,7 @@ class PublicProcess
         $top = '<header>
         <div class="container flex-box">
             <div class="filler flex-box">
-                <img src="'.\yii\helpers\Url::to('images/logo.png').'" alt="" class="logo" style="background: rgba(0,0,0,0);">
+                <a href="index.php?r=web/site"><img src="'.\yii\helpers\Url::to('images/logo.png').'" alt="" class="logo" style="background: rgba(0,0,0,0);"></a>
                 <div class="menu flex-box">
                     <a href="index.php?r=web/site/index" class="item '.$index.'">首页</a>
                     <a href="index.php?r=web/site/courseindex" class="item '.$course.'">课程</a>
@@ -54,16 +54,25 @@ class PublicProcess
                     <img src="'.\yii\helpers\Url::to('images/searcher-icon.png').'" alt="" class="icon">
                     <input type="text" placeholder="证书查询" class="filler">
                 </div></a>
-            </div>
-            <div class="options">
+            </div>';
+        if(!empty(\Yii::$app->session->get('sNick')))
+        {
+            $top .= '<div class="options">
                 <a href="#">'.\Yii::$app->session->get('sNick').'</a>
                 <span>|</span>
-                <a href="index.php?r=web/admin/index">用户中心</a>
+                <a href="index.php?r=web/admin/adminindex">用户中心</a>
                 <span>|</span>
                 <a href="index.php?r=web/site/logout" class="logout" onclick="if(!confirm(\'是否确认退出\')){ return false
                }">退出</a>
-            </div>
-        </div>
+            </div>';
+        }else{
+            $top .= '<div class="options">
+                <a href="index.php?r=web/site/login">登录</a>
+                <span>|</span>
+                <a href="index.php?r=web/admin/adminindex">用户中心</a>
+            </div>';
+        }
+        $top .= '</div>
     </header>';
         return $top;
     }

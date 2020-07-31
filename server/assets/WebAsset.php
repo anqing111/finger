@@ -25,15 +25,17 @@ class WebAsset extends AssetBundle
         'css/default.css',
         'css/main.css',
         'assets/509f2668/redactor.css',
+        'layui/css/layui.css',
     ];
     public $js = [
         'js/jquery.min.js',
         'layui/layui.js',
         'js/swiper.min.js',
         'js/dplayer.min.js',
-        'js/default.js',
+        'js/default-v1.0.js',
         'js/md5v1.js',
         'js/public.js',
+        'js/xadmin.js',
     ];
 
     public $jsOptions = [

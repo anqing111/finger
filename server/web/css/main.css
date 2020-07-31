@@ -221,8 +221,8 @@
     font-size: 20px;
 }
 .container.index .person-show .content-box .list .content .item:hover{
-    cursor: pointer;
-    color: #EF8911;
+    /*cursor: pointer;*/
+    /*color: #EF8911;*/
 }
 .container.index .person-show .content-box .list .content .item .index{
     width: 20px;
@@ -413,6 +413,7 @@
     left: 50%;
     transform: translate(-50%,-50%);
     width: 400px;
+    background: rgba(0,0,0,0);
 }
 .container.login .content-box .filler .success{
     position: absolute;
@@ -451,6 +452,7 @@
     width: 20px;
     height: 20px;
     margin: 15px 10px;
+    background: rgba(0,0,0,0);
 }
 .container.login .content-box .form .input-box input{
     border: none;
@@ -567,9 +569,6 @@
     line-height:43px;
     background: #ffffff;
     padding: 10px 66px;
-    border: 1px #eee solid;
-    border-radius:5px;
-    box-shadow: 1px 1px 5px 1px rgba(255,255,255,255);
     cursor:pointer;
 }
 .article-top h3{
@@ -590,7 +589,7 @@
 }
 .article-top button{
     height:17px;
-    font-size:18px;
+    font-size:16px;
     font-family:Microsoft YaHei;
     font-weight:bold;
     color:rgba(103,101,98,1);

@@ -62,34 +62,6 @@ $this->beginContent('@views/layouts/public.php');
         });
     });
 
-    function uploadFile(that,file)
-    {
-        $(that).fileupload({
-            dataType: 'json',
-            url: 'index.php?r=web/upload/upload',
-            success: function (json) {
-                if(json.code == 0){
-                    if(file == 'image')
-                    {
-                        $("input[name=headportrait]").val(json.data.url);
-                        $(".headportrait").attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
-                        $(".headportrait").css('display','block');
-                    }else{
-                        $("input[name=certificate]").val(json.data.url);
-                        $(".certificate").attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
-                        $(".certificate").css('display','block');
-                    }
-                }else{
-                    layui.use(['layer'], function() {
-                        $ = layui.jquery;
-                        var layer = layui.layer;
-                        layer.msg(json.msg);
-                    });
-                }
-            }
-        });
-    }
-
 </script>
 <?php
 $this->endContent();

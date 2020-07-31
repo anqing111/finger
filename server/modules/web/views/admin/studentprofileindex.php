@@ -13,9 +13,6 @@ $this->beginContent('@views/layouts/public.php');
       </span>
 </div>
 <div class="x-body">
-    <xblock>
-        <button class="layui-btn" data-title="添加" onclick="x_admin_show('添加','index.php?r=web/orgin/studentprofileedit')"><i class="layui-icon"></i>添加</button>
-    </xblock>
     <table class="layui-table">
         <thead>
         <tr>

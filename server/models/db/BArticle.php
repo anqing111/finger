@@ -18,6 +18,7 @@ use Yii;
  * @property int $index 排序
  * @property string $picture 图片
  * @property int $isRec 是否推荐到首页
+ * @property int $isHot 是否热门
  * @property string $dCreatTime 创建时间
  */
 class BArticle extends \yii\db\ActiveRecord
@@ -50,6 +51,18 @@ class BArticle extends \yii\db\ActiveRecord
      * */
     const YES = 1;
     const NO = 0;
+    public static $_isRec = [
+        self::YES => '是',
+        self::NO => '否',
+    ];
+    /*
+     * 是否热门
+     * 1 是 0 否
+     * */
+    public static $_isHot = [
+        self::YES => '是',
+        self::NO => '否',
+    ];
     /**
      * {@inheritdoc}
      */
@@ -65,7 +78,7 @@ class BArticle extends \yii\db\ActiveRecord
     {
         return [
             [['content'], 'string'],
-            [['status', 'type', 'click', 'index', 'isRec'], 'integer'],
+            [['status', 'type', 'click', 'index', 'isRec', 'isHot'], 'integer'],
             [['dReleaseTime', 'dCreatTime'], 'safe'],
             [['title', 'picture'], 'string', 'max' => 100],
             [['author'], 'string', 'max' => 50],
@@ -89,6 +102,7 @@ class BArticle extends \yii\db\ActiveRecord
             'index' => Yii::t('app', '排序'),
             'picture' => Yii::t('app', '图片'),
             'isRec' => Yii::t('app', '是否推荐到首页'),
+            'isHot' => Yii::t('app', '是否热门'),
             'dCreatTime' => Yii::t('app', '创建时间'),
         ];
     }

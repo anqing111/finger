@@ -14,7 +14,7 @@ $this->beginContent('@views/layouts/web.php');
             <div class="form">
                 <div class="content">
                     <div class="input-box flex-box">
-                        <img src="<?=Url::to('images/mail.png')?>" alt="">
+                        <img src="<?=Url::to('images/mail.png')?>" alt="" style="width:20px;height: 15px;margin-top: 19px; margin-left: 11px">
                         <input type="text" name="sMail" placeholder="邮箱" class="filler">
                     </div>
                     <!-- 错误提示 -->
@@ -24,7 +24,7 @@ $this->beginContent('@views/layouts/web.php');
                     </div>
                     <div class="msg-box flex-box">
                         <div class="input-box flex-box">
-                            <img src="<?=Url::to('images/code.png')?>" alt="">
+                            <img src="<?=Url::to('images/code.png')?>" alt="" style="width:20px;height: 17px;margin-top: 18px; margin-left: 11px">
                             <input type="text" name="code" placeholder="邮箱验证码" class="filler">
                         </div>
                         <button class="msg" id="time">获取验证码</button>
@@ -35,7 +35,7 @@ $this->beginContent('@views/layouts/web.php');
                         <span class="eptitle"></span>
                     </div>
                     <div class="input-box flex-box">
-                        <img src="<?=Url::to('images/password.png')?>" alt="">
+                        <img src="<?=Url::to('images/password.png')?>" alt="" style="width:17px;height: 20px;margin-top: 16px; margin-left: 11px">
                         <input type="password" name="sPassWord" placeholder="请输入密码" class="filler">
                     </div>
                     <!-- 错误提示 -->
@@ -44,7 +44,7 @@ $this->beginContent('@views/layouts/web.php');
                         <span class="eptitle"></span>
                     </div>
                     <div class="input-box flex-box">
-                        <img src="<?=Url::to('images/password.png')?>" alt="">
+                        <img src="<?=Url::to('images/password.png')?>" alt="" style="width:17px;height: 20px;margin-top: 16px; margin-left: 11px">
                         <input type="password" name="word" placeholder="确认密码" class="filler">
                     </div>
                     <!-- 错误提示 -->

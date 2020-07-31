@@ -32,26 +32,35 @@ class SiteController extends BaseController
         $today = date('Y-m-d H:i:s');
         $banner = BBanner::find()->andWhere(['and',['status'=>BBanner::PUBLISHED],['<','date_from',$today],['>','date_to',$today]])->orderBy('id desc')->all();
         //获取专家/讲师简介（讲师秀）
-        $instructor = EInstructor::find()->andWhere(['isRec'=>EInstructor::YES])->orderBy('id')->limit(\Yii::$app->params['teacher'])->all();
+        $instructor = EInstructor::find()->andWhere(['isRec'=>EInstructor::YES])->orderBy('id')->limit(4)->all();
 
         //获取网站咨询类文章
-        $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['INFORMATION_TYPE'])->all();
-        $article3 = $ids = [];
-        foreach ($article as $r)
-        {
-            $ids[] = $r->id;
-        }
-        //获取热点网站咨询类文章
-        if(count($ids) > \Yii::$app->params['article']['INFORMATION_TYPE'])
-        {
-            $article3 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::INFORMATION_TYPE],['not in',['id'],[implode(',',$ids)]]])->orderBy('click desc')->limit(\Yii::$app->params['article']['RE_INFORMATION_TYPE'])->all();
-        }
+//        $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['INFORMATION_TYPE'])->all();
+//        $article3 = $ids = [];
+//        foreach ($article as $r)
+//        {
+//            $ids[] = $r->id;
+//        }
+//        //获取热点网站咨询类文章
+//        if(count($ids) > \Yii::$app->params['article']['INFORMATION_TYPE'])
+//        {
+//            $article3 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::INFORMATION_TYPE],['not in',['id'],[implode(',',$ids)]]])->orderBy('click desc')->limit(\Yii::$app->params['article']['RE_INFORMATION_TYPE'])->all();
+//        }
+//        //技能薪酬类文章
+//        $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['TECHNICAL_TYPE'])->all();
+        /*
+         * 暂时以isHot作为热门标识  后续文章多了以点击量
+         * */
+        $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['isHot'=>BArticle::NO],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['INFORMATION_TYPE'])->all();
+        //获取热门文章
+        $article3 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['isHot'=>BArticle::YES]])->orderBy('click desc')->limit(\Yii::$app->params['article']['RE_INFORMATION_TYPE'])->all();
         //技能薪酬类文章
-        $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['TECHNICAL_TYPE'])->all();
+        $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isRec'=>BArticle::YES],['isHot'=>BArticle::NO],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->limit(\Yii::$app->params['article']['TECHNICAL_TYPE'])->all();
+
         //获取直播
         $cclive = BCclive::find()->where(['status'=>BCclive::NORMAL])->orderBy('liveStartTime')->asArray()->all();
         //获取学生学习视频
-        $video = BVideo::find()->andWhere(['and',['isRec'=>EStudentopus::YES]])->orderBy('id desc')->limit(\Yii::$app->params['opus'])->all();
+        $video = BVideo::find()->andWhere(['and',['isRec'=>EStudentopus::YES]])->orderBy('id desc')->limit(4)->all();
         //获取学生专业技能
         $professional = BProfessional::find()->andWhere(['and',['isRec'=>BProfessional::YES]])->orderBy('id desc')->limit(\Yii::$app->params['skill'])->all();
         return $this->renderPartial('index',[
@@ -87,19 +96,22 @@ class SiteController extends BaseController
         if(!\Yii::$app->request->get('id'))
         {
             //跳转到错误页面
-            $this->redirect(array('/wap/site/error'));
+//            $this->redirect(array('/wap/site/error'));
+            header('location:index.php?r=wap/site/error');
         }else{
             $id = \Yii::$app->request->get('id');
             if(!is_numeric($id))
             {
                 //跳转到错误页面
-                $this->redirect(array('/wap/site/error'));
+//                $this->redirect(array('/wap/site/error'));
+                header('location:index.php?r=wap/site/error');
             }else{
                 $instructor = EInstructor::getInstructor([EInstructor::tableName().'.id'=>$id]);
                 if(!$instructor)
                 {
                     //跳转到错误页面
-                    $this->redirect(array('/wap/site/error'));
+//                    $this->redirect(array('/wap/site/error'));
+                    header('location:index.php?r=wap/site/error');
                 }else{
                     return $this->renderPartial('instructorinfo',['instructor'=>$instructor]);
                 }
@@ -121,6 +133,16 @@ class SiteController extends BaseController
                 if(!$cert)
                 {
                     self::getFailInfo('请输入正确的身份证号/证书编号',$this->method);
+                }
+                //判断证书是否审核通过
+                if($cert->status == EStudentcertificate::UNDERREVIEW) //审核中
+                {
+                    self::getFailInfo('证书正在审核中...',$this->method);
+                }
+
+                if($cert->status == EStudentcertificate::FILED) //审核未通过
+                {
+                    self::getFailInfo('证书审核失败请重新提交审核...',$this->method);
                 }
             }else{
                 self::getFailInfo('请输入正确的身份证号/证书编号',$this->method);
@@ -157,7 +179,8 @@ class SiteController extends BaseController
         if(empty($get['idcard']) || empty($get['sCertificateNum']) || empty($get['time']) || empty($get['token']))
         {
             //跳转到错误页面
-            $this->redirect(array('/wap/site/error'));
+//            $this->redirect(array('/wap/site/error'));
+            header('location:index.php?r=wap/site/error');
         }else{
             $arPara = [
                 'idcard'=>explode('@@',base64_decode($get['idcard']))[0],
@@ -176,13 +199,15 @@ class SiteController extends BaseController
             if($signMsg != $get['token'])
             {
                 //跳转到错误页面
-                $this->redirect(array('/wap/site/error'));
+//                $this->redirect(array('/wap/site/error'));
+                header('location:index.php?r=wap/site/error');
             }else{
                 $cert = EStudentcertificate::find()->where(['and',['idcard'=>$arPara['idcard']],['sCertificateNum'=>$arPara['sCertificateNum']]])->one();
                 if(!$cert)
                 {
                     //跳转到错误页面
-                    $this->redirect(array('/wap/site/error'));
+//                    $this->redirect(array('/wap/site/error'));
+                    header('location:index.php?r=wap/site/error');
                 }else{
                     $video = BVideo::find()->where(['iUserID'=>$cert->iUserID])->all();
                     return $this->renderPartial('certificateinfo',['cert'=>$cert,'video'=>$video]);
@@ -198,7 +223,7 @@ class SiteController extends BaseController
     public function actionCollege()
     {
         //获取学校列表
-        $university = BUniversity::findOne(2);
+        $university = BUniversity::find()->where(['status'=>BUniversity::PUBLISHED])->orderBy('id desc')->one();
         return $this->renderPartial('college',['university'=>$university]);
     }
     /**
@@ -226,19 +251,22 @@ class SiteController extends BaseController
         if(!\Yii::$app->request->get('id'))
         {
             //跳转到错误页面
-            $this->redirect(array('/wap/site/error'));
+//            $this->redirect(array('/wap/site/error'));
+            header('location:index.php?r=wap/site/error');
         }else{
             $id = \Yii::$app->request->get('id');
             if(!is_numeric($id))
             {
                 //跳转到错误页面
-                $this->redirect(array('/wap/site/error'));
+//                $this->redirect(array('/wap/site/error'));
+                header('location:index.php?r=wap/site/error');
             }else{
                 $article = BArticle::findOne($id);
                 if(!$article)
                 {
                     //跳转到错误页面
-                    $this->redirect(array('/wap/site/error'));
+//                    $this->redirect(array('/wap/site/error'));
+                    header('location:index.php?r=wap/site/error');
                 }else{
                     return $this->renderPartial('articleinfo',['article'=>$article]);
                 }
@@ -266,6 +294,17 @@ class SiteController extends BaseController
             {
                 $post['sCityName'] = $city->sCityName;
             }
+
+            $sPassWord = rand(100000,999999);
+            $join = BJoin::find()->orderBy('joinNum desc')->one();
+            if(!empty($join))
+            {
+                $post['joinNum'] = $join->joinNum + 1;
+            }else{
+                $post['joinNum'] = 10001;
+            }
+            //密钥加密
+            $post['sPassWord'] = base64_encode(\Yii::$app->getSecurity()->encryptByPassword($sPassWord, \Yii::$app->params['secretKey']));
 
             if(false == BJoin::insertJoin($post))
             {
@@ -318,19 +357,22 @@ class SiteController extends BaseController
         if(!\Yii::$app->request->get('id'))
         {
             //跳转到错误页面
-            $this->redirect(array('/wap/site/error'));
+//            $this->redirect(array('/wap/site/error'));
+            header('location:index.php?r=wap/site/error');
         }else{
             $id = \Yii::$app->request->get('id');
             if(!is_numeric($id))
             {
                 //跳转到错误页面
-                $this->redirect(array('/wap/site/error'));
+//                $this->redirect(array('/wap/site/error'));
+                header('location:index.php?r=wap/site/error');
             }else{
                 $course = BCourse::find()->where(['and',['id'=>$id],['status'=>BCourse::PUBLISHED]])->asArray()->one();
                 if(!$course)
                 {
                     //跳转到错误页面
-                    $this->redirect(array('/wap/site/error'));
+//                    $this->redirect(array('/wap/site/error'));
+                    header('location:index.php?r=wap/site/error');
                 }else{
                     //获取章节
                     $course['trainingvideo'] = [];

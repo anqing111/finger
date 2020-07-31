@@ -34,18 +34,20 @@ class WapAsset extends AssetBundle
     public $css = [
         'css/font.css',
         'css/swiper.min.css',
-        'css/default.css',
-        'css/main.css',
+        'css/default-v1.0.css',
+        'css/main-v1.0.css',
         'assets/509f2668/redactor.css',
+        'layui/css/layui.css',
     ];
     public $js = [
         'js/jquery.min.js',
         'layui/layui.js',
         'js/swiper.min.js',
         'js/dplayer.min.js',
-        'js/default.js',
+        'js/default-v1.0.js',
         'js/md5v1.js',
         'js/public.js',
+        'js/xadmin.js',
     ];
 
     public $jsOptions = [

@@ -29,14 +29,14 @@ $this->beginContent('@views/layouts/web.php');
                     <div class="section-title">
                         <div class="course-title">全部课程</div>
                         <div class="course-tag">
-                            <li data-value = '-1' onclick="optionCourse(this)">全部</li>
+                            <li data-value = '-1' onclick="optionCourse(this)" style="color: rgb(255, 157, 42);">全部</li>
                             <?php foreach($industr as $r){?>
                             <li data-value = '<?=$r->id?>' onclick="optionCourse(this)"><?=$r->sIndustryName?></li>
                             <?php }?>
                         </div>
                         <div class="course-title" style="margin-bottom: 20px">精品公开课</div>
                     </div>
-                    <hr>
+                    <hr style=" height: 1px;border: none;background:rgba(231,237,241,1);">
                     <div class="content-box" style="margin-top: 20px">
                         <?php foreach($course as $c){?>
                             <div class="flex-box course-list" onclick="courseinfo(<?=$c->id?>)">

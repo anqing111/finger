@@ -24,25 +24,27 @@ $this->beginContent('@views/layouts/public.php');
             <th>操作</th>
         </thead>
         <tbody class="for" align="center">
-        <?php foreach($university as $k => $r){?>
-            <tr>
-                <td><?=($k+1)?></td>
-                <td><?=$r['title']?></td>
-                <td><?=$r['dReleaseTime']?></td>
-                <td><?=\app\models\db\BUniversity::$_status[$r['status']]?></td>
-                <td class="td-manage">
-                    <?php if($r['status'] == \app\models\db\BUniversity::UNRELEASED || $r['status'] == \app\models\db\BUniversity::OFFTHESHELF){?>
-                        <a title="发布" onclick="optionStatus(<?=$r['id']?>,<?=\app\models\db\BUniversity::PUBLISHED?>)" href="javascript:;">【发布】
-                        </a>
-                    <?php }else{?>
-                        <a title="下架" onclick="optionStatus(<?=$r['id']?>,<?=\app\models\db\BUniversity::OFFTHESHELF?>)" href="javascript:;">【下架】
-                        </a>
-                    <?php }?>
+        <?php if(!empty($university)){?>
+            <?php foreach($university as $k => $r){?>
+                <tr>
+                    <td><?=($k+1)?></td>
+                    <td><?=$r['title']?></td>
+                    <td><?=$r['dReleaseTime']?></td>
+                    <td><?=\app\models\db\BUniversity::$_status[$r['status']]?></td>
+                    <td class="td-manage">
+                        <?php if($r['status'] == \app\models\db\BUniversity::UNRELEASED || $r['status'] == \app\models\db\BUniversity::OFFTHESHELF){?>
+                            <a title="发布" onclick="optionStatus(<?=$r['id']?>,<?=\app\models\db\BUniversity::PUBLISHED?>)" href="javascript:;">【发布】
+                            </a>
+                        <?php }else{?>
+                            <a title="下架" onclick="optionStatus(<?=$r['id']?>,<?=\app\models\db\BUniversity::OFFTHESHELF?>)" href="javascript:;">【下架】
+                            </a>
+                        <?php }?>
 
-                    <a title="编辑" onclick="x_admin_show('编辑','index.php?r=web/admin/universityedit&id=<?=$r['id']?>')" href="javascript:;">【编辑】
-                    </a>
-                </td>
-            </tr>
+                        <a title="编辑" onclick="x_admin_show('编辑','index.php?r=web/admin/universityedit&id=<?=$r['id']?>')" href="javascript:;">【编辑】
+                        </a>
+                    </td>
+                </tr>
+            <?php }?>
         <?php }?>
         </tbody>
     </table>

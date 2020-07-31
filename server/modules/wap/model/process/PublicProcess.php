@@ -34,7 +34,7 @@ class PublicProcess
     {
         $top = '<header>
         <div class="container flex-box">
-            <img src="'.\Yii::$app->params['imagePath'].'/wap/images/logo.png" alt="" class="logo">
+            <a href="index.php?r=wap/site"><img src="'.\Yii::$app->params['imagePath'].'/wap/images/logo.png" alt="" class="logo"></a>
             <div class="filler"></div>
             <a href="index.php?r=wap/site/certificateindex">
                 <div class="searcher flex-box">
@@ -45,9 +45,9 @@ class PublicProcess
             <img src="'.Url::to('images/nav.png').'" alt="" class="nav-img">
         </div>
         <div class="nav-list">
-            <a href="index.php?r=wap/site" class="flex-box"><img src="'.Url::to('images/home.png').'" alt=""><span>首页</span></a>
-            <a href="index.php?r=wap/site/courseindex" class="flex-box"><img src="'.Url::to('images/book.png').'" alt=""><span>课程</span></a>
-            <a class="flex-box"><img src="'.Url::to('images/teach.png').'" alt=""><span>继续教育</span></a>
+            <a href="index.php?r=wap/site" class="flex-box"><img src="'.Url::to('images/home.png').'" alt="" style="width: 2.5rem;height: 2.3125rem"><span>首页</span></a>
+            <a href="index.php?r=wap/site/courseindex" class="flex-box"><img src="'.Url::to('images/book.png').'" alt="" style="width: 2.5rem;height: 2.25rem"><span>课程</span></a>
+            <a class="flex-box"><img src="'.Url::to('images/teach.png').'" alt="" style="width: 2.625rem;height: 2rem"><span>继续教育</span></a>
         </div>
     </header>';
         return $top;

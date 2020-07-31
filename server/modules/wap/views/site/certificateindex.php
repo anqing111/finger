@@ -22,12 +22,12 @@ $this->beginContent('@views/layouts/wap.php');
     <div class="form">
         <div class="certificate">
             <div class="input-box flex-box">
-                <img src="<?=Url::to('images/card.png')?>" alt="">
-                <input type="text" name="idcard" placeholder="身份证号" class="filler">
+                <img src="<?=Url::to('images/card.png')?>" alt="" style="width: 1.75rem;height: 1.25rem">
+                <input type="text" name="idcard" placeholder="身份证号" class="filler" style="padding-left: 0">
             </div>
             <div class="input-box flex-box">
-                <img src="<?=Url::to('images/cert.png')?>" alt="">
-                <input type="text" name="sCertificateNum" placeholder="证书编号" class="filler">
+                <img src="<?=Url::to('images/cert.png')?>" alt="" style="width: 1.75rem;height: 1.75rem">
+                <input type="text" name="sCertificateNum" placeholder="证书编号" class="filler" style="padding-left: 0">
             </div>
             <!-- 错误提示 -->
             <div class="errorPrompt" style="display: none;">
@@ -38,9 +38,7 @@ $this->beginContent('@views/layouts/wap.php');
         </div>
     </div>
 </div>
-<footer style="position: fixed;
-    bottom: 0;
-    width: 46.875rem;">
+<footer>
     <?=\app\modules\wap\model\process\PublicProcess::MiddleWeb()?>
 </footer>
 <script>

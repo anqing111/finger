@@ -18,7 +18,7 @@ $this->beginContent('@views/layouts/wap.php');
 </div>
 <div class="container article">
     <div class="bg"></div>
-    <div class="redactor-editor" contenteditable="true" dir="ltr" style="min-height: 800px;border: none">
+    <div class="redactor-editor" contenteditable="false" dir="ltr" style="min-height: 800px;border: none">
         <?=$article->content?>
     </div>
 </div>

@@ -7,26 +7,45 @@ $this->beginContent('@views/layouts/public.php');
     h1{
         font-size: 20px;padding: 1rem;font-weight: 900;
     }
+    font{
+        color: red;
+    }
 </style>
 <body>
 <h1>基本信息：</h1>
 <div class="x-body">
-    <div class="layui-form-item">
-        <label for="L_phone" class="layui-form-label">Banner：</label>
-        <?php $form=\yii\widgets\ActiveForm::begin([
-            'id'=>'upload',
-            'enableAjaxValidation' => false,
-            'options'=>['enctype'=>'multipart/form-data']
-        ]);
-        ?>
-        <?=$form->field($model, 'imageFile')->label(false)->fileInput(['style'=>'display:inline;']) ?>
-        <?php \yii\widgets\ActiveForm::end(); ?>
-        <div class="image">
-            <img src="<?=isset($banner['image']) ? Yii::$app->params['imagePath'].$banner['image'] : ''?>" alt="" style="margin-bottom: 10px">
-        </div>
-    </div>
     <form class="layui-form" method="post" action="">
         <input type="hidden" value="<?=$banner['id'] ?? '' ?>" name="id">
+
+        <div class="layui-form-item">
+            <label for="L_phone" class="layui-form-label">PCBanner：</label>
+            <div class="layui-input-inline" style="width: 80%">
+                <input type="hidden" name="UploadForm[imageFile]" value="">
+                <input type="hidden" name="PCBanner" value="<?=$banner['PCBanner'] ?? ''?>">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'PCBanner')">
+                <font>参考尺寸：1920*560</font>
+                <?php if(!empty($banner['PCBanner'])){?>
+                    <img src="<?=Yii::$app->params['imagePath'].$banner['PCBanner']?>" alt="" class="PCBanner">
+                <?php }else{?>
+                    <img src="" alt="" style="display: none" class="PCBanner">
+                <?php }?>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_phone" class="layui-form-label">WapBanner：</label>
+            <div class="layui-input-inline" style="width: 80%">
+                <input type="hidden" name="UploadForm[imageFile]" value="">
+                <input type="hidden" name="WapBanner" value="<?=$banner['WapBanner'] ?? ''?>">
+                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'WapBanner')">
+                <font>参考尺寸：375*194</font>
+                <?php if(!empty($banner['WapBanner'])){?>
+                    <img src="<?=Yii::$app->params['imagePath'].$banner['WapBanner']?>" alt="" class="WapBanner">
+                <?php }else{?>
+                    <img src="" alt="" style="display: none" class="WapBanner">
+                <?php }?>
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">标  题：</label>
@@ -60,7 +79,6 @@ $this->beginContent('@views/layouts/public.php');
                 <input type="text" id="date_to" value="<?=$banner['date_to'] ?? ''?>"  name="date_to" lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
-        <input type="hidden" name="image" value="<?=$banner['image'] ?? ''?>">
         <div class="layui-form-item" style="margin-left: 10rem">
             <label class="layui-form-label">
             </label>
@@ -69,6 +87,26 @@ $this->beginContent('@views/layouts/public.php');
     </form>
 </div>
 <script>
+    function uploadFile(that,file)
+    {
+        $(that).fileupload({
+            dataType: 'json',
+            url: 'index.php?r=web/upload/upload',
+            success: function (json) {
+                if(json.code == 0){
+                    $("input[name="+file+"]").val(json.data.url);
+                    $("."+file).attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
+                    $("."+file).css('display','block');
+                }else{
+                    layui.use(['layer'], function() {
+                        $ = layui.jquery;
+                        var layer = layui.layer;
+                        layer.msg(json.msg);
+                    });
+                }
+            }
+        });
+    }
     // 日期插件
     layui.use('laydate', function(){
         var laydate = layui.laydate;
@@ -91,19 +129,6 @@ $this->beginContent('@views/layouts/public.php');
         var form = layui.form
             ,layer = layui.layer;
 
-        $('#uploadform-imagefile').fileupload({
-            dataType: 'json',
-            url: 'index.php?r=web/upload/upload',
-            success: function (json) {
-                if(json.code == 0){
-                    $(".image img").attr('src',"<?=Yii::$app->params['imagePath']?>"+json.data.url);
-                    $("input[name=image]").val(json.data.url);
-                }else{
-                    layer.msg(json.msg);
-                }
-            }
-        });
-
         //自定义验证规则
         form.verify({
             classhour: [/^[1-9]*[1-9][0-9]*$/, '课时必需为正整数']
@@ -111,9 +136,14 @@ $this->beginContent('@views/layouts/public.php');
 
         form.on('submit(save)', function(data){
 
-            if($("input[name=image]").val().length == 0)
+            if($("input[name=PCBanner]").val().length == 0)
             {
-                layer.msg('请上传Banner图片');
+                layer.msg('请上传PCBanner图片');
+                return false;
+            }
+            if($("input[name=WapBanner]").val().length == 0)
+            {
+                layer.msg('请上传WapBanner图片');
                 return false;
             }
 

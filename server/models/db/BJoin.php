@@ -56,7 +56,7 @@ class BJoin extends \yii\db\ActiveRecord
             [['person'], 'string', 'max' => 50],
             [['sPhone'], 'string', 'max' => 11],
             [['sMail'], 'string', 'max' => 40],
-            [['sPassWord'], 'string', 'max' => 16],
+            [['sPassWord'], 'string', 'max' => 255],
             [['sCityName'], 'string', 'max' => 20],
             [['cause'], 'string', 'max' => 255],
         ];
@@ -115,6 +115,7 @@ class BJoin extends \yii\db\ActiveRecord
         }
         if(!$post->validate() or !$post->save())
         {
+            print_r($post->getErrors());
             return FALSE;
         }
         return $post->primaryKey;

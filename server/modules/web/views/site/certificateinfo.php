@@ -48,11 +48,11 @@ $this->beginContent('@views/layouts/web.php');
                     <?php foreach ($video as $k => $r){?>
                         <?php if(($k + 1) % 2 == 0){?>
                             <div class="flex-box certificate-video-list" style="margin-right: 0">
-                                <img src="<?=Yii::$app->params['imagePath'].$r->sVideoImg?>" alt="" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$r->sVideoUrl?>')">
+                                <img src="<?=Yii::$app->params['imagePath'].$r->sVideoImg?>" alt="" onclick="videoPlay('<?=$r->sVideoUrl?>')">
                             </div>
                         <?php }else{?>
                             <div class="flex-box certificate-video-list">
-                                <img src="<?=Yii::$app->params['imagePath'].$r->sVideoImg?>" alt="" onclick="videoPlay('<?=Yii::$app->params['imagePath'].$r->sVideoUrl?>')">
+                                <img src="<?=Yii::$app->params['imagePath'].$r->sVideoImg?>" alt="" onclick="videoPlay('<?=$r->sVideoUrl?>')">
                             </div>
                         <?php }?>
                     <?php }?>

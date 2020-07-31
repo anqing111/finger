@@ -16,7 +16,7 @@ $this->beginContent('@views/layouts/web.php');
                     <input type="hidden" name="iUserID" value="<?=$iUserID?>">
                     <input type="hidden" name="sMail" value="<?=$sMail?>">
                     <div class="input-box flex-box">
-                        <img src="" alt="">
+                        <img src="<?=Url::to('images/phone.png')?>" alt="" style="width:13px;height: 21px;margin-top: 16px; margin-left: 11px;margin-right: 16px">
                         <input type="text" name="sPhone" placeholder="手机号" class="filler">
                     </div>
                     <!-- 错误提示 -->
@@ -26,7 +26,7 @@ $this->beginContent('@views/layouts/web.php');
                     </div>
                     <div class="msg-box flex-box">
                         <div class="input-box flex-box">
-                            <img src="" alt="">
+                            <img src="<?=Url::to('images/code.png')?>" alt="" style="width:20px;height: 17px;margin-top: 18px; margin-left: 11px">
                             <input type="text" name="code" placeholder="请输入验证码" class="filler">
                         </div>
                         <button class="msg" id="time">获取验证码</button>

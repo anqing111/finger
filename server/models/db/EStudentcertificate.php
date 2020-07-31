@@ -92,15 +92,16 @@ class EStudentcertificate extends \yii\db\ActiveRecord
     }
 
     //获取该学员所有证书
-    public static function getStudentcertificate($params)
+    public static function getStudentcertificate($params = [])
     {
         //查询生成器查询
         $query = (new \yii\db\Query());
         $industr = $query->from(self::tableName())
-            ->select([self::tableName().'id','sName','sCertificateNum','subjectName','dGetDate','status','sOrganName','cause'])
+            ->select([self::tableName().'.id','sName','sCertificateNum','subjectName','dGetDate','status','sOrganName','cause','sNick','c.iUserID','sCertificateImg'])
             ->leftJoin(['b' => BCertificate::tableName()], self::tableName().'.cid = b.id')
+            ->leftJoin(['c' => BUserbaseinfo::tableName()], self::tableName().'.iUserID = c.iUserID')
             ->where($params)
-            ->orderBy(self::tableName().'id desc')
+            ->orderBy(self::tableName().'.id desc')
             ->all();
 
         return $industr;
