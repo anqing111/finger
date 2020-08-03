@@ -73,7 +73,7 @@ $this->beginContent('@views/layouts/public.php');
         <!-- 中部结束 -->
         <!-- 底部开始 -->
         <div class="footer">
-            <div class="copyright"><a href="<?=Yii::$app->params['baseUrl']?>" style="color: #fff"><?= Html::encode($this->title) ?></a></div>
+            <div class="copyright"><a href="<?=Yii::$app->params['baseUrl']?>" style="color: #fff">京ICP备20028411号-1</a></div>
         </div>
 <?php
 $this->endContent();

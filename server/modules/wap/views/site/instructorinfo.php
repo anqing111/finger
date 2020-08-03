@@ -26,7 +26,7 @@ $this->beginContent('@views/layouts/wap.php');
         <div class="section-title">
             <div class="instructorinfo-title">讲师信息</div>
         </div>
-        <hr style="height:1px;border:none;border-top:1px double rgba(222,230,236,1);">
+        <hr style="height:0;border:none;border-top:1px double #FEF5EC;background: #FEF5EC">
         <div class="content-box instructorinfo-info">
             <div class="item flex-box" style="justify-content: center;">
                 <img src="<?=Yii::$app->params['imagePath'].$instructor['bigheadportrait']?>" alt="">

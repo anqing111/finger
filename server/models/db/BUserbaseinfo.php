@@ -143,7 +143,7 @@ class BUserbaseinfo extends \yii\db\ActiveRecord
     //获取学员档案作品秀
     public function getStudentopus()
     {
-        $studentopus = $this->hasMany(Estudentopus::className(),['iUserID' => 'iUserID'])->asArray();
+        $studentopus = $this->hasMany(EStudentopus::className(),['iUserID' => 'iUserID'])->asArray();
         return $studentopus;
     }
 

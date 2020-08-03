@@ -38,6 +38,13 @@ $this->beginContent('@views/layouts/wap.php');
     {
         background: #FF9D2A ;
     }
+    .layui-form-item .layui-input-inline{
+        margin:0 auto;
+    }
+    .layui-select-title input{
+        width: 28.1875rem;
+        color: #95928F;
+    }
 </style>
 <?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
 <div class="top">
@@ -77,7 +84,7 @@ $this->beginContent('@views/layouts/wap.php');
         <div class="errorPrompt" style="display: none;">
             <span class="eptitle">&nbsp;</span>
         </div>
-        <div class="x-body" style="position: relative;top: -2.8rem;left: -8.5rem;">
+        <div class="x-body" style="position: relative;top: -2.8rem;width: 28.1875rem;left: 4rem">
             <form class="layui-form" method="post" action="">
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
@@ -96,7 +103,7 @@ $this->beginContent('@views/layouts/wap.php');
             <span class="eptitle">&nbsp;</span>
         </div>
         <div class="input-box flex-box">
-            <img src="<?=Url::to('images/phone.png')?>" alt="" style="width: 1.0625rem;height: 1.75rem;margin-right: 1.625rem">
+            <img src="<?=Url::to('images/phone.png')?>" alt="" style="width: 1.0625rem;height: 1.75rem;margin-right: 1.025rem;margin-left: 1.5rem">
             <input type="text" name="sPhone" placeholder="联系电话" class="filler">
         </div>
         <!-- 错误提示 -->

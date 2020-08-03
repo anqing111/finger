@@ -10,6 +10,9 @@ $this->beginContent('@views/layouts/public.php');
     .layui-form-label{
         width: 12rem;
     }
+    font{
+        color:red;
+    }
 </style>
 <body>
 <div class="x-body">
@@ -62,7 +65,7 @@ $this->beginContent('@views/layouts/public.php');
                             <div class="layui-input-inline" style="width: 80%">
                                 <input type="hidden" name="UploadForm[imageFile]" value="">
                                 <input type="hidden" name="studentopus[sOpusvideoImg][<?=$k1?>]" value="<?=$r1['sOpusvideoImg']?>" class="sOpusvideoImg<?=$k1?>">
-                                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sOpusvideoImg',<?=$k1?>)">
+                                <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 30%;border: none" onclick="uploadFile(this,'sOpusvideoImg',<?=$k1?>)">
                                 <font>参考尺寸：280*210</font>
                                 <img src="<?=\Yii::$app->params['imagePath'].$r1['sOpusvideoImg']?>" alt="" class="sOpusvideoImgs<?=$k1?>">
                             </div>
@@ -90,7 +93,7 @@ $this->beginContent('@views/layouts/public.php');
                         <div class="layui-input-inline" style="width: 80%">
                             <input type="hidden" name="UploadForm[imageFile]" value="">
                             <input type="hidden" name="studentopus[sOpusvideoImg][0]" class="sOpusvideoImg0">
-                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,'sOpusvideoImg',0)">
+                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 30%;border: none" onclick="uploadFile(this,'sOpusvideoImg',0)">
                             <font>参考尺寸：280*210</font>
                             <img src="" alt="" style="display: none" class="sOpusvideoImgs0">
                         </div>
@@ -544,7 +547,7 @@ $this->beginContent('@views/layouts/public.php');
             '                        <div class="layui-input-inline" style="width: 80%">\n' +
             '                            <input type="hidden" name="UploadForm[imageFile]" value="">\n' +
             '                            <input type="hidden" name="studentopus[sOpusvideoImg]['+bookindex+']" class="sOpusvideoImg'+bookindex+'">\n' +
-            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 18%;border: none" onclick="uploadFile(this,\'sOpusvideoImg\','+bookindex+')">\n' +
+            '                            <input type="file" name="UploadForm[imageFile]" autocomplete="off" class="layui-input" style="float: left;width: 30%;border: none" onclick="uploadFile(this,\'sOpusvideoImg\','+bookindex+')">\n' +
             '                            <font>参考尺寸：280*210</font>'+
             '                            <img src="" alt="" style="display: none" class="sOpusvideoImgs'+bookindex+'">\n' +
             '                        </div>\n' +

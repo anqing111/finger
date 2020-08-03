@@ -2,6 +2,7 @@
     font-family: '-apple-system', 'BlinkMacSystemFont', 'Microsoft Yahei', '微软雅黑', 'sans-serif';
     margin: 0;
     padding: 0;
+    letter-spacing: 2px;
 }
 a{
     text-decoration: none;
@@ -102,11 +103,8 @@ header .options .options2{
 
 .top img{
     width: 100%;
-    margin-top: 30px;
-    margin-right: 70px;
 }
 .top .article-title{
-    width:1200px;
     height:31px;
     font-size:30px;
     font-family:Microsoft YaHei;
@@ -115,9 +113,8 @@ header .options .options2{
     line-height:21px;
     text-align: center;
     margin:auto;
-    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
-    left:18%;
-    top:30%;
+    position:relative;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:64px;
 }
 .top .article-author{
     width:500px;
@@ -129,9 +126,9 @@ header .options .options2{
     line-height:21px;
     text-align: left;
     margin:auto;
-    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
-    left:38%;
-    top:55%;
+    position:relative;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left: 51px;
+    top: -41px;
 }
 .top .article-time{
     width:500px;
@@ -143,19 +140,17 @@ header .options .options2{
     line-height:21px;
     text-align: left;
     margin:auto;
-    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
-    left:38%;
-    top:70%;
+    position:relative;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    left: 51px;
+    top: -30px;
 }
 .top .article-head{
     width:45px;
     height:45px;
     line-height:21px;
     text-align: left;
-    margin:auto;
-    position:absolute;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
-    left:35%;
-    top:42%;
+    position:relative;/*设定水平和垂直偏移父元素的50%，再根据实际长度将子元素上左挪回一半大小*/
+    top:6px;
 }
 .course-title{
     height:19px;

@@ -82,7 +82,7 @@ class PublicProcess
         $top = '<header class="shadow">
         <div class="container flex-box">
             <div class="filler flex-box">
-                <img src="'.\yii\helpers\Url::to('images/logo.png').'" alt="" class="logo" style="background: rgba(0,0,0,0);">
+                <a href="index.php?r=web/site"><img src="'.\yii\helpers\Url::to('images/logo.png').'" alt="" class="logo" style="background: rgba(0,0,0,0);"></a>
             </div>
             <div class="options">
                 <div class="options1">
@@ -109,7 +109,7 @@ class PublicProcess
                 <a href="" class="filler">我要加入</a>
             </div>
             <div class="line flex-box">
-                <a href="" class="filler">备案信息</a>
+                <a class="filler" style="font-size: 10px;margin-top: 10px">京ICP备20028411号-1</a>
             </div>
         </div>
     </div>';

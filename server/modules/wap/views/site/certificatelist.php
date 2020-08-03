@@ -24,7 +24,7 @@ $this->beginContent('@views/layouts/wap.php');
 <div class="container course">
     <div class="container" style="position: relative;">
         <div class="section-title" style="height: 7.36vh">
-            <div class="course-title">精品公开课</div>
+            <div class="course-title">我的证书</div>
         </div>
         <hr style="height:1px;border:none;background: #FEF5EC">
         <div class="course-type">
@@ -32,24 +32,28 @@ $this->beginContent('@views/layouts/wap.php');
                 <div class="course-type-info-tag"></div>
                 <div class="course-type-info-title">全部</div>
             </div>
-            <?php foreach($industr as $k => $r){?>
+            <?php foreach($certificate as $k => $r){?>
                 <div class="course-type-info" onclick='optionCourse(<?=$r->id?>,this)' style=" margin-top: -5rem;background-color: #FFFCF9;">
                     <div class="course-type-info-tag" style="visibility: hidden"></div>
-                    <div class="course-type-info-title"><?=mb_substr($r->sIndustryName,0,4)?>...</div>
+                    <div class="course-type-info-title"><?=mb_substr($r->subjectName,0,4)?>...</div>
                 </div>
             <?php }?>
         </div>
         <div class="course-info">
-            <h3>全部（共<?=count($course)?>个课程）</h3>
-            <?php foreach($course as $c){?>
+            <h3>全部（共<?=count($cate)?>个证书）</h3>
+            <?php foreach($cate as $c){?>
                 <div class="course-list">
                     <div class="course-head">
-                        <img src="<?=Yii::$app->params['imagePath'].$c->sCourseImg?>" alt="">
+                        <img src="<?=Yii::$app->params['imagePath'].$c['sCertificateImg']?>" alt="">
                     </div>
                     <div class="course-content">
-                        <div class="course-name"><?=$c->sCourseName?></div>
-                        <div class="course-author">主讲人：<?=$c->author?></div>
-                        <div class="course-sign"><a href="index.php?r=wap/site/courseinfo&id=<?=$c->id?>">马上报名</a></div>
+                        <?php if(mb_strlen($c['sName']) > 7){?>
+                            <div class="course-name"><?=mb_substr($c['sName'],0,7)?>...</div>
+                        <?php }else{?>
+                            <div class="course-name"><?=$c['sName']?></div>
+                        <?php }?>
+                        <div class="course-author">No：<?=$c['sCertificateNum']?></div>
+                        <div class="course-sign"><a href="<?=$c['url']?>">查看详情</a></div>
                     </div>
                 </div>
             <?php }?>
@@ -120,12 +124,12 @@ $this->beginContent('@views/layouts/wap.php');
         $('.course-type-info-tag').css('visibility','hidden');
         $(that).find('.course-type-info-tag').css('visibility','visible');
 
-        var arrPara = ['merCode','timestamp','client','tid'];
+        var arrPara = ['merCode','timestamp','client','cid'];
         var jsonData = {
             merCode: '<?=Yii::$app->params['MERCODE']?>',
             timestamp: Date.now(),
             client:'wap',
-            tid:id
+            cid:id
         };
         arrPara = arrPara.sort();
         var str = "";
@@ -134,20 +138,20 @@ $this->beginContent('@views/layouts/wap.php');
         }
         str += 'key=<?=Yii::$app->params['KEY']?>';
         jsonData['signMsg'] = md5(str);
-        getAJAX(jsonData,courseindex,'site/courseindex');
+        getAJAX(jsonData,courseindex,'site/certificatelist');
     }
 
     function courseindex(jsonStr) {
-        var str = '<h3>'+jsonStr.data.sIndustryName+'（共'+jsonStr.data.course.length+'个课程）</h3>';
-        $(jsonStr.data.course).each(function (ids, items) {
+        var str = '<h3>'+jsonStr.data.subjectName+'（共'+jsonStr.data.cate.length+'个证书）</h3>';
+        $(jsonStr.data.cate).each(function (ids, items) {
             str += '<div class="course-list">\n' +
                 '                <div class="course-head">\n' +
-                '                <img src="<?=Yii::$app->params['imagePath']?>'+items.sCourseImg+'" alt="">\n'+
+                '                <img src="<?=Yii::$app->params['imagePath']?>'+items.sCertificateImg+'" alt="">\n'+
                 '                </div>\n'+
                 '                <div class="course-content">\n'+
-                '                <div class="course-name">'+items.sCourseName+'</div>\n'+
-                '                <div class="course-author">主讲人：'+items.author+'</div>\n'+
-                '            <div class="course-sign"><a href="index.php?r=wap/site/courseinfo&id='+items.id+'">马上报名</a></div>\n'+
+                '                <div class="course-name">'+items.sName+'</div>\n'+
+                '                <div class="course-author">No：'+items.sCertificateNum+'</div>\n'+
+                '            <div class="course-sign"><a href="'+items.url+'">查看详情</a></div>\n'+
                 '            </div>\n'+
                 '            </div>';
         });

@@ -122,7 +122,7 @@ class EStudentprofile extends \yii\db\ActiveRecord
     //获取学员档案作品秀
     public function getStudentopus()
     {
-        $studentopus = $this->hasMany(Estudentopus::className(),['iStuID' => 'id'])->asArray();
+        $studentopus = $this->hasMany(EStudentopus::className(),['iStuID' => 'id'])->asArray();
         return $studentopus;
     }
 

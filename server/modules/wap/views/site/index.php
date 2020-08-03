@@ -83,6 +83,39 @@ $this->beginContent('@views/layouts/wap.php');
             height: 15.625rem;
             margin-top: 1rem;
         }
+        .container.index .articles .hot-list .item .index
+        {
+            width: 1.675rem;
+            height: 1.675rem;
+        }
+        .play{
+            position: relative;
+            top: -1rem;
+        }
+        .playImg{
+            position: relative;
+            top:16.7rem;
+            width: auto;
+            height: 3.75rem;
+            opacity: 0.6;
+            background: rgba(0,0,0,1);
+        }
+        .playImg img{
+            width: 2.3rem;
+            height: 2.3rem;
+            background: rgba(0,0,0,0);
+            margin-left: 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .playImg p{
+            width: 15rem;
+            font-size: 1.5rem;
+            color: #CFCFCF;
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            top: 0.23rem;
+        }
     </style>
 <?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
     <div class="container index">
@@ -187,8 +220,43 @@ $this->beginContent('@views/layouts/wap.php');
                     </div>
                 </div>
                 <div class="group flex-box" style="width: 44.4rem">
-                    <?php foreach($video as $ks => $s){?>
-                        <img src="<?=Yii::$app->params['imagePath'].$s->sVideoImg?>" class="item" onclick="videoPlay('<?=$s->sVideoUrl?>')"/>
+                    <?php foreach($video as $ks => $s){
+                        $top = '';
+                        if($ks > 1)
+                        {
+                            $top = 'top:-3rem';
+                        }
+
+                        ?>
+                        <?php if(($ks + 1) % 2 == 0){?>
+                            <div class="play" style="margin-right: 0;<?=$top?>">
+                                <div class="playImg">
+                                    <img src="<?= Yii::$app->params['imagePath'] . '/wap/images/play.png' ?>" alt="">
+                                    <?php if(mb_strlen($s->sProblemName) > 10){?>
+                                        <p><?=mb_substr($s->sProblemName,0,10)?></p>
+                                    <?php }else{?>
+                                        <p><?=$s->sProblemName?></p>
+                                    <?php }?>
+                                </div>
+                                <div>
+                                    <img src="<?=Yii::$app->params['imagePath'].$s->sVideoImg?>" class="item" onclick="videoPlay('<?=$s->sVideoUrl?>')"/>
+                                </div>
+                            </div>
+                        <?php }else{?>
+                            <div class="play" style="margin-right: 1rem;<?=$top?>">
+                                <div class="playImg">
+                                    <img src="<?= Yii::$app->params['imagePath'] . '/wap/images/play.png' ?>" alt="">
+                                    <?php if(mb_strlen($s->sProblemName) > 10){?>
+                                        <p><?=mb_substr($s->sProblemName,0,10)?></p>
+                                    <?php }else{?>
+                                        <p><?=$s->sProblemName?></p>
+                                    <?php }?>
+                                </div>
+                                <div>
+                                    <img src="<?=Yii::$app->params['imagePath'].$s->sVideoImg?>" class="item" onclick="videoPlay('<?=$s->sVideoUrl?>')"/>
+                                </div>
+                            </div>
+                        <?php }?>
                     <?php }?>
                 </div>
             </div>
@@ -266,7 +334,7 @@ $this->beginContent('@views/layouts/wap.php');
                                 <span class="text one-line">'.mb_substr($r6->title,0,15).'...'.'</span>
                             </div>';
                                 }else{
-                                    echo '<div class="item" onclick="jumpUrl(\'index.php?r=web/site/articleinfo&id='.$r6->id.'\')">
+                                    echo '<div class="item" onclick="jumpUrl(\'index.php?r=wap/site/articleinfo&id='.$r6->id.'\')">
                                 <span class="index">'.($k6-1).'</span>
                                 <span class="text one-line">'.$r6->title.'</span>
                             </div>';

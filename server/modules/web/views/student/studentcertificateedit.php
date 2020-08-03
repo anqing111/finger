@@ -16,6 +16,7 @@ $this->beginContent('@views/layouts/public.php');
     <form class="layui-form" method="post" action="">
         <h1>基本信息：</h1>
         <input type="hidden" value="<?=$cate['id'] ?? '' ?>" name="id">
+        <input type="hidden" value="<?=$cate['iUserID'] ?? Yii::$app->session->get('iUserID') ?>" name="iUserID">
 
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">证书名称：</label>
@@ -46,7 +47,7 @@ $this->beginContent('@views/layouts/public.php');
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">身份证号：</label>
             <div class="layui-input-inline">
-                <input type="text" id="sCertificateNum" value="<?=$cate['sCertificateNum'] ?? ''?>"  name="sCertificateNum" lay-verify="required" autocomplete="off" class="layui-input" maxlength="18">
+                <input type="text" id="idcard" value="<?=$cate['idcard'] ?? ''?>"  name="idcard" lay-verify="required" autocomplete="off" class="layui-input" maxlength="18">
             </div>
         </div>
 

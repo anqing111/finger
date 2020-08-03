@@ -138,19 +138,55 @@ $this->beginContent('@views/layouts/web.php');
                         <a href="index.php?r=web/site/instructor" class="more">更多专家></a>
                     </div>
                     <div class="content-box">
-                        <?php foreach($instructor as $r2){?>
-                            <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer">
-                                <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
-                                <div class="detail filler">
-                                    <div class="name"><?=$r2->sName?></div>
-                                    <div class="time" style="font-size: 18px"><?=$r2->year?>年从业经验</div>
-                                    <?php if(mb_strlen($r2->info) > 50){?>
-                                        <div class="tip"><?=mb_substr($r2->info,0,50)?>...</div>
-                                    <?php }else{?>
-                                        <div class="tip"><?=$r2->info?></div>
-                                    <?php }?>
+                        <?php
+                        $t = 0;
+                        foreach($instructor as $k2 => $r2){
+                            $t++;
+                            if($t > 3)
+                            {
+                                $t = 1;
+                            }
+                            ?>
+                            <?php if($t % 3 == 0){?>
+                                <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer;width: 372px">
+                                    <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="" style="background: #000">
+                                    <div class="detail filler" style="margin-right: 0;">
+                                        <div class="name"><?=$r2->sName?></div>
+                                        <div class="time" style="font-size: 16px;font-weight: bold"><?=$r2->year?>年从业经验</div>
+                                        <?php if(mb_strlen($r2->info) > 50){?>
+                                            <div class="tip" style="font-size: 14px;width: 183px"><?=mb_substr($r2->info,0,50)?>...</div>
+                                        <?php }else{?>
+                                            <div class="tip" style="font-size: 14px;width: 183px"><?=$r2->info?></div>
+                                        <?php }?>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php }elseif($t % 2 == 0){?>
+                                <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer;width: 372px;margin-left: 42px;margin-right: 42px">
+                                    <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="" style="background: #000">
+                                    <div class="detail filler" style="margin-right: 30px;">
+                                        <div class="name"><?=$r2->sName?></div>
+                                        <div class="time" style="font-size: 16px;font-weight: bold"><?=$r2->year?>年从业经验</div>
+                                        <?php if(mb_strlen($r2->info) > 50){?>
+                                            <div class="tip" style="font-size: 14px;width: 183px"><?=mb_substr($r2->info,0,50)?>...</div>
+                                        <?php }else{?>
+                                            <div class="tip" style="font-size: 14px;width: 183px"><?=$r2->info?></div>
+                                        <?php }?>
+                                    </div>
+                                </div>
+                            <?php }else{?>
+                                <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer;width: 372px;">
+                                    <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="" style="background: #000">
+                                    <div class="detail filler" style="margin-right: 30px;">
+                                        <div class="name"><?=$r2->sName?></div>
+                                        <div class="time" style="font-size: 16px;font-weight: bold"><?=$r2->year?>年从业经验</div>
+                                        <?php if(mb_strlen($r2->info) > 50){?>
+                                            <div class="tip" style="font-size: 14px;width: 183px"><?=mb_substr($r2->info,0,50)?>...</div>
+                                        <?php }else{?>
+                                            <div class="tip" style="font-size: 14px;width: 183px"><?=$r2->info?></div>
+                                        <?php }?>
+                                    </div>
+                                </div>
+                            <?php }?>
                         <?php }?>
                     </div>
                 </div>

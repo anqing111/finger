@@ -10,19 +10,17 @@ $this->beginContent('@views/layouts/wap.php');
             <div class="section-title">
                 <div class="title">全部专家</div>
             </div>
-            <hr style="height:1px;border:none;border-top:1px double rgba(222,230,236,1);">
+            <hr style="height:0;border:none;border-top:1px double rgba(222,230,236,1);">
             <div class="content-box">
                 <?php foreach($instructor as $r2){?>
-                    <a href="index.php?r=wap/site/instructorinfo&id=5">
-                        <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer">
-                            <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
-                            <div class="detail filler">
-                                <div class="name"><?=$r2->sName?></div>
-                                <div class="time"><?=$r2->year?>年从业经验</div>
-                                <div class="tip"><?=mb_substr($r2->info,0,50)?>...</div>
-                            </div>
+                    <div class="item flex-box" onclick="optionInstructor(<?=$r2->id?>)" style="cursor:pointer">
+                        <img src="<?=Yii::$app->params['imagePath'].$r2->headportrait?>" alt="">
+                        <div class="detail filler">
+                            <div class="name"><?=$r2->sName?></div>
+                            <div class="time"><?=$r2->year?>年从业经验</div>
+                            <div class="tip"><?=mb_substr($r2->info,0,50)?>...</div>
                         </div>
-                    </a>
+                    </div>
                 <?php }?>
             </div>
         </div>
@@ -30,6 +28,11 @@ $this->beginContent('@views/layouts/wap.php');
     <footer>
         <?=\app\modules\wap\model\process\PublicProcess::MiddleWeb()?>
     </footer>
+    <script>
+        function optionInstructor(id) {
+            location.href = 'index.php?r=wap/site/instructorinfo&id='+id;
+        }
+    </script>
 <?php
 $this->endContent();
 ?>

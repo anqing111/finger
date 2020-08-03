@@ -739,8 +739,10 @@ class SiteController extends BaseController
         $article = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['type'=>BArticle::INFORMATION_TYPE]])->orderBy('id desc')->all();
         //获取文章列表
         $article2 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['type'=>BArticle::TECHNICAL_TYPE]])->orderBy('id desc')->all();
+        //获取热门文章
+        $article3 = BArticle::find()->andWhere(['and',['status'=>BArticle::PUBLISHED],['isHot'=>BArticle::YES]])->orderBy('click desc')->all();
 
-        return $this->renderPartial('article',['article'=>$article,'article2'=>$article2]);
+        return $this->renderPartial('article',['article'=>$article,'article2'=>$article2,'article3'=>$article3]);
     }
     /**
      * Renders the index view for the module

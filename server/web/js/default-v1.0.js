@@ -27,6 +27,7 @@ $(function(){
     }
     // 注册
     if($('.container.login').length){
+        console.log(1)
         $('.container.login').css('height',windowHeight-195+'px')
         $('.container.login .bg').css('width',windowWidth+'px')
         $('.container.login .bg').css('left',-(windowWidth-1200)/2+'px')

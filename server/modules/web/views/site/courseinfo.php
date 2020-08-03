@@ -30,7 +30,7 @@ $this->beginContent('@views/layouts/web.php');
 <header>
     <div class="container flex-box">
         <div class="filler flex-box">
-            <img src="<?=Url::to('images/logo.png')?>" alt="" class="logo" style="background: rgba(0,0,0,0);">
+            <a href="index.php?r=web/site"><img src="<?=Url::to('images/logo.png')?>" alt="" class="logo" style="background: rgba(0,0,0,0);"></a>
             <div class="menu flex-box">
                 <a href="index.php?r=web/site/index" class="item">首页</a>
                 <a href="index.php?r=web/site/courseindex" class="item active">课程</a>
@@ -59,8 +59,13 @@ $this->beginContent('@views/layouts/web.php');
                 <p class="couserinfo-time2">直播课时</p>
             </div>
             <div class="couserinfo-jianjie">简介：</div>
-            <div class="couserinfo-content"><?=mb_substr($course['sCourseInfo'],0,150)?>...</div>
-            <div class="couserinfo-sign"><a href="#">我要报名</a></div>
+            <?php if(mb_strlen($course['sCourseInfo']) > 150){?>
+                <div class="couserinfo-content"><?=mb_substr($course['sCourseInfo'],0,120)?>...</div>
+            <?php }else{?>
+                <div class="couserinfo-content"><?=$course['sCourseInfo']?></div>
+            <?php }?>
+
+            <div class="couserinfo-sign"><a href="#" style="width: auto">我要报名</a></div>
         </div>
     </div>
 </header>
@@ -72,7 +77,7 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="couserinfo-video-title">录播课时</div>
                 </div>
-                <hr style="height:3px;border:none;border-top:1px double rgba(222,230,236,1);">
+                <hr style="height:0;border:none;border-top:1px double rgba(222,230,236,1);background: #DEE6EC">
                 <div class="content-box">
                     <p>共<?=count($course['trainingvideo'])?>个章节</p>
                 </div>

@@ -26,11 +26,11 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="certificate-title">我的证书</div>
                 </div>
-                <hr>
-                <div class="content-box certificate-info">
-                    <div class="item flex-box" style="width: 800px">
-                        <img src="<?=Yii::$app->params['imagePath'].$cert->sCertificateImg?>" alt="">
-                        <div class="detail filler">
+                <hr style=" height: 1px;border: none;background:rgba(231,237,241,1);margin-top: -11px">
+                <div class="content-box certificate-info" style="left: 0">
+                    <div class="item flex-box" style="width: 1200px;height: 322px;margin-top: 9px;margin-bottom: 0px;">
+                        <img src="<?=Yii::$app->params['imagePath'].$cert->sCertificateImg?>" alt="" style="width: 485px">
+                        <div class="detail filler" style="margin-left: 12px;margin-right: 0">
                             <div class="name"><?=$cert->sName?></div>
                             <div class="tip2">
                                 <?=$cert->sContent?>
@@ -43,10 +43,10 @@ $this->beginContent('@views/layouts/web.php');
                 <div class="section-title">
                     <div class="certificate-video" style="margin-bottom: 20px">学习视频</div>
                 </div>
-                <hr>
+                <hr style=" height: 1px;border: none;background:rgba(231,237,241,1);margin-top: -11px;">
                 <div class="content-box" style="margin-top: 20px">
                     <?php foreach ($video as $k => $r){?>
-                        <?php if(($k + 1) % 2 == 0){?>
+                        <?php if(($k + 1) % 4 == 0){?>
                             <div class="flex-box certificate-video-list" style="margin-right: 0">
                                 <img src="<?=Yii::$app->params['imagePath'].$r->sVideoImg?>" alt="" onclick="videoPlay('<?=$r->sVideoUrl?>')">
                             </div>

@@ -48,6 +48,7 @@ class PublicProcess
             <a href="index.php?r=wap/site" class="flex-box"><img src="'.Url::to('images/home.png').'" alt="" style="width: 2.5rem;height: 2.3125rem"><span>首页</span></a>
             <a href="index.php?r=wap/site/courseindex" class="flex-box"><img src="'.Url::to('images/book.png').'" alt="" style="width: 2.5rem;height: 2.25rem"><span>课程</span></a>
             <a class="flex-box"><img src="'.Url::to('images/teach.png').'" alt="" style="width: 2.625rem;height: 2rem"><span>继续教育</span></a>
+            <a href="index.php?r=wap/site/certificatelist" class="flex-box"><img src="'.\Yii::$app->params['imagePath'].'/wap/images/cert.png'.'" alt="" style="width: 2.625rem;height: 2rem"><span>我的证书</span></a>
         </div>
     </header>';
         return $top;
@@ -85,7 +86,7 @@ class PublicProcess
                     <a href="" class="filler">我要加入</a>
                 </div>
                 <div class="line flex-box">
-                    <a href="" class="filler">备案信息</a>
+                    <a class="filler" style="margin-top: 1rem;font-size: 1rem">京ICP备20028411号-1</a>
                 </div>
             </div>
         </div>';

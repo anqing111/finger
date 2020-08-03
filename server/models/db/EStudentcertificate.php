@@ -97,7 +97,7 @@ class EStudentcertificate extends \yii\db\ActiveRecord
         //查询生成器查询
         $query = (new \yii\db\Query());
         $industr = $query->from(self::tableName())
-            ->select([self::tableName().'.id','sName','sCertificateNum','subjectName','dGetDate','status','sOrganName','cause','sNick','c.iUserID','sCertificateImg'])
+            ->select([self::tableName().'.id','sName','sCertificateNum','subjectName','dGetDate','status','sOrganName','cause','sNick','c.iUserID','sCertificateImg',self::tableName().'.idcard'])
             ->leftJoin(['b' => BCertificate::tableName()], self::tableName().'.cid = b.id')
             ->leftJoin(['c' => BUserbaseinfo::tableName()], self::tableName().'.iUserID = c.iUserID')
             ->where($params)

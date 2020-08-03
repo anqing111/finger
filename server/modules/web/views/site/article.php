@@ -20,7 +20,7 @@ $this->beginContent('@views/layouts/web.php');
     <div class="article-top">
         <h3>全部文章</h3>
         <p>
-            <button onclick="optionsArticle(1,this)">网站资讯类文章</button>
+            <button onclick="optionsArticle(1,this)" style="color:#FF9D2A">网站资讯类文章</button>
             <button onclick="optionsArticle(2,this)">技能薪酬类文章</button>
         </p>
     </div>
@@ -39,9 +39,12 @@ $this->beginContent('@views/layouts/web.php');
         <div class="filler article-remen">
             <div class="hot-list flex-box filler">
                 <div class="imgs">
-                    <img src="https://f.cdn.xsteach.cn/uploaded/c1/85/3f/c1853f5f3ce63f633710a0eac17e5de8001.jpg" alt="">
-                    <img src="https://f.cdn.xsteach.cn/uploaded/c1/85/3f/c1853f5f3ce63f633710a0eac17e5de8001.jpg" alt="">
-                    <img src="https://f.cdn.xsteach.cn/uploaded/c1/85/3f/c1853f5f3ce63f633710a0eac17e5de8001.jpg" alt="">
+                    <?php foreach($article3 as $k5 => $r5){?>
+                        <?php if($k5 == 3){
+                            break;
+                        }?>
+                        <img src="<?=Yii::$app->params['imagePath'].$r5->picture?>" alt="" onclick="jumpUrl('index.php?r=web/site/articleinfo&id=<?=$r5->id?>')">
+                    <?php }?>
                 </div>
                 <div class="list filler">
                     <div class="title flex-box">
@@ -49,46 +52,16 @@ $this->beginContent('@views/layouts/web.php');
                         <span class="text">热门文章</span>
                     </div>
                     <div class="content">
-                        <div class="item">
-                            <span class="index">1</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">2</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">3</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">4</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">5</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">6</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">7</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">8</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">9</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
-                        <div class="item">
-                            <span class="index">10</span>
-                            <span class="text one-line">计算机技能</span>
-                        </div>
+                        <?php foreach($article3 as $k6 => $r6){?>
+                            <?php if($k6 < 3){
+                                continue;
+                            }else{
+                                echo '<div class="item" onclick="jumpUrl(\'index.php?r=web/site/articleinfo&id='.$r6->id.'\')">
+                                <span class="index">'.($k6-2).'</span>
+                                <span class="text one-line">'.mb_substr($r6->title,0,15).'...'.'</span>
+                            </div>';
+                            }?>
+                        <?php }?>
                     </div>
                 </div>
             </div>

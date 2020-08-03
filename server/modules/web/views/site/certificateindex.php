@@ -8,14 +8,14 @@ $this->beginContent('@views/layouts/web.php');
 <div class="container cert">
     <div class="bg"></div>
     <div class="content-box flex-box">
-        <div class="form">
+        <div class="form" style="top: 50%;transform: translateY(-50%);">
             <div class="content">
                 <div class="input-box flex-box" style="background: #fff">
-                    <img src="<?=Url::to('images/card.png')?>" alt="" style="width: 22px;height: 16px;margin-top: 18px;margin-left: 26px;margin-right: 19px">
+                    <img src="<?=Url::to('images/card.png')?>" alt="" style="width: 22px;height: 16px;margin-top: 18px;margin-left: 11px;margin-right: 19px">
                     <input type="text" name="idcard" placeholder="身份证号" class="filler" style="padding-left: 0px;">
                 </div>
                 <div class="input-box flex-box" style="background: #fff">
-                    <img src="<?=Url::to('images/cert.png')?>" alt="" style="width: 22px;height: 22px;margin-left: 26px;margin-right: 19px">
+                    <img src="<?=Url::to('images/cert.png')?>" alt="" style="width: 22px;height: 22px;margin-left: 11px;margin-right: 19px">
                     <input type="text" name="sCertificateNum" placeholder="证书编号" class="filler" style="padding-left: 0px;">
                 </div>
                 <!-- 错误提示 -->

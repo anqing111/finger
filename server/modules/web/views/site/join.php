@@ -23,6 +23,9 @@ $this->beginContent('@views/layouts/web.php');
     {
         background: #FF9D2A ;
     }
+    .layui-select-title input{
+        color: #95928F;
+    }
 </style>
 <?=\app\modules\web\model\process\PublicProcess::TopWeb()?>
 <div class="top">
@@ -37,7 +40,7 @@ $this->beginContent('@views/layouts/web.php');
         <div class="form">
             <div class="content">
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/company.png')?>" alt="" style="height:18px;width: 20px">
+                    <img src="<?=Url::to('images/company.png')?>" alt="" style="height:18px;width: 20px;margin-top: 17px;">
                     <input type="text" name="sUnitName" placeholder="单位名称" class="filler">
                 </div>
                 <!-- 错误提示 -->
@@ -87,8 +90,8 @@ $this->beginContent('@views/layouts/web.php');
                     </form>
                 </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/phone.png')?>" alt="" style="width: 13px;height: 21px">
-                    <input type="text" name="sPhone" placeholder="联系电话" class="filler" style="margin-left: 10px;">
+                    <img src="<?=Url::to('images/phone.png')?>" alt="" style="width: 13px;height: 21px;margin-left: 13px">
+                    <input type="text" name="sPhone" placeholder="联系电话" class="filler" style="margin-left: 3px;">
                 </div>
                 <!-- 错误提示 -->
                 <div class="errorPrompt" style="display: none;">
@@ -96,7 +99,7 @@ $this->beginContent('@views/layouts/web.php');
                     <span class="eptitle">&nbsp;</span>
                 </div>
                 <div class="input-box flex-box">
-                    <img src="<?=Url::to('images/password.png')?>" alt="" style="width: 20px;height: 15px">
+                    <img src="<?=Url::to('images/mail.png')?>" alt="" style="width: 20px;height: 15px;margin-top: 18.3px">
                     <input type="text" name="sMail" placeholder="邮箱" class="filler">
                 </div>
                 <!-- 错误提示 -->

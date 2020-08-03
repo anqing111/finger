@@ -5,6 +5,7 @@ namespace app\modules\wap\controllers;
 use app\models\db\BArticle;
 use app\models\db\BBanner;
 use app\models\db\BCclive;
+use app\models\db\BCertificate;
 use app\models\db\BCity;
 use app\models\db\BCourse;
 use app\models\db\BIndustry;
@@ -215,6 +216,82 @@ class SiteController extends BaseController
             }
         }
     }
+    /*
+     * 我的证书-学员功能
+     * */
+    public function actionCertificatelist(){
+        /*
+         * 获取所有证书
+         * */
+        if(\Yii::$app->request->isPost)
+        {
+            $subjectName = '全部';
+            $post = \Yii::$app->request->post();
+            if(!isset($post['cid']) || !is_numeric($post['cid']))
+            {
+                self::getFailInfo('请选择证书类别',$this->method);
+            }
+
+            if($post['cid'] > 0)
+            {
+                $studentcertificate = EStudentcertificate::getStudentcertificate([EStudentcertificate::tableName().'.cid' => $post['cid']]);
+                //获取类别
+                $subjectName = BCertificate::findOne($post['cid'])->subjectName;
+            }else{
+                $studentcertificate = EStudentcertificate::getStudentcertificate(['and',[EStudentcertificate::tableName().'.iUserID' => $this->userid],[EStudentcertificate::tableName().'.status' => EStudentcertificate::PASSED]]);
+                $studentcertificate = EStudentcertificate::getStudentcertificate();
+            }
+
+            foreach($studentcertificate as &$r)
+            {
+                //跳转到证书查询结果页
+                $arPara = [
+                    'idcard'=>$r['idcard'],
+                    'sCertificateNum'=>$r['sCertificateNum'],
+                ];
+
+                $arStr = array();
+
+                foreach ($arPara as $key => $v) {
+                    $arStr[] = $key . "=" . $v;
+                }
+
+                $url = implode('&',$arStr);
+                $time = time();
+                $signMsg = md5($url.'&time='.$time.'&salt='.md5(\Yii::$app->params['secretKey'].$time));
+
+                $r['url'] = 'index.php?r=wap/site/certificateinfo&idcard='.base64_encode($arPara['idcard'].'@@'.\Yii::$app->params['secretKey']).'&sCertificateNum='.base64_encode($arPara['sCertificateNum'].'@@'.\Yii::$app->params['secretKey']).'&time='.$time.'&token='.$signMsg;
+            }
+
+            self::getSucInfo(['cate'=>$studentcertificate,'subjectName'=>$subjectName],$this->method);
+        }
+        $studentcertificate = EStudentcertificate::getStudentcertificate(['and',[EStudentcertificate::tableName().'.iUserID' => $this->userid],[EStudentcertificate::tableName().'.status' => EStudentcertificate::PASSED]]);
+        $studentcertificate = EStudentcertificate::getStudentcertificate();
+        //获取证书类别
+        $certificate = BCertificate::find()->orderBy('id desc')->all();
+        foreach($studentcertificate as &$r)
+        {
+            //跳转到证书查询结果页
+            $arPara = [
+                'idcard'=>$r['idcard'],
+                'sCertificateNum'=>$r['sCertificateNum'],
+            ];
+
+            $arStr = array();
+
+            foreach ($arPara as $key => $v) {
+                $arStr[] = $key . "=" . $v;
+            }
+
+            $url = implode('&',$arStr);
+            $time = time();
+            $signMsg = md5($url.'&time='.$time.'&salt='.md5(\Yii::$app->params['secretKey'].$time));
+
+            $r['url'] = 'index.php?r=wap/site/certificateinfo&idcard='.base64_encode($arPara['idcard'].'@@'.\Yii::$app->params['secretKey']).'&sCertificateNum='.base64_encode($arPara['sCertificateNum'].'@@'.\Yii::$app->params['secretKey']).'&time='.$time.'&token='.$signMsg;
+        }
+
+        return $this->renderPartial('certificatelist',['cate'=>$studentcertificate,'certificate'=>$certificate]);
+    }
     /**
      * Renders the index view for the module
      * @return string
@@ -326,6 +403,7 @@ class SiteController extends BaseController
     {
         if(\Yii::$app->request->isPost)
         {
+            $sIndustryName = '全部';
             $post = \Yii::$app->request->post();
             if(!isset($post['tid']) || !is_numeric($post['tid']))
             {
@@ -335,11 +413,13 @@ class SiteController extends BaseController
             if($post['tid'] > 0)
             {
                 $course = BCourse::find()->andWhere(['and',['status'=>BCourse::PUBLISHED],['tid'=>$post['tid']]])->orderBy('id desc')->asArray()->all();
+                //获取类别
+                $sIndustryName = BIndustry::findOne($post['tid'])->sIndustryName;
             }else{
                 $course = BCourse::find()->andWhere(['status'=>BCourse::PUBLISHED])->orderBy('id desc')->asArray()->all();
             }
 
-            self::getSucInfo(['course'=>$course],$this->method);
+            self::getSucInfo(['course'=>$course,'sIndustryName'=>$sIndustryName],$this->method);
         }
         //全部类别
         $industr = BIndustry::find()->where(['>','industryID','0'])->orderBy('id desc ')->all();

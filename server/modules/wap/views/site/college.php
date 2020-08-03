@@ -32,7 +32,7 @@ $this->beginContent('@views/layouts/wap.php');
 </div>
 <div class="container college" style="height: 100%;">
     <div class="redactor-editor" contenteditable="false" dir="ltr" style="min-height: 800px;border: none">
-        <p style="text-align: center;font-weight: bold;font-size: 3rem"><span class="title"></span><?=$university->title ?? ''?><span class="title"></span></p>
+        <p style="text-align: center;font-weight: 400;font-size: 2rem"><span class="title" style="margin-right: 1.75rem"></span><?=$university->title ?? ''?><span class="title" style="margin-left: 1.75rem"></span></p>
         <?=$university->content ?? ''?>
     </div>
 </div>

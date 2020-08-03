@@ -19,7 +19,9 @@ $this->beginContent('@views/layouts/wap.php');
 </style>
 <?=\app\modules\wap\model\process\PublicProcess::TopWeb()?>
 <div class="container index" style="overflow: hidden;">
-    <div class="form">
+    <div class="form" style="top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);">
         <div class="certificate">
             <div class="input-box flex-box">
                 <img src="<?=Url::to('images/card.png')?>" alt="" style="width: 1.75rem;height: 1.25rem">
@@ -31,8 +33,7 @@ $this->beginContent('@views/layouts/wap.php');
             </div>
             <!-- 错误提示 -->
             <div class="errorPrompt" style="display: none;">
-                <span class="font_family">&#xe635;</span>
-                <span class="eptitle">&nbsp;请输入正确的身份证号/证书编号</span>
+                <span class="eptitle" style="margin-left: 4rem">请输入正确的身份证号/证书编号</span>
             </div>
             <button type="button" class="commit" style="cursor:pointer">查 询</button>
         </div>

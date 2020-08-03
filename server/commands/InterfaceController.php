@@ -43,6 +43,7 @@ class InterfaceController extends Controller
             case 'roominfo':
             {
                 $roomInfo = InterfaceForm::GetSelectedRoomInfo(\Yii::$app->params['interface']['cclive']);
+//                BaseController::log(Json::encode($roomInfo),'cclive');
                 if(empty($roomInfo))
                 {
                     break;
