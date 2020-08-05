@@ -21,8 +21,8 @@ use yii\helpers\Json;
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'lib/voduploadsdk' . DIRECTORY_SEPARATOR . 'Autoloader.php';
 class VideoForm extends Model{
 
-    const AccessKeyId = 'LTAI4G5bTWKmihQHeNRfixxs';
-    const AccessKeySecret = 'vZv0Sq1qyPD1bQ8QSZ3GjI0QfNtMfP';
+    const AccessKeyId = '';
+    const AccessKeySecret = '';
     /**
      * 获取视频上传地址和凭证
      * @param client 发送请求客户端
