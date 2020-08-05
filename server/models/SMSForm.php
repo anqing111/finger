@@ -17,8 +17,8 @@ use yii\helpers\Json;
 
 class SMSForm extends Model{
 
-    const AccessKeyId = 'LTAI4GKTD7QTvadk6cwDtdLK';
-    const AccessKeySecret = 'HM8ZnW3s5rdgBIBIF8o3cCIYyXjAjB';
+    const AccessKeyId = '';
+    const AccessKeySecret = '';
     const SMS_SIGN = '八泽国际';
     public static function sendDayuTextMsg($sPhone,$arPara,$sTemplate)
     {
